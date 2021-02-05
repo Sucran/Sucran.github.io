@@ -18,7 +18,7 @@
  
 <script type="text/javascript">
   function before_search(){
-    var searchVal = 'site: ' + document.getElementById('search_input').value;
+    var searchVal = 'site:chaoranlaoge.vip ' + document.getElementById('search_input').value;
     document.getElementById('search_q').value = searchVal;
     return true;
   }
@@ -77,11 +77,13 @@
         
             <li><a href="Language.html">Language</a></li>
         
-            <li><a href="DataBase.html">DataBase</a></li>
-        
-            <li><a href="BugOps.html">BugOps</a></li>
-        
             <li><a href="Kubernetes.html">Kubernetes</a></li>
+        
+            <li><a href="Course.html">Course</a></li>
+        
+            <li><a href="Book.html">Book</a></li>
+        
+            <li><a href="Idea.html">Idea</a></li>
          
 
       </ul>
@@ -95,36 +97,19 @@
        
 
  <script type="text/javascript">
-  $(function(){
-    $('#menu_item_index').addClass('is_active');
-  });
+	$(function(){
+		var currentURL = '16051929664536.html';
+		currentURL = currentURL.substr(0,currentURL.length-5);
+		$('#menu_item_'+currentURL).addClass('is_active');
+	});
 </script>
 <div class="row">
-  <div class="large-8 medium-8 columns">
-      <div class="markdown-body article-wrap">
-       <div class="article">
-          
-          <h1>记一次Java进程挂死的排查</h1>
-     
-        <div class="read-more clearfix">
-          <span class="date">2020/11/12</span>
 
-          <span>posted in&nbsp;</span> 
-          
-              <span class="posted-in"><a href='BugOps.html'>BugOps</a></span>
-           
-         
-          <span class="comments">
-            
+    <div id="single-page-wrap">
+        <h1>记一次Java进程挂死的排查</h1>
 
-            
-          </span>
-
-        </div>
-      </div><!-- article -->
-
-      <div class="article-content">
-      <ul>
+        <div class="markdown-body post-page">
+        <ul>
 <li>本文主要记录工作中一次Java进程挂死的排查，涉及两个排查技巧
 <ul>
 <li>jstack 结果分析</li>
@@ -137,132 +122,9 @@
 
 <h2 id="toc_1">Oracle 锁查看</h2>
 
-
-    
-
-      </div>
-
-      <div class="row">
-        <div class="large-6 columns">
-        <p class="text-left" style="padding:15px 0px;">
-      
-          <a href="16051940456832.html" 
-          title="Previous Post: 云原生时代，CKA or CKAD，你该不该拥有？">&laquo; 云原生时代，CKA or CKAD，你该不该拥有？</a>
-      
-        </p>
         </div>
-        <div class="large-6 columns">
-      <p class="text-right" style="padding:15px 0px;">
-      
-          <a  href="16051912794850.html" 
-          title="Next Post: 3分钟SQL系列 - 索引">3分钟SQL系列 - 索引 &raquo;</a>
-      
-      </p>
-        </div>
-      </div>
-      <div class="comments-wrap">
-        <div class="share-comments">
-          
-
-          
-
-          
-        </div>
-      </div>
-    </div><!-- article-wrap -->
-  </div><!-- large 8 -->
-
-
-
-
- <div class="large-4 medium-4 columns">
-  <div class="hide-for-small">
-    <div id="sidebar" class="sidebar">
-          <div id="site-info" class="site-info">
-            
-                <h1>超燃老哥</h1>
-                <div class="site-des"></div>
-                <div class="social">
-
-
-
-
-
-
-
-
-
-
-
-  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
-                
-              	 </div>
-          	</div>
-
-             
-
-              <div id="site-categories" class="side-item ">
-                <div class="side-header">
-                  <h2>Categories</h2>
-                </div>
-                <div class="side-content">
-
-      	<p class="cat-list">
-        
-            <a href="Language.html"><strong>Language</strong></a>
-        
-            <a href="DataBase.html"><strong>DataBase</strong></a>
-        
-            <a href="BugOps.html"><strong>BugOps</strong></a>
-        
-            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
-         
-        </p>
-
-
-                </div>
-              </div>
-
-              <div id="site-categories" class="side-item">
-                <div class="side-header">
-                  <h2>Recent Posts</h2>
-                </div>
-                <div class="side-content">
-                <ul class="posts-list">
-	      
-		      
-			      <li class="post">
-			        <a href="16051940456832.html">云原生时代，CKA or CKAD，你该不该拥有？</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="16051929664536.html">记一次Java进程挂死的排查</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="16051912794850.html">3分钟SQL系列 - 索引</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="16051903090609.html">Go 安装技巧 + IDE + 资源推荐</a>
-			      </li>
-		     
-		   
-		  		</ul>
-                </div>
-              </div>
-        </div><!-- sidebar -->
-      </div><!-- hide for small -->
-</div><!-- large 4 -->
-
-</div><!-- row -->
-
+    </div>
+</div>              
  <div class="page-bottom clearfix">
   <div class="row">
    <p class="copyright">Copyright &copy; 2015
