@@ -4,7 +4,7 @@
   <title><![CDATA[超燃老哥]]></title>
   <link href="chaoranlaoge.top/atom.xml" rel="self"/>
   <link href="chaoranlaoge.top/"/>
-  <updated>2021-02-07T23:29:54+08:00</updated>
+  <updated>2021-02-08T01:08:10+08:00</updated>
   <id>chaoranlaoge.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -26,7 +26,7 @@
 
 <p>本文是，我看完之后正反方辩论之后，对于这个科技如何实现的一种想象。</p>
 
-<!--more-->
+<span id="more"></span><!-- more -->
 
 <h2 id="toc_0">实现形式</h2>
 
