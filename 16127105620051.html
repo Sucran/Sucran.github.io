@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-   - 超燃老哥
+  Centos7 Hadoop集群安装 - 超燃老哥
   
   </title>
   
@@ -106,7 +106,7 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1></h1>
+          <h1>Centos7 Hadoop集群安装</h1>
      
         <div class="read-more clearfix">
           <span class="date">2021/02/07</span>
@@ -126,16 +126,14 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h1 id="toc_0">Centos7 Hadoop集群安装</h1>
-
-<p>阿里云上申请三台每小时0.5块钱的机器，一小时总花费1.5块钱。<br/>
+      <p>阿里云上申请三台每小时0.5块钱的机器，一小时总花费1.5块钱。<br/>
 根据以下教程，在20分钟之内，搞定整个Hadoop单Master集群部署。</p>
 
 <span id="more"></span><!-- more -->
 
 <p>先在阿里云上申请3台最便宜的服务器，在同一个区就行，然后就直接开搞</p>
 
-<h2 id="toc_1">设置hosts和ssh</h2>
+<h2 id="toc_0">设置hosts和ssh</h2>
 
 <pre><code class="language-shell">vim /etc/hosts
 
@@ -171,7 +169,7 @@ hostnamectl set-hostname node01
 # 然后这里有没有什么更快捷的方法能相互认证免密？
 </code></pre>
 
-<h2 id="toc_2">安装JDK</h2>
+<h2 id="toc_1">安装JDK</h2>
 
 <p>从Oracle官网（需要登陆账号，没有的需要先注册再下载）下载安装压缩包，上传到一台阿里云服务器，其他的用内网传输</p>
 
@@ -207,7 +205,7 @@ java -version # 验证
 
 </code></pre>
 
-<h2 id="toc_3">安装Hadoop</h2>
+<h2 id="toc_2">安装Hadoop</h2>
 
 <ul>
 <li>下载Hadoop</li>
@@ -224,7 +222,7 @@ java -version # 验证
 mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
 </code></pre>
 
-<h2 id="toc_4">修改hadoop配置</h2>
+<h2 id="toc_3">修改hadoop配置</h2>
 
 <ul>
 <li>core-site.xml</li>
@@ -360,7 +358,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
 source /etc/profile # 使环境变量生效
 </code></pre>
 
-<h2 id="toc_5">启动Hadoop</h2>
+<h2 id="toc_4">启动Hadoop</h2>
 
 <pre><code class="language-shell">cd $HADOOP_HOME
 # 首次启动才需要
@@ -476,7 +474,7 @@ sbin/stop-all.sh
 		  
 		      
 			      <li class="post">
-			        <a href="16127105620051.html"></a>
+			        <a href="16127105620051.html">Centos7 Hadoop集群安装</a>
 			      </li>
 		     
 		  
