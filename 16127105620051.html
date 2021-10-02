@@ -1,0 +1,739 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Centos7 Hadoop集群安装 - 超燃老哥
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="超燃老哥" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:chaoranlaoge.top ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 超燃老哥</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="Others.html">Others</a></li>
+        
+            <li><a href="Language.html">Language</a></li>
+        
+            <li><a href="Course.html">Course</a></li>
+        
+            <li><a href="Book.html">Book</a></li>
+        
+            <li><a href="Deploy.html">Deploy</a></li>
+        
+            <li><a href="Poems.html">Poems</a></li>
+        
+            <li><a href="Framework.html">Framework</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Centos7 Hadoop集群安装</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2021/02/07</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Deploy.html'>Deploy</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>阿里云上申请三台每小时0.5块钱的机器，一小时总花费1.5块钱。<br />
+根据以下教程，在20分钟之内，搞定整个Hadoop单Master集群部署。</p>
+<span id="more"></span><!-- more -->
+<p>先在阿里云上申请3台最便宜的服务器，在同一个区就行，然后就直接开搞</p>
+<h2><a id="%E8%AE%BE%E7%BD%AEhosts%E5%92%8Cssh" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置hosts和ssh</h2>
+<pre><code class="language-shell">vim /etc/hosts
+
+# 添加内网IP以及相应的hostname，比如：
+172.31.140.249 node03
+172.31.140.244 node01
+172.31.140.246 node02
+# :wq保存退出
+
+# 如果没有设置对hostname, 如下设置命令
+hostnamectl set-hostname node01
+</code></pre>
+<ul>
+<li>安装依赖</li>
+</ul>
+<pre><code class="language-shell">yum install ssh, pdsh
+</code></pre>
+<ul>
+<li>三台机器设置免密</li>
+</ul>
+<pre><code class="language-shell"># 举个例子，将node02到node01的登陆免密
+[root@node02 ~]: ssh-keygen # 三次回车，不设置额外明文密码，生成自己机器的pub公共密钥文件，id_rsa.pub
+[root@node02 ~]: scp ~/.ssh/id_rsa.pub node01:~/.ssh/node02.pub  # 配置自己登陆自己的公钥
+# 登陆node01
+[root@node01 ~]: cat ~/.ssh/node02.pub &gt;&gt; ~/.ssh/authorized_keys # 追加免认证密钥
+# 登陆node02
+[root@node02 ~]: ssh node01 #此时就免认证
+
+# 然后这里有没有什么更快捷的方法能相互认证免密？
+</code></pre>
+<h2><a id="%E5%AE%89%E8%A3%85jdk" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装JDK</h2>
+<p>从Oracle官网（需要登陆账号，没有的需要先注册再下载）下载安装压缩包，上传到一台阿里云服务器，其他的用内网传输</p>
+<ul>
+<li>创建安装目录</li>
+</ul>
+<pre><code class="language-shell">mkdir /usr/local/java/
+</code></pre>
+<ul>
+<li>解压至安装目录</li>
+</ul>
+<pre><code class="language-shell">tar -zxvf jdk-8u281-linux-x64.tar.gz -C /usr/local/java/
+</code></pre>
+<ul>
+<li>设置环境变量</li>
+</ul>
+<pre><code class="language-shell"># 修改配置文件
+vim /etc/profile
+# 输入 G, o, 进入insert模式，然后粘贴以下内容
+export JAVA_HOME=/usr/local/java/jdk1.8.0_281
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+# esc 输入:wq 退出vim
+source /etc/profile # 使环境变量生效
+ln -s /usr/local/java/jdk1.8.0_171/bin/java /usr/bin/java # 添加软链接
+java -version # 验证
+
+</code></pre>
+<h2><a id="%E5%AE%89%E8%A3%85hadoop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装Hadoop</h2>
+<ul>
+<li>下载Hadoop</li>
+</ul>
+<pre><code class="language-shell">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
+</code></pre>
+<ul>
+<li>解压到文件夹并重命名</li>
+</ul>
+<pre><code class="language-shell">tar -xzvf hadoop-3.2.2.tar.gz -C /usr/local
+mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
+</code></pre>
+<h2><a id="%E4%BF%AE%E6%94%B9hadoop%E9%85%8D%E7%BD%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>修改hadoop配置</h2>
+<ul>
+<li>core-site.xml</li>
+</ul>
+<pre><code class="language-xml">&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+        &lt;value&gt;file:/usr/local/hadoop/tmp&lt;/value&gt;
+        &lt;description&gt;Abase for other temporary directories.&lt;/description&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://node01:9000&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<blockquote>
+<p><strong>特别注意：如没有配置<code>hadoop.tmp.dir</code>参数，此时系统默认的临时目录为：<code>/tmp/hadoo-hadoop</code>。而这个目录在每次重启后都会被删除，必须重新执行format才行，否则会出错。</strong></p>
+<p>摘自博客 - 纯洁的微笑 - hadoop分布式集群搭建</p>
+</blockquote>
+<ul>
+<li>hdfs-site.xml</li>
+</ul>
+<pre><code class="language-xml">&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;3&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.name.dir&lt;/name&gt;
+        &lt;value&gt;/usr/local/hadoop/hdfs/name&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.data.dir&lt;/name&gt;
+        &lt;value&gt;/usr/local/hadoop/hdfs/data&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ul>
+<li>mapred-site.xml</li>
+</ul>
+<pre><code class="language-xml">&lt;configuration&gt;
+  &lt;property&gt;
+      &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+      &lt;value&gt;yarn&lt;/value&gt;
+  &lt;/property&gt;
+   &lt;property&gt;
+      &lt;name&gt;mapred.job.tracker&lt;/name&gt;
+      &lt;value&gt;http://hadoop-master:9001&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ul>
+<li>yarn-site.xml</li>
+</ul>
+<pre><code class="language-xml">&lt;configuration&gt;
+&lt;!-- Site specific YARN configuration properties --&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+        &lt;value&gt;hadoop-master&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ul>
+<li>修改执行用户</li>
+</ul>
+<p>在start-dfs.sh和stop-dfs.sh中开头空白处添加：</p>
+<pre><code class="language-shell">HDFS_DATANODE_USER=root
+HADOOP_SECURE_DN_USER=hdfs
+HDFS_NAMENODE_USER=root
+HDFS_SECONDARYNAMENODE_USER=root 
+</code></pre>
+<p>在start-yarn.sh和stop-yarn.sh开头空白处添加：</p>
+<pre><code class="language-shell">YARN_RESOURCEMANAGER_USER=root
+HADOOP_SECURE_DN_USER=yarn
+YARN_NODEMANAGER_USER=root
+</code></pre>
+<ul>
+<li>配置JAVA_HOME到hadoop-env.sh和yarn-env.sh</li>
+</ul>
+<pre><code class="language-shell"># 输入 G, o, 进入insert模式，然后粘贴以下内容
+export JAVA_HOME=/usr/local/java/jdk1.8.0_281
+</code></pre>
+<ul>
+<li>同步hadoop文件夹到其他slave服务器</li>
+</ul>
+<pre><code class="language-shell">scp -r /usr/local/hadoop node02:/usr/local/
+scp -r /usr/local/hadoop node03:/usr/local/
+</code></pre>
+<ul>
+<li>workers文件</li>
+</ul>
+<pre><code class="language-shell">vi /usr/local/hadoop/etc/hadoop/slaves
+## 内容
+node02
+node03
+</code></pre>
+<ul>
+<li>配置环境变量</li>
+</ul>
+<pre><code class="language-shell"># 修改配置文件
+vim /etc/profile
+# 输入 G, o, 进入insert模式，然后粘贴以下内容
+export HADOOP_HOME=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin 
+# esc 输入:wq 退出vim
+source /etc/profile # 使环境变量生效
+</code></pre>
+<h2><a id="%E5%90%AF%E5%8A%A8hadoop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>启动Hadoop</h2>
+<pre><code class="language-shell">cd $HADOOP_HOME
+# 首次启动才需要
+bin/hadoop namenode -format 
+
+# 启动集群
+sbin/start-all.sh
+
+# 关闭集群
+sbin/stop-all.sh
+</code></pre>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="16127114053987.html" 
+          title="Previous Post: 走投无路，我只好卖身">&laquo; 走投无路，我只好卖身</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="16101634062262.html" 
+          title="Next Post: 平平无奇，靠什么弯道超车">平平无奇，靠什么弯道超车 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>超燃老哥</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="Others.html"><strong>Others</strong></a>
+        
+            <a href="Language.html"><strong>Language</strong></a>
+        
+            <a href="Course.html"><strong>Course</strong></a>
+        
+            <a href="Book.html"><strong>Book</strong></a>
+        
+            <a href="Deploy.html"><strong>Deploy</strong></a>
+        
+            <a href="Poems.html"><strong>Poems</strong></a>
+        
+            <a href="Framework.html"><strong>Framework</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="16324434246136.html">进酒浇愁</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16323983076218.html">ParameterType和ResultType</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16323982286748.html">String 和 Int 互转</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16323982084453.html">Date，LocalDate日期计算</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16322140588541.html">读书心得</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>
