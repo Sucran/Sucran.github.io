@@ -84,6 +84,10 @@
             <li><a href="Book.html">Book</a></li>
         
             <li><a href="Deploy.html">Deploy</a></li>
+        
+            <li><a href="Poems.html">Poems</a></li>
+        
+            <li><a href="Framework.html">Framework</a></li>
          
 
       </ul>
@@ -113,7 +117,7 @@
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Language.html'>Language</a></span>
+              <span class="posted-in"><a href='Go.html'>Go</a></span>
            
          
           <span class="comments">
@@ -130,46 +134,28 @@
 <li>本文主要为初学者提供了Windows和Mac的防止被墙的安装技巧</li>
 <li>最后给初学者推荐了优质电子书/网站/学习资源及课程</li>
 <li>阅读时间5分钟</li>
-<li>免费附赠电子书下载网址，求关注！
-<span id="more"></span><!-- more --></li>
 </ul>
-
-<blockquote>
-<p>Go（又称Golang）是Google开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言。</p>
-</blockquote>
-
+<span id="more"></span><!-- more -->
 <p>学习Go，可能是很多CS学生或者技术爱好者拥抱云原生浪潮最开始的第一步，但无奈的是，大多数人在第一个浪来的时候，就被拍死在沙滩上了。这里主要是以下几个原因：</p>
-
 <ol>
 <li>由于是谷歌公司开发的语言，Go语言的官方网址是托管在谷歌服务器上的，所以国内访问被墙是毫无疑问。</li>
 <li>官方网站无法访问的情况下，不知道去哪里获取语言安装包，其次不知道去哪里获取标准的官方文档。</li>
 <li>由于Go语言开发时，谷歌公司选择利用Github进行托管，导致Go语言相关的核心依赖包也顺理成章地都托管在Github上，当使用命令 <code>go get</code> 时基本上都会连接超时而无法下载依赖包，这个相当于是第二个噩耗（国内访问Github也是经常连不上，语言安装完成之后，依赖包无法下载就更无法处理程序编译了）。</li>
 <li>如果有科学上网梯子，那以上3个问题就迎刃而解。（不得不吐槽，对于国内CS学生或者技术爱好者，科学上网梯子真的太重要了）最后，工欲善其事，必先利其器。选择哪一款“低价/免费”的趁手兵器（IDE），就是困扰初学者敲代码前的最后一个问题了。</li>
 </ol>
-
 <p>很多人，看不上前面4个问题，放弃入门Go出门左拐去拥抱Python了，也有很多人，看了这个教程，从现在开始的5分钟之后就开始运行完了HelloWorld。</p>
-
-<h2 id="toc_0">Go Windows和Mac安装小技巧</h2>
-
+<h2><a id="go-windows%E5%92%8Cmac%E5%AE%89%E8%A3%85%E5%B0%8F%E6%8A%80%E5%B7%A7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go Windows和Mac安装小技巧</h2>
 <p>进入这个章节，我们着眼于解决前文提到的第一个问题：Go语言官方网站国内访问不上，如何安装Go语言。</p>
-
-<h3 id="toc_1">从国内网站下载</h3>
-
+<h3><a id="%E4%BB%8E%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%B8%8B%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>从国内网站下载</h3>
 <p>国内支持下载安装包的网址有：</p>
-
 <ol>
 <li><a href="https://studygolang.com/dl">Go语言中文网下载页面</a></li>
 </ol>
-
 <p>如果有梯子的话，官方下载地址为：<a href="https://golang.org/dl/">GoLang官网下载页面</a></p>
-
-<p>下载完成之后，对于Windows和MacOS双击启动安装，并遵循提示进行安装。<br/>
+<p>下载完成之后，对于Windows和MacOS双击启动安装，并遵循提示进行安装。<br />
 安装完成之后，会将可执行二进制文件的文件夹<code>bin</code>目录加入系统的<code>PATH</code>环境变量。</p>
-
-<h3 id="toc_2">修改国内镜像加速依赖包下载</h3>
-
-<p>国内镜像加速的方式，是通过开启国内代理的方式实现的。具体的方式可以参考(Go社区Wiki)[<a href="https://learnku.com/go/wikis/38122">https://learnku.com/go/wikis/38122</a>]:</p>
-
+<h3><a id="%E4%BF%AE%E6%94%B9%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E4%BE%9D%E8%B5%96%E5%8C%85%E4%B8%8B%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>修改国内镜像加速依赖包下载</h3>
+<p>国内镜像加速的方式，是通过开启国内代理的方式实现的。具体的方式可以参考(Go社区Wiki)[https://learnku.com/go/wikis/38122]:</p>
 <pre><code class="language-shell"># 对于类Unix系统
 # 启用 Go Modules 功能
 go env -w GO111MODULE=on
@@ -185,9 +171,7 @@ go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 # 3. 官方
 go env -w  GOPROXY=https://goproxy.io,direct
 </code></pre>
-
 <p>对于Windows，该网站给出的脚本有点问题，我在Win10上无法使用，具体被我修改为：</p>
-
 <pre><code class="language-powershell">#对于Windows
 # 启用 Go Modules 功能
 SETX GO111MODULE=&quot;on&quot;
@@ -203,40 +187,30 @@ go env -w GOPROXY=&quot;https://mirrors.aliyun.com/goproxy/,direct&quot;
 # 3. 官方
 go env -w GOPROXY=&quot;https://goproxy.io,direct&quot;
 </code></pre>
-
 <p>需要注意的是，<code>GO111MODULE</code>变量初始值为<code>auto</code>，事实上，设置<code>auto</code>是官方降低语言学习门槛有意为之。</p>
-
 <p>如果设置了环境变量，<code>go env -w</code>设置<code>GO111MODULE</code>变量初始值为<code>auto</code>的时候提示无法写入，一般是大家在ide中操作，大家需要先关闭ide，然后删除环境变量后再执行<code>go env</code>命令进行修改.</p>
-
 <p>我经过折腾之后，也不建议初学者一开始就设置代理（有时候初学者分不清楚到底是Go 语言相关的环境变量是否就是系统环境变量，而且会强制要求写<code>gomod</code>文件），建议一开始还是挂科学上网梯子。</p>
-
 <p>至于为什么会是这样的？如果大家点赞（在看超过50），我会再出一篇《go module 包管理器的上位之路》，由这篇博文来讲述来龙去脉。</p>
-
-<h3 id="toc_3">离线环境安装依赖包</h3>
-
+<h3><a id="%E7%A6%BB%E7%BA%BF%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>离线环境安装依赖包</h3>
 <p>离线环境安装依赖包，需要提前先下载好依赖，这本身比较麻烦，建议直接安装一体化的IDE工具，比如说GoLand。如果不想使用GoLand，想要使用VSCode，那么参考如下安装教程：</p>
-
 <pre><code class="language-shell">
 </code></pre>
-
-<h2 id="toc_4">Go VSCode 编程环境构建</h2>
-
-<h3 id="toc_5">为什么推荐VSCode作为Go的IDE</h3>
-
-<p>vscode要使用梯子，配置首选项添加代理http：//127.0.0.1:1080（ssr）<br/>
+<h2><a id="go-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go VSCode 编程环境构建</h2>
+<h3><a id="%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8E%A8%E8%8D%90vscode%E4%BD%9C%E4%B8%BAgo%E7%9A%84ide" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>为什么推荐VSCode作为Go的IDE</h3>
+<p>vscode要使用梯子，配置首选项添加代理http：//127.0.0.1:1080（ssr）<br />
 go install （win是ctrl+shift+p，mac是cmt+opt+p）</p>
-
-<h3 id="toc_6">安装的包和作用</h3>
-
-<h2 id="toc_7">Go 学习资源推荐</h2>
-
-<h3 id="toc_8">电子书分享</h3>
-
-<h3 id="toc_9">优质网站分享</h3>
-
-<h3 id="toc_10">优质资源分享</h3>
-
-<h3 id="toc_11">优质课程分享</h3>
+<h3><a id="%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85%E5%92%8C%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装的包和作用</h3>
+<h2><a id="go%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E6%8E%A8%E8%8D%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go 学习资源推荐</h2>
+<p>总的来说，推荐学习顺序如下：</p>
+<ol>
+<li>Go tour （推荐指数 🌟🌟🌟🌟🌟）<br />
+推荐理由：</li>
+<li>Go</li>
+</ol>
+<h3><a id="%E7%94%B5%E5%AD%90%E4%B9%A6%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>电子书分享</h3>
+<h3><a id="%E4%BC%98%E8%B4%A8%E7%BD%91%E7%AB%99%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质网站分享</h3>
+<h3><a id="%E4%BC%98%E8%B4%A8%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质资源分享</h3>
+<h3><a id="%E4%BC%98%E8%B4%A8%E8%AF%BE%E7%A8%8B%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质课程分享</h3>
 
 
     
@@ -316,6 +290,10 @@ go install （win是ctrl+shift+p，mac是cmt+opt+p）</p>
             <a href="Book.html"><strong>Book</strong></a>
         
             <a href="Deploy.html"><strong>Deploy</strong></a>
+        
+            <a href="Poems.html"><strong>Poems</strong></a>
+        
+            <a href="Framework.html"><strong>Framework</strong></a>
          
         </p>
 
@@ -332,33 +310,53 @@ go install （win是ctrl+shift+p，mac是cmt+opt+p）</p>
 	      
 		      
 			      <li class="post">
-			        <a href="16132317373263.html">记观影《唐人街探案3》的十个优秀细节</a>
+			        <a href="16324434246136.html">进酒浇愁</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16128386822319.html">想幸福的人</a>
+			        <a href="16323983076218.html">ParameterType和ResultType</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16127114053987.html">走投无路，我只好卖身</a>
+			        <a href="16323982286748.html">String 和 Int 互转</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16127105620051.html">Centos7 Hadoop集群安装</a>
+			        <a href="16323982084453.html">Date，LocalDate日期计算</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16101634062262.html">平平无奇，靠什么弯道超车</a>
+			        <a href="16322140588541.html">读书心得</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		  

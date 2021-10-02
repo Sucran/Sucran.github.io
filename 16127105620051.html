@@ -84,6 +84,10 @@
             <li><a href="Book.html">Book</a></li>
         
             <li><a href="Deploy.html">Deploy</a></li>
+        
+            <li><a href="Poems.html">Poems</a></li>
+        
+            <li><a href="Framework.html">Framework</a></li>
          
 
       </ul>
@@ -126,15 +130,11 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <p>阿里云上申请三台每小时0.5块钱的机器，一小时总花费1.5块钱。<br/>
+      <p>阿里云上申请三台每小时0.5块钱的机器，一小时总花费1.5块钱。<br />
 根据以下教程，在20分钟之内，搞定整个Hadoop单Master集群部署。</p>
-
 <span id="more"></span><!-- more -->
-
 <p>先在阿里云上申请3台最便宜的服务器，在同一个区就行，然后就直接开搞</p>
-
-<h2 id="toc_0">设置hosts和ssh</h2>
-
+<h2><a id="%E8%AE%BE%E7%BD%AEhosts%E5%92%8Cssh" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置hosts和ssh</h2>
 <pre><code class="language-shell">vim /etc/hosts
 
 # 添加内网IP以及相应的hostname，比如：
@@ -146,18 +146,14 @@
 # 如果没有设置对hostname, 如下设置命令
 hostnamectl set-hostname node01
 </code></pre>
-
 <ul>
 <li>安装依赖</li>
 </ul>
-
 <pre><code class="language-shell">yum install ssh, pdsh
 </code></pre>
-
 <ul>
 <li>三台机器设置免密</li>
 </ul>
-
 <pre><code class="language-shell"># 举个例子，将node02到node01的登陆免密
 [root@node02 ~]: ssh-keygen # 三次回车，不设置额外明文密码，生成自己机器的pub公共密钥文件，id_rsa.pub
 [root@node02 ~]: scp ~/.ssh/id_rsa.pub node01:~/.ssh/node02.pub  # 配置自己登陆自己的公钥
@@ -168,29 +164,21 @@ hostnamectl set-hostname node01
 
 # 然后这里有没有什么更快捷的方法能相互认证免密？
 </code></pre>
-
-<h2 id="toc_1">安装JDK</h2>
-
+<h2><a id="%E5%AE%89%E8%A3%85jdk" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装JDK</h2>
 <p>从Oracle官网（需要登陆账号，没有的需要先注册再下载）下载安装压缩包，上传到一台阿里云服务器，其他的用内网传输</p>
-
 <ul>
 <li>创建安装目录</li>
 </ul>
-
 <pre><code class="language-shell">mkdir /usr/local/java/
 </code></pre>
-
 <ul>
 <li>解压至安装目录</li>
 </ul>
-
 <pre><code class="language-shell">tar -zxvf jdk-8u281-linux-x64.tar.gz -C /usr/local/java/
 </code></pre>
-
 <ul>
 <li>设置环境变量</li>
 </ul>
-
 <pre><code class="language-shell"># 修改配置文件
 vim /etc/profile
 # 输入 G, o, 进入insert模式，然后粘贴以下内容
@@ -204,31 +192,23 @@ ln -s /usr/local/java/jdk1.8.0_171/bin/java /usr/bin/java # 添加软链接
 java -version # 验证
 
 </code></pre>
-
-<h2 id="toc_2">安装Hadoop</h2>
-
+<h2><a id="%E5%AE%89%E8%A3%85hadoop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装Hadoop</h2>
 <ul>
 <li>下载Hadoop</li>
 </ul>
-
 <pre><code class="language-shell">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-3.2.2/hadoop-3.2.2.tar.gz
 </code></pre>
-
 <ul>
 <li>解压到文件夹并重命名</li>
 </ul>
-
 <pre><code class="language-shell">tar -xzvf hadoop-3.2.2.tar.gz -C /usr/local
 mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
 </code></pre>
-
-<h2 id="toc_3">修改hadoop配置</h2>
-
+<h2><a id="%E4%BF%AE%E6%94%B9hadoop%E9%85%8D%E7%BD%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>修改hadoop配置</h2>
 <ul>
 <li>core-site.xml</li>
 </ul>
-
-<pre><code class="language-markup">&lt;configuration&gt;
+<pre><code class="language-xml">&lt;configuration&gt;
     &lt;property&gt;
         &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
         &lt;value&gt;file:/usr/local/hadoop/tmp&lt;/value&gt;
@@ -240,18 +220,14 @@ mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
     &lt;/property&gt;
 &lt;/configuration&gt;
 </code></pre>
-
 <blockquote>
 <p><strong>特别注意：如没有配置<code>hadoop.tmp.dir</code>参数，此时系统默认的临时目录为：<code>/tmp/hadoo-hadoop</code>。而这个目录在每次重启后都会被删除，必须重新执行format才行，否则会出错。</strong></p>
-
 <p>摘自博客 - 纯洁的微笑 - hadoop分布式集群搭建</p>
 </blockquote>
-
 <ul>
 <li>hdfs-site.xml</li>
 </ul>
-
-<pre><code class="language-markup">&lt;configuration&gt;
+<pre><code class="language-xml">&lt;configuration&gt;
     &lt;property&gt;
         &lt;name&gt;dfs.replication&lt;/name&gt;
         &lt;value&gt;3&lt;/value&gt;
@@ -266,12 +242,10 @@ mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
     &lt;/property&gt;
 &lt;/configuration&gt;
 </code></pre>
-
 <ul>
 <li>mapred-site.xml</li>
 </ul>
-
-<pre><code class="language-markup">&lt;configuration&gt;
+<pre><code class="language-xml">&lt;configuration&gt;
   &lt;property&gt;
       &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
       &lt;value&gt;yarn&lt;/value&gt;
@@ -282,12 +256,10 @@ mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
   &lt;/property&gt;
 &lt;/configuration&gt;
 </code></pre>
-
 <ul>
 <li>yarn-site.xml</li>
 </ul>
-
-<pre><code class="language-markup">&lt;configuration&gt;
+<pre><code class="language-xml">&lt;configuration&gt;
 &lt;!-- Site specific YARN configuration properties --&gt;
     &lt;property&gt;
         &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
@@ -299,56 +271,43 @@ mv /usr/local/hadoop-3.2.2 /usr/local/hadoop
     &lt;/property&gt;
 &lt;/configuration&gt;
 </code></pre>
-
 <ul>
 <li>修改执行用户</li>
 </ul>
-
 <p>在start-dfs.sh和stop-dfs.sh中开头空白处添加：</p>
-
 <pre><code class="language-shell">HDFS_DATANODE_USER=root
 HADOOP_SECURE_DN_USER=hdfs
 HDFS_NAMENODE_USER=root
 HDFS_SECONDARYNAMENODE_USER=root 
 </code></pre>
-
 <p>在start-yarn.sh和stop-yarn.sh开头空白处添加：</p>
-
 <pre><code class="language-shell">YARN_RESOURCEMANAGER_USER=root
 HADOOP_SECURE_DN_USER=yarn
 YARN_NODEMANAGER_USER=root
 </code></pre>
-
 <ul>
 <li>配置JAVA_HOME到hadoop-env.sh和yarn-env.sh</li>
 </ul>
-
 <pre><code class="language-shell"># 输入 G, o, 进入insert模式，然后粘贴以下内容
 export JAVA_HOME=/usr/local/java/jdk1.8.0_281
 </code></pre>
-
 <ul>
 <li>同步hadoop文件夹到其他slave服务器</li>
 </ul>
-
 <pre><code class="language-shell">scp -r /usr/local/hadoop node02:/usr/local/
 scp -r /usr/local/hadoop node03:/usr/local/
 </code></pre>
-
 <ul>
 <li>workers文件</li>
 </ul>
-
 <pre><code class="language-shell">vi /usr/local/hadoop/etc/hadoop/slaves
 ## 内容
 node02
 node03
 </code></pre>
-
 <ul>
 <li>配置环境变量</li>
 </ul>
-
 <pre><code class="language-shell"># 修改配置文件
 vim /etc/profile
 # 输入 G, o, 进入insert模式，然后粘贴以下内容
@@ -357,9 +316,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
 # esc 输入:wq 退出vim
 source /etc/profile # 使环境变量生效
 </code></pre>
-
-<h2 id="toc_4">启动Hadoop</h2>
-
+<h2><a id="%E5%90%AF%E5%8A%A8hadoop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>启动Hadoop</h2>
 <pre><code class="language-shell">cd $HADOOP_HOME
 # 首次启动才需要
 bin/hadoop namenode -format 
@@ -452,6 +409,10 @@ sbin/stop-all.sh
             <a href="Book.html"><strong>Book</strong></a>
         
             <a href="Deploy.html"><strong>Deploy</strong></a>
+        
+            <a href="Poems.html"><strong>Poems</strong></a>
+        
+            <a href="Framework.html"><strong>Framework</strong></a>
          
         </p>
 
@@ -468,33 +429,53 @@ sbin/stop-all.sh
 	      
 		      
 			      <li class="post">
-			        <a href="16132317373263.html">记观影《唐人街探案3》的十个优秀细节</a>
+			        <a href="16324434246136.html">进酒浇愁</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16128386822319.html">想幸福的人</a>
+			        <a href="16323983076218.html">ParameterType和ResultType</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16127114053987.html">走投无路，我只好卖身</a>
+			        <a href="16323982286748.html">String 和 Int 互转</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16127105620051.html">Centos7 Hadoop集群安装</a>
+			        <a href="16323982084453.html">Date，LocalDate日期计算</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16101634062262.html">平平无奇，靠什么弯道超车</a>
+			        <a href="16322140588541.html">读书心得</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		  
