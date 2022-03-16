@@ -4,7 +4,7 @@
   <title><![CDATA[超燃老哥]]></title>
   <link href="chaoranlaoge.top/atom.xml" rel="self"/>
   <link href="chaoranlaoge.top/"/>
-  <updated>2022-03-17T00:39:29+08:00</updated>
+  <updated>2022-03-17T00:43:38+08:00</updated>
   <id>chaoranlaoge.top/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,21 +13,20 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[Alluxio数据编排原理与解析]]></title>
-    <link href="chaoranlaoge.top/16474467310881.html"/>
-    <updated>2022-03-17T00:05:31+08:00</updated>
-    <id>chaoranlaoge.top/16474467310881.html</id>
-    <content type="html"><![CDATA[
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Alluxio 安装与实践]]></title>
     <link href="chaoranlaoge.top/16467274330567.html"/>
     <updated>2022-03-08T16:17:13+08:00</updated>
     <id>chaoranlaoge.top/16467274330567.html</id>
     <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83">单机环境</a>
+<ul>
+<li><a href="#%E5%A4%9A%E6%9C%BA%E7%8E%AF%E5%A2%83">多机环境</a></li>
+</ul>
+</li>
+</ul>
+
+<span id="more"></span><!-- more -->
 <h2><a id="%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>单机环境</h2>
 <p>开通阿里云ECS服务器，需要选择基础镜像包含Java8</p>
 <ol>
@@ -75,6 +74,21 @@
     <updated>2022-03-06T12:14:46+08:00</updated>
     <id>chaoranlaoge.top/16465400869241.html</id>
     <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97">安装指南</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85rocketmq-console">安装RocketMQ Console</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AErocketmq%E4%B8%BA%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1">配置RocketMQ为开机自启动服务</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85q-a">安装 Q&amp;A</a>
+<ul>
+<li><a href="#q-native-memory-allocation-mmap-failed-to-map-2147483648-bytes-for-committing-reserved-memory">Q: Native memory allocation (mmap) failed to map 2147483648 bytes for committing reserved memory.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<span id="more"></span><!-- more -->
 <h2><a id="%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装指南</h2>
 <ol>
 <li>上官网下载安装包 <code>rocketmq-all-4.4.0-bin-release.zip</code></li>
@@ -212,6 +226,7 @@ JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn256m -XX:PermSize=128m 
 <li><a href="#%E6%A0%87%E7%AD%BEtag%E7%9F%A5%E8%AF%86%E7%82%B9">标签Tag知识点</a></li>
 </ul>
 
+<span id="more"></span><!-- more -->
 <h2><a id="producer%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Producer知识点</h2>
 <p>RocketMQ的消息发送方，叫做Producer（生产者）。一般由业务系统负责生产消息。一个消息生产者会把业务应用系统里产生的消息发送到broker服务器。</p>
 <h3><a id="%E7%94%9F%E4%BA%A7%E8%80%85%E7%BB%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>生产者组</h3>
@@ -275,6 +290,7 @@ JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn256m -XX:PermSize=128m 
 </li>
 </ul>
 
+<span id="more"></span><!-- more -->
 <h2><a id="nameserver%E6%BA%90%E7%A0%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>NameServer源码</h2>
 <p>画了<a href="https://www.processon.com/view/link/6222ff675653bb07282706fa">PorcessOn-RocketMQ4.4-NameServer流程图</a></p>
 <p>从代码写法上来说，有几点疑问：</p>
@@ -362,6 +378,7 @@ JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn256m -XX:PermSize=128m 
 </li>
 </ul>
 
+<span id="more"></span><!-- more -->
 <h2><a id="%E5%89%8D%E8%A8%80" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>前言</h2>
 <p>作者彭峰，留美博士，在08年左右就开始做以开源Hadoop替换Oracle，并在此之上做了一系列数据驱动产品，满足了不断增长的数据产品需求。</p>
 <p>普遍认同的数据中台的任务：大同企业各个部门之间的数据，形成<strong>统一的数据开发和使用规范</strong>，在企业各个部门之间实现数据能力的<strong>抽象、共享和复用</strong>。</p>
@@ -522,6 +539,7 @@ JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn256m -XX:PermSize=128m 
 <li><a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%87%AA%E6%9F%A5q-a">消息队列自查Q&amp;A</a></li>
 </ul>
 
+<span id="more"></span><!-- more -->
 <h2><a id="%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%A6%82%E8%BF%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息队列概述</h2>
 <ul>
 <li>消息队列适合解决什么问题？</li>
@@ -1709,6 +1727,48 @@ sbin/start-all.sh
 # 关闭集群
 sbin/stop-all.sh
 </code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[平平无奇，靠什么弯道超车]]></title>
+    <link href="chaoranlaoge.top/16101634062262.html"/>
+    <updated>2021-01-09T11:36:46+08:00</updated>
+    <id>chaoranlaoge.top/16101634062262.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E8%AF%BB%E3%80%8A%E5%86%AF%E5%94%90%E6%88%90%E4%BA%8B%E5%BF%83%E6%B3%95%E3%80%8B%E7%9A%84%E6%80%9D%E8%80%83%EF%BC%88%E4%BA%8C%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>读《冯唐成事心法》的思考（二）</h2>
+<p>平平无奇，靠什么弯道超车？这本文章的核心理念是靠“有常”。</p>
+<span id="more"></span><!-- more -->
+<blockquote>
+<p>人生惟有常是第一美德。</p>
+</blockquote>
+<p>第一次看到书里的这句话曾公的原话，其实平平无奇。坚持，是一种态度，也被很多名人所推崇，也被推崇为是“复利”。但曾公这里说，是第一美德。为啥这么说？</p>
+<p>曾公例举的是自己练书法的过程，就是一直写，没有断。“遂觉月异而岁不同“，慢慢地就一直有进步，渐渐地看到不同。谈到这里，我认为主要是曾公对于这时间的投入感到满意。然而他接着说了一句，“可见年无分老少，事无分难易，但行之有恒“，他觉得，可见不管老人小孩，事情难或者易，只要我们有恒心，恒行，都能成功。所以，要论成事，曾公说人生只有”有常“，是第一美德。</p>
+<p>”有常“二字在历史上也经常看到，古代很多能人志士也都以此作为自己的字。西方文化逐渐侵入国内之后，“复利”这一说法，在如今更为广泛一点，但太有功利性了，我不喜欢。我喜欢这句话的一个很大的原因是，我喜欢”有常“二字，其中常指恒心。</p>
+<p>相反地，佛家常说无常，所谓无常，一般意指没有预期的死亡。当我们把无常这一词放在有常旁边之时，是不是能感到一点有常的魅力？人有智识，通灵性，能用文字记录时间，是万物之唯一。而无常面前，每一个复杂的个体的反思，是不是生命的缺憾大多在于，没有践行有常，这一美德？</p>
+<p>说到底，有常这一美德，应一生践行。</p>
+<h2><a id="%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%87%AA%E5%B7%B1%E6%9C%89%E6%B2%A1%E6%9C%89%E5%A4%A9%E8%B5%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>如何判断自己有没有天赋</h2>
+<p>也许你看过很多美国超级英雄的大片，比如说《超人》《蜘蛛侠》《闪电侠》等等（又抑或你曾经看过因辱华而被禁掉的《我的英雄学院》），剧情套路上来说，超能力者一开始一般是不知道原来自己有这个能力，大多都是慢慢地发现，练习，再挖掘，最后把能力使用地炉火纯青，拯救了世界。</p>
+<p>除了超能力，现实之中高手也不乏有天赋一说，年少成名的也被叫做天才。如何判断自己是否有天赋呢？冯唐老师在这本书中写了三个原则，我归纳了有三点：</p>
+<ol>
+<li>拾之不辍。（书中冯唐老师写的是“虽千万人吾往矣“，其意思是千千万万人反对，你都偷偷摸摸地坚持做下去。我认为能遭受多数人反对的事情，一般要么是不好生计，要么是名声不好，但天赋一词大多其实对应正经职业，再不正经的事多数也会因为困难所以被人尊敬而变成了职业，如电竞选手。）我认为一般能判断天赋的事情，会遭受反对的比较少，多数在于自己放弃。而你能不能时不时捡起来，然后一直坚持，就对应你到底有没有天赋的一部分。</li>
+<li>会感到快乐和满足。这条是书中冯唐老师写的，这个其实就是看你做这个事情内心体验好不好了。</li>
+<li>有没有自己的风格。这条也是冯唐老师书中写的，有自己的风格，就有辨识度。说白了，就比较容易脱颖而出。其实，就观察来看，大多困难的事情，还是先源于模仿，再逐渐有自己的风格。</li>
+</ol>
+<p>以上三点，就是判断自己有没有天赋的依据。如果自己对一件事情有天赋，那其实会相对容易做到有常。如果自己没有天赋，那坚持做到有常，也能“遂觉月异而岁不同”，最后即便没有自己的风格。如曾国藩的书法，虽然并非特别有特色，但是其背后坚持数十年如一日的精神，让很多人爱字中的精神，也能卖个不错的价格。</p>
+<p>所以，不管有天赋还是没天赋，你总要不断练习需要成就的这个事情，也就是“有常”。</p>
+<p>不过，在读完冯唐老师关于天赋的说法后，</p>
+<h3><a id="" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a></h3>
+<blockquote>
+<p>凡事皆用困知勉行功夫，不可求名太骤，求效太捷也。<br />
+困时切莫间断，熬过此关，便可少进。<br />
+不特习字，凡事皆有极困极难之时，打得通的，便是好汉。</p>
+</blockquote>
+<blockquote>
+<p>临事静对猛虎，事了闲看落花。<br />
+敬字，恒字二端，是彻始彻终工夫。鄙人生平欠此二字，至今老而无成，深自悔憾。</p>
+</blockquote>
 
 ]]></content>
   </entry>

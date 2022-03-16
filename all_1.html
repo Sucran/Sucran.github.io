@@ -112,89 +112,6 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="16419928857111.html">
-                
-                  <h1>MySQL问题排查备忘录</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>MySQL，基于GPL开源协议，商标归属于Oracle，如果基于MySQL制作盈利软件，是需要购买Oracle的商业授权的，否则会违反GPL开源协议</p>
-<p>MySQL，默认的事务隔离级别是可重复读，可以降低为？</p>
-<h2><a id="%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84sql%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>几个常用的SQL：</h2>
-<p>select count(1) from xxx, 需要使用count(1), 不要使用count(*)，原因是？</p>
-<p>date_format(time, '%Y%m%d%H%i%s'), 其中，%Y表示四位2022，%y是两位22，%H是24小时，%h是12小时，%i表示分钟</p>
-<p>对于表里面的日期，Date类型的，可以直接 time = '20220101'</p>
-<p>contains(str, sub_str) 报 Geometry byte string must be little endian 是因为 MySQL使用的是 instr(str, sub_str)，网上说 instr 比 like 更加高效，为啥？</p>
-<p>insert into TABLE_NAME (PROPERTY_1, PROP_2, PROP_3) values (1, 2, 3)<br />
-insert into TABLE_NAME select xx as PROP1, xx as PROP_2, xx as PROP_3 from TABLE where xxx</p>
-<p>字符串匹配， str like / not like 'tmp%'</p>
-<h2><a id="mysql%E7%9A%84%E6%AD%BB%E9%94%81%E6%8E%92%E6%9F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>MySQL的死锁排查</h2>
-<p>使用语句： <code>show engine innodb status;</code></p>
-<p>会有一段类似：</p>
-<pre><code class="language-SQL">------------------------
-LATEST DETECTED DEADLOCK
-------------------------
-191028 13:33:14
-*** (1) TRANSACTION:
-TRANSACTION 2656E7, ACTIVE 1 sec starting index read
-mysql tables in use 1, locked 1
-LOCK WAIT 2 lock struct(s), heap size 376, 1 row lock(s)
-MySQL thread id 879805, OS thread handle 0x7f8d26308700, query id 3761780 XXXXXXXXXXXXX root Updating
-update student SET school = &quot;清华&quot; WHERE ( name = '小明' )
-*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
-RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E7 lock_mode X waiting
-XXXXXX
-
-*** (2) TRANSACTION:
-TRANSACTION 2656E2, ACTIVE 1 sec inserting
-mysql tables in use 1, locked 1
-4 lock struct(s), heap size 1248, 2 row lock(s), undo log entries 3
-MySQL thread id 879796, OS thread handle 0x7f8d261c3700, query id 3761781 XXXXXXXXXXXXX root update
-insert into student (XXXXXXXXXXXXXXXXXXXXXXXX)
-*** (2) HOLDS THE LOCK(S):
-RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E2 lock_mode X locks rec but not gap
-XXXXXX
-
-*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
-RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E2 lock_mode X locks gap before rec insert intention waiting
-Record lock, heap no 292 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
-XXXXXX
-
-*** WE ROLL BACK TRANSACTION (1)
-------------
-
-</code></pre>
-<p>然后MySQL的锁机制是分引擎的，innodb和其他不一样，在查锁之前，要先搞清楚他本身的引擎类型</p>
-<p>如果是innodb，锁也是挺多种的，IX，意向写锁，IS，意向读锁，X写锁，S读锁，Gap是间隙锁，Next-Key是键值锁？</p>
-<p>MySQL有两种死锁，一种是他自检测到死锁，会自己解除。另一种是两者互相等待，会等到一个获取锁的超时时长，环境上有时候会配置600（10分钟）？</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2022/01/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='DataBase.html'>DataBase</a></span>
-          				   
-                    
-
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
                 <a class="clearlink" href="16374690084475.html">
                 
                   <h1>家居装修笔记</h1>
@@ -767,6 +684,42 @@ echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
                 </div>
               </div><!-- article -->
         
+			<div class="article">
+                <a class="clearlink" href="16101634062262.html">
+                
+                  <h1>平平无奇，靠什么弯道超车</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2><a id="%E8%AF%BB%E3%80%8A%E5%86%AF%E5%94%90%E6%88%90%E4%BA%8B%E5%BF%83%E6%B3%95%E3%80%8B%E7%9A%84%E6%80%9D%E8%80%83%EF%BC%88%E4%BA%8C%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>读《冯唐成事心法》的思考（二）</h2>
+<p>平平无奇，靠什么弯道超车？这本文章的核心理念是靠“有常”。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                   <a href="16101634062262.html">Read more</a>&nbsp;&nbsp; 
+                    <span class="date">2021/01/09</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%86%AF%E5%94%90%E3%80%8A%E5%86%AF%E5%94%90%E6%88%90%E4%BA%8B%E5%BF%83%E6%B3%95%E3%80%8B.html'>冯唐《冯唐成事心法》</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
               
 
 
@@ -850,12 +803,6 @@ echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
 	      
 		      
 			      <li class="post">
-			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
 			        <a href="16467274330567.html">Alluxio 安装与实践</a>
 			      </li>
 		     
@@ -875,6 +822,12 @@ echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
 		      
 			      <li class="post">
 			        <a href="16464531729826.html">RocketMQ源码解读</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16462210956998.html">速读摘要</a>
 			      </li>
 		     
 		  
