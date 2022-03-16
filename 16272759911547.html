@@ -79,11 +79,17 @@
         
             <li><a href="Language.html">Language</a></li>
         
-            <li><a href="Course.html">Course</a></li>
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
         
             <li><a href="Book.html">Book</a></li>
         
-            <li><a href="Deploy.html">Deploy</a></li>
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
          
 
       </ul>
@@ -126,19 +132,38 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2><a id="%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件处理类型</h2>
-<ol>
-<li>查看文件夹目录底下的所有文件大小</li>
-</ol>
-<blockquote>
-<p>du -h --max-depth=1</p>
-</blockquote>
-<ol start="2">
-<li>查看文件系统大小列表</li>
-</ol>
-<blockquote>
-<p>df -h</p>
-</blockquote>
+      <h2><a id="vim%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>vim 快捷键备忘录</h2>
+<p>G 到文件尾部<br />
+:num num指的是行号<br />
+:vs file_path 左右打开文件<br />
+:sp file_path 上下打开文件<br />
+:winc j/k/h/l 上下左右窗口光标移动</p>
+<h2><a id="%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件处理类型</h2>
+<ul>
+<li>
+<p>查看文件夹目录底下的所有文件大小<br />
+<code> du -h --max-depth=1</code></p>
+</li>
+<li>
+<p>查看文件系统大小列表<br />
+<code> df -h</code></p>
+</li>
+<li>
+<p>grep去掉grep自身的进程并获取进程号<br />
+<code> ps -eo pid,cmd | grep exec | grep -v grep | awk 'print {$1}'</code></p>
+</li>
+<li>
+<p>ps 获取进程开始时间<br />
+<code> ps -eo lstart,etime | grep exec</code></p>
+</li>
+<li>
+<p>字符串截取 截取字符串中左边或者右边的字符串</p>
+</li>
+</ul>
+<pre><code class="language-shell">name=filebeat/platform
+echo ${name%/*} # = filebeat = 删除了字符 '/' 右边的所有字符
+echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
+</code></pre>
 
 
     
@@ -149,16 +174,16 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="16321151686617.html" 
-          title="Previous Post: Go语言特性">&laquo; Go语言特性</a>
+          <a href="16335352502635.html" 
+          title="Previous Post: 小王子，他学会的爱与被爱">&laquo; 小王子，他学会的爱与被爱</a>
       
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="16140023691726.html" 
-          title="Next Post: Go速成（Java）">Go速成（Java） &raquo;</a>
+          <a  href="16132317373263.html" 
+          title="Next Post: 记观影《唐人街探案3》的十个优秀细节">记观影《唐人街探案3》的十个优秀细节 &raquo;</a>
       
       </p>
         </div>
@@ -216,11 +241,17 @@
         
             <a href="Language.html"><strong>Language</strong></a>
         
-            <a href="Course.html"><strong>Course</strong></a>
+            <a href="DataBase.html"><strong>DataBase</strong></a>
+        
+            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
         
             <a href="Book.html"><strong>Book</strong></a>
         
-            <a href="Deploy.html"><strong>Deploy</strong></a>
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
+        
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
+        
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
          
         </p>
 
@@ -237,33 +268,47 @@
 	      
 		      
 			      <li class="post">
-			        <a href="16335352502635.html">小王子，他学会的爱与被爱</a>
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16321151686617.html">Go语言特性</a>
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16272759911547.html">Shell备忘录</a>
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16140023691726.html">Go速成（Java）</a>
+			        <a href="16464625257370.html">RocketMQ知识点</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16132317373263.html">记观影《唐人街探案3》的十个优秀细节</a>
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		  
@@ -317,6 +362,8 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
 
 
+
+<script src="asset/prism.js"></script>
 
 
 <style type="text/css">

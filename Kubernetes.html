@@ -75,15 +75,21 @@
     <li><label>Categories</label></li>
 
         
+            <li><a href="Others.html">Others</a></li>
+        
             <li><a href="Language.html">Language</a></li>
+        
+            <li><a href="DataBase.html">DataBase</a></li>
         
             <li><a href="Kubernetes.html">Kubernetes</a></li>
         
-            <li><a href="Course.html">Course</a></li>
-        
             <li><a href="Book.html">Book</a></li>
         
-            <li><a href="Idea.html">Idea</a></li>
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
          
 
       </ul>
@@ -106,24 +112,181 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="16055030432572.html">
+                <a class="clearlink" href="16454841763279.html">
                 
-                  <h1>Kubernetes 初学者暗记包</h1>
+                  <h1>K8s利用Nginx实现Ingress流量分发原理</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">关于分享</h2>
+                        	
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2022/02/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Kubernetes.html'>Kubernetes</a></span>
+          				   
+                    
 
-<p>如果有读者需要初学者暗记包笔记，可以在评论中留下自己的邮箱，我会给大家发送。</p>
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
-<p>发送之后，大家以只读的方式进行学习，后续我有更新时，会再进行统一邮箱推送。</p>
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="16442421379135.html">
+                
+                  <h1>Kubectl 备考命令</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<ul>
+<li><a href="#%E5%BA%94%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7">应试小技巧</a></li>
+<li><a href="#kubectl-get">kubectl get</a>
+<ul>
+<li><a href="#kubectl-get%E9%A2%9D%E5%A4%96%E5%8F%82%E6%95%B0">kubectl get 额外参数</a></li>
+</ul>
+</li>
+<li><a href="#kubectl-describe">kubectl describe</a></li>
+<li><a href="#kubectl-run">kubectl run</a></li>
+<li><a href="#kubectl-create">kubectl create</a></li>
+<li><a href="#kubectl-scale">kubectl scale</a></li>
+<li><a href="#kubectl-expose">kubectl expose</a></li>
+<li><a href="#kubectl-label">kubectl label</a></li>
+<li><a href="#kubectl-taint">kubectl taint</a></li>
+</ul>
 
-<h2 id="toc_1">更新记录</h2>
-
-<h3 id="toc_2">2020.11.18 - 添加关于Deployment的9张暗记卡片</h3>
-
-<p><img src="media/16055030432572/16056766500081.jpg" alt=""/></p>
+<h2><a id="%E5%BA%94%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>应试小技巧</h2>
+<p><code>export do=&quot;--dry-run=client -o yaml&quot;</code><br />
+<code>kubectl run nginx --image=nginx $do &gt; pod.yaml</code></p>
+<p><code>export now=&quot;--force --grace-priod 0&quot;</code><br />
+<code>kubectl delete po nginx $now</code></p>
+<h2><a id="kubectl-get" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl get</h2>
+<p>kubectl 支持资源对象的简称：</p>
+<table>
+<thead>
+<tr>
+<th>资源对象</th>
+<th>简称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configmaps</td>
+<td>cfg</td>
+</tr>
+<tr>
+<td>Pod</td>
+<td>po</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>svc</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>deploy</td>
+</tr>
+<tr>
+<td>ReplicaSet</td>
+<td>rs</td>
+</tr>
+<tr>
+<td>ReplicaController</td>
+<td>rc</td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td>ns</td>
+</tr>
+<tr>
+<td>DaemonSets</td>
+<td>ds</td>
+</tr>
+<tr>
+<td>Nodes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>ServiceAccounts</td>
+<td>sa</td>
+</tr>
+<tr>
+<td>Services</td>
+<td>svc</td>
+</tr>
+<tr>
+<td>PersistentVolumeClaims</td>
+<td>pvc</td>
+</tr>
+<tr>
+<td>PersistentVolume</td>
+<td>pv</td>
+</tr>
+</tbody>
+</table>
+<h3><a id="kubectl-get%E9%A2%9D%E5%A4%96%E5%8F%82%E6%95%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl get 额外参数</h3>
+<ul>
+<li><code>-o yaml</code> 以yaml形式输出</li>
+<li><code>-o wide</code> 输出更多信息</li>
+<li><code>-l env=prod</code> 用以列出以标签env的值为prod的Pod</li>
+</ul>
+<h2><a id="kubectl-describe" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl describe</h2>
+<ul>
+<li>查看一个资源对象的详细信息</li>
+</ul>
+<blockquote>
+<p>kubectl describe 简称 对象名称</p>
+</blockquote>
+<h2><a id="kubectl-run" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl run</h2>
+<ul>
+<li>创建一个po叫做nginx，包含一个容器，镜像是nginx</li>
+</ul>
+<blockquote>
+<p>kubectl run nginx --image=nginx</p>
+</blockquote>
+<h2><a id="kubectl-create" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl create</h2>
+<ul>
+<li>创建一个deploy，名字是httpd，replicas=3，镜像名是httpd</li>
+</ul>
+<blockquote>
+<p>kubectl create deploy httpd --replicas=3 --image=httpd</p>
+</blockquote>
+<h2><a id="kubectl-scale" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl scale</h2>
+<ul>
+<li>将Replica Set设置成replicas=5</li>
+</ul>
+<blockquote>
+<p>kubectl scale --replicas=5 rs new-replica-set</p>
+</blockquote>
+<h2><a id="kubectl-expose" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl expose</h2>
+<ul>
+<li>将Deployment暴露为一个NodePort的Service，但需要注意的是，这个方法没办法指定NodePort端口，端口将为大于30000的随机端口，所以可以直接输出成文件之后再修改</li>
+</ul>
+<blockquote>
+<p>kubectl expose deployment simple-webapp-deployment --port=8080 --target-port=8080 --type='NodePort' --selector='name=simple-webapp' --name webapp-service --dry-run=client -o yaml &gt; service.yaml</p>
+</blockquote>
+<h2><a id="kubectl-label" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl label</h2>
+<h2><a id="kubectl-taint" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl taint</h2>
+<ul>
+<li>给Node1节点加上一个Taint信息</li>
+</ul>
+<blockquote>
+<p>kubectl taint nodes</p>
+</blockquote>
 
                         
                       </div>
@@ -132,7 +295,7 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2020/11/16</span>
+                    <span class="date">2022/02/07</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Kubernetes.html'>Kubernetes</a></span>
@@ -202,15 +365,21 @@
 
       	<p class="cat-list">
         
+            <a href="Others.html"><strong>Others</strong></a>
+        
             <a href="Language.html"><strong>Language</strong></a>
+        
+            <a href="DataBase.html"><strong>DataBase</strong></a>
         
             <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
         
-            <a href="Course.html"><strong>Course</strong></a>
-        
             <a href="Book.html"><strong>Book</strong></a>
         
-            <a href="Idea.html"><strong>Idea</strong></a>
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
+        
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
+        
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
          
         </p>
 
@@ -227,33 +396,57 @@
 	      
 		      
 			      <li class="post">
-			        <a href="16101634062262.html">平平无奇，靠什么弯道超车</a>
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16101619474323.html">年轻人，你要倔强</a>
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16078611102734.html">智能活动</a>
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16078607230127.html">智能家居</a>
+			        <a href="16464625257370.html">RocketMQ知识点</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16060557017293.html">干饭这么苦，为什么还要干？</a>
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		  

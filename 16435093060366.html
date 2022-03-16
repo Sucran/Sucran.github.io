@@ -1,0 +1,431 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Kubernetes Pod学习笔记 - 超燃老哥
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="超燃老哥" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:chaoranlaoge.top ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 超燃老哥</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="Others.html">Others</a></li>
+        
+            <li><a href="Language.html">Language</a></li>
+        
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
+        
+            <li><a href="Book.html">Book</a></li>
+        
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		var currentURL = '16435093060366.html';
+		currentURL = currentURL.substr(0,currentURL.length-5);
+		$('#menu_item_'+currentURL).addClass('is_active');
+	});
+</script>
+<div class="row">
+
+    <div id="single-page-wrap">
+        <h1>Kubernetes Pod学习笔记</h1>
+
+        <div class="markdown-body post-page">
+        <h2><a id="pod%E5%AE%9A%E4%B9%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pod定义</h2>
+<p>K8s中Pod，英文含义是豌豆荚，设计者意图将容器Container比喻成豌豆，而Pod就是包含了多个独立容器的个体。</p>
+<p>抽象Pod概念的目的在于，将K8s的基本调度单位，从一个容器上升为一组容器。由于容器（Container）是一个单进程模型（指的是容器没有管理多个进程的能力，并非无法运行多个进程），简单情况下一个进程可以实现所有软件功能，但软件实现时为了减少复杂情况下的代码耦合，会将软件功能拆分为多个进程，并置（colocated）于同一个物理机上运行。多个进程的协作，要求进程间需要：1）共享同一个网络栈以及挂载卷，2）共享同一套的CPU资源和内存资源。如果K8s的基本调度单位还是一个容器，那需要对容器进行很多额外的配置来实现上述要求，并且物理机上的进程如果要容器化时，就需要考虑多个进程如何共同调度到同一台工作节点上，加大了调度时的复杂度。</p>
+<p>因此，Pod，就是一组容器，作为K8s的原子调度单位，可以当作一个逻辑主机。</p>
+<p>Pod还有以下特性：</p>
+<ul>
+<li>包含多个容器，容器之间可以直接使用localhost通信</li>
+<li>所有Pod内的容器，都可以访问共享的Volume</li>
+<li>无容错性，创建好的Pod会直接绑定Node节点，Node节点挂掉后不会被重新调度（所以一般不推荐直接使用Pod）</li>
+<li>优雅终止，Pod删除时会先给内部进程发送SIGTERM，等待一段时间再强杀</li>
+<li>特权容器，可以具备修改宿主机系统配置的权限</li>
+</ul>
+<h2><a id="pod%E4%B8%8Eimage" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pod与Image</h2>
+<p>Pod，包含了多个Container，容器的本质是由镜像（Image）实例化而来的进程实例，这个进程被系统隔离了CPU，内存资源，用户权限，网络栈等信息，<strong>背后的系统技术是控制组cgroups和命名空间namespace技术</strong>。控制组限制了进程的资源量，命名空间限制了进程只能看到自己的系统视图（文件，进程，网络接口，主机名等）。由于Image的打包技术是由不同的容器运行时（Container Runtime）技术提供的，其中最典型的就是Docker。</p>
+<p>Image的内容是由dockerfile来定义的,dockerfile的命令会构建docker镜像中的layer（<strong>layer概念是用联合文件系统Union file system技术实现</strong>），而Pod的内容是由K8s的Api来定义的，Pod操作的还是容器，本质上Pod定义是基于Image上的创新。Pod包含了部分Image的定义，从而Pod定义时，可用部分参数来覆写Image的定义。</p>
+<p>总的来说，凡事调度，网络，存储，以及安全相关的属性，基本上是Pod级别</p>
+<p>首先我们先看看<strong>Image的dockerfile定义</strong>，</p>
+<p>然后再对应<strong>Pod的Container定义</strong>，</p>
+<h3><a id="dockerfile%E5%92%8Cyaml%E6%96%87%E4%BB%B6%E4%BE%8B%E5%AD%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>DockerFile和Yaml文件例子</h3>
+<p>Dockerfile一般是在开发测试环境定义，并打出镜像文件，推送到Harbor仓库。开发测试环境可以直接创建Pod，来查看镜像是否可用。</p>
+<p>在生产环境，不推荐直接创建Pod，推荐使用Deployment， StatefulSet，Job/CronJob等控制器来创建Pod。</p>
+<pre><code class="language-dockerfile">
+</code></pre>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+    name: nginx
+spec:
+    containers:
+    - image: nginx
+      name: busybox-con
+      ports:
+      - containerPort: nginx
+        protocol: TCP
+</code></pre>
+<ul>
+<li>apiVersion是v1</li>
+<li>kind有区分大小写，是大写的P</li>
+<li>metadata是必须项</li>
+<li>spec，搞不清楚可以用kubectl explain pod.spec来回忆</li>
+<li>status，表明当前Pod的状态</li>
+</ul>
+<h2><a id="%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%92%8C%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89pod" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>命令行和文件定义Pod</h2>
+<h3><a id="eg1%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8C%85%E5%90%AB-nginx%E5%AE%B9%E5%99%A8%E7%9A%84pod" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Eg1. 简单创建一个包含nginx容器的Pod</h3>
+<p>对应命令：</p>
+<pre><code class="language-shell">kubectl run nginx --image=nginx --dry-run=client -o yaml &gt; nginx.yaml
+</code></pre>
+<p>对应文件：</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+</code></pre>
+<h3><a id="eg2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Eg2.</h3>
+
+        </div>
+    </div>
+</div>              
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>

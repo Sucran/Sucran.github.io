@@ -4,13 +4,1261 @@
   <title><![CDATA[超燃老哥]]></title>
   <link href="chaoranlaoge.top/atom.xml" rel="self"/>
   <link href="chaoranlaoge.top/"/>
-  <updated>2021-10-07T01:53:56+08:00</updated>
+  <updated>2022-03-17T00:35:47+08:00</updated>
   <id>chaoranlaoge.top/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Alluxio数据编排原理与解析]]></title>
+    <link href="chaoranlaoge.top/16474467310881.html"/>
+    <updated>2022-03-17T00:05:31+08:00</updated>
+    <id>chaoranlaoge.top/16474467310881.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Alluxio 安装与实践]]></title>
+    <link href="chaoranlaoge.top/16467274330567.html"/>
+    <updated>2022-03-08T16:17:13+08:00</updated>
+    <id>chaoranlaoge.top/16467274330567.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E5%8D%95%E6%9C%BA%E7%8E%AF%E5%A2%83" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>单机环境</h2>
+<p>开通阿里云ECS服务器，需要选择基础镜像包含Java8</p>
+<ol>
+<li>下载Alluxio安装包</li>
+</ol>
+<p><code>wget https://downloads.alluxio.io/downloads/files/2.7.3/alluxio-2.7.3-bin.tar.gz</code></p>
+<ol start="2">
+<li>解压安装包</li>
+</ol>
+<p><code>gunzip alluxio-2.7.3-bin.tar.gz &amp;&amp; tar -xvf alluxio-2.7.3-bin.tar</code></p>
+<ol start="3">
+<li>设置配置文件并检查本地安装环境</li>
+</ol>
+<p><code>cd alluxio-2.7.3</code></p>
+<p><code>cp conf/alluxio-site.properties.template conf/alluxio-site.properties</code></p>
+<p>在conf/alluxio-site.properties文件中将 alluxio.master.hostname设置为 localhost。</p>
+<p>执行命令</p>
+<p><code>./bin/alluxio validateEnv local</code>验证本地环境</p>
+<p>最后会打印出检查结果</p>
+<ol start="4">
+<li>执行Alluxio的格式化操作</li>
+</ol>
+<p><code>./bin/alluxio format</code></p>
+<p>日志会打到 <code>alluxio-2.7.3/logs/task.log</code></p>
+<p>可能会遇到找不到java命令的报错：<br />
+<code>Error: Cannot find 'java' on path or under $JAVA_HOME/bin/. Please set JAVA_HOME in alluxio-env.sh or user bash profile.</code></p>
+<p>需要将本地的java程序做一个软链接，比如：<br />
+<code>ln -s /usr/java/jdk1.8.0_301/bin/java /usr/bin/java</code></p>
+<p>还可能会遇到报错：<br />
+<code>java.nio.file.NoSuchFileException: /mnt/ramdisk/alluxioworker</code></p>
+<p>直接创建<code>mkdir -p /mnt/ramdisk/alluxioworker</code></p>
+<ol start="5">
+<li>启动Alluxio</li>
+</ol>
+<p><code>./bin/alluxio-start.sh local SudoMount</code></p>
+<p>这时候就能够直接看到Alluxio的Web UI了，这里可以把云服务器的安全组策略改一下，让19999端口暴露出来，这样就能直接访问 <code>公网IP:19999</code> 看到Web UI了。</p>
+<h3><a id="%E5%A4%9A%E6%9C%BA%E7%8E%AF%E5%A2%83" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>多机环境</h3>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RocketMQ安装与实践]]></title>
+    <link href="chaoranlaoge.top/16465400869241.html"/>
+    <updated>2022-03-06T12:14:46+08:00</updated>
+    <id>chaoranlaoge.top/16465400869241.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装指南</h2>
+<ol>
+<li>上官网下载安装包 <code>rocketmq-all-4.4.0-bin-release.zip</code></li>
+<li>放到用户目录下，解压压缩包，并进入目录</li>
+<li>修改配置文件</li>
+</ol>
+<pre><code class="language-shell">cd bin
+
+vim runserver.sh 
+# 找到如下配置
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms8g -Xmx8g -Xmn4g&quot;
+# 修改成你可以接受的范围
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms512m -Xmx521m -Xmn256m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
+
+vim runbroker.sh
+# 找到如下配置
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms4g -Xmx4g -Xmn2g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
+# 修改成你可以接受的范围
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms512m -Xmx512m -Xmn256m&quot;
+</code></pre>
+<ol start="4">
+<li>配置环境变量</li>
+</ol>
+<pre><code class="language-shell">vim /etc/profile
+
+# 将如下配置加到最后一行
+export NAMESRV_ADDR=127.0.0.1:9876
+
+# 使配置生效
+source /etc/profile
+</code></pre>
+<ol start="5">
+<li>将rocketmq文件夹放到<code>/usr/local</code>目录下，并进入文件夹</li>
+</ol>
+<pre><code class="language-shell">mv -R ~/rocketmq /usr/local/rocketmq
+cd /usr/local/rocketmq
+</code></pre>
+<ol start="6">
+<li>启动nameserver和mqbroker</li>
+</ol>
+<pre><code class="language-shell">nohup sh bin/mqnamesrv &amp;
+
+nohup sh bin/mqbroker -n localhost:9876 &amp;
+</code></pre>
+<h3><a id="%E5%AE%89%E8%A3%85rocketmq-console" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装RocketMQ Console</h3>
+<ol>
+<li>下载rocketmq-external</li>
+</ol>
+<pre><code class="language-shell">cd /usr/local/rocketmq
+
+git clone https://github.com/apache/rocketmq-externals
+</code></pre>
+<ol start="2">
+<li>安装Maven来打包</li>
+</ol>
+<pre><code class="language-shell">sudo yum install -y maven
+</code></pre>
+<ol start="3">
+<li>需要查看一下RocketMQ的Console的pom.xml，改动依赖项</li>
+</ol>
+<pre><code class="language-shell">
+</code></pre>
+<ol start="4">
+<li>用Maven打包</li>
+</ol>
+<pre><code class="language-shell">cd /usr/local/rocketmq/rocketmq-externals/rocketmq-console
+
+mvn clean package -Dmaven.test.skip=true
+</code></pre>
+<ol start="5">
+<li>启动RocketMQ-console</li>
+</ol>
+<h3><a id="%E9%85%8D%E7%BD%AErocketmq%E4%B8%BA%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>配置RocketMQ为开机自启动服务</h3>
+<p>参考博客</p>
+<h3><a id="%E5%AE%89%E8%A3%85q-a" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装 Q&amp;A</h3>
+<h4><a id="q-native-memory-allocation-mmap-failed-to-map-2147483648-bytes-for-committing-reserved-memory" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Q: Native memory allocation (mmap) failed to map 2147483648 bytes for committing reserved memory.</h4>
+<pre><code class="language-shell">Java HotSpot(TM) 64-Bit Server VM warning: Using the DefNew young collector with the CMS collector is deprecated and will likely be removed in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: UseCMSCompactAtFullCollection is deprecated and will likely be removed in a future release.
+Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x00000006ec800000, 2147483648, 0) failed; error='Cannot allocate memory' (errno=12)
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 2147483648 bytes for committing reserved memory.
+# An error report file with more information is saved as:
+# /home/centos/rocketmq-all-4.4.0-bin-release/hs_err_pid5064.log
+</code></pre>
+<p>A:</p>
+<pre><code class="language-shell">原因
+默认运行内存设置过大，我查看我的好多默认设置都是大于1G ，甚至有的是 2G 、4G ....
+
+解决
+修改目录 /distribution/target/apache-rocketmq/bin 下的 3 个配置文件： runserver.sh、runbroker.sh 、tools.sh 。
+设置 runserver.sh 中此项配置 为：
+
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn512m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m&quot;
+设置 runbroker.sh 中此项配置 为：
+
+ JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m&quot;
+（我改了 runserver.sh、runbroker.sh 依旧不行，后来注意到 tools.sh 中也有配置，3个都改就行了）
+
+设置 tools.sh 中此项配置 为：
+
+JAVA_OPT=&quot;${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn256m -XX:PermSize=128m -XX:MaxPermSize=128m&quot;
+完成以上操作，后续测试就成功运行了。
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RocketMQ知识点]]></title>
+    <link href="chaoranlaoge.top/16464625257370.html"/>
+    <updated>2022-03-05T14:42:05+08:00</updated>
+    <id>chaoranlaoge.top/16464625257370.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#producer%E7%9F%A5%E8%AF%86%E7%82%B9">Producer知识点</a>
+<ul>
+<li><a href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%BB%84">生产者组</a></li>
+<li><a href="#%E5%8F%91%E9%80%81%E6%96%B9%E5%BC%8F">发送方式</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E8%BF%94%E5%9B%9E%E7%A0%81">消息返回码</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B">消息类型</a>
+<ul>
+<li><a href="#%E6%99%AE%E9%80%9A%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">普通顺序消息</a></li>
+<li><a href="#%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF">延迟消息</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%B6%88%E6%81%AFmessage%E7%9F%A5%E8%AF%86%E7%82%B9">消息Message知识点</a>
+<ul>
+<li><a href="#%E4%B8%A5%E6%A0%BC%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">严格顺序消息</a></li>
+<li><a href="#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">顺序消息</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%87%E7%AD%BEtag%E7%9F%A5%E8%AF%86%E7%82%B9">标签Tag知识点</a></li>
+</ul>
+
+<h2><a id="producer%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Producer知识点</h2>
+<p>RocketMQ的消息发送方，叫做Producer（生产者）。一般由业务系统负责生产消息。一个消息生产者会把业务应用系统里产生的消息发送到broker服务器。</p>
+<h3><a id="%E7%94%9F%E4%BA%A7%E8%80%85%E7%BB%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>生产者组</h3>
+<p>RocketMQ设计了一个Producer Group（生产者组）的概念，这类Producer发送同一类消息且发送逻辑一致。</p>
+<p>生产者组的意义在于互备，如果发送的是事务消息且原始生产者在发送之后崩溃，则Broker服务器会联系同一生产者组的其他生产者实例以提交或回溯消费。</p>
+<h3><a id="%E5%8F%91%E9%80%81%E6%96%B9%E5%BC%8F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>发送方式</h3>
+<p>RocketMQ提供多种发送方式，同步发送、异步发送、顺序发送、单向发送。同步和异步方式均需要Broker返回确认信息，单向发送不需要。</p>
+<p>消息发送典型的形式是同步发送和异步发送。同步发送，调用的就是<code>send</code>方法。异步发送，也是<code>send</code>方法，但是需要创建<code>SendCallBack</code>，来重写<code>onSuccess</code>和<code>onException</code>两个方法。</p>
+<p>单向发送，调用的是<code>sendOneWay</code>方法，调用之后没有任何返回结果。主要是用在不关心发送结果的场景，比如日志发送。</p>
+<h3><a id="%E6%B6%88%E6%81%AF%E8%BF%94%E5%9B%9E%E7%A0%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息返回码</h3>
+<p>当Producer采用同步或者异步发送方式时，都需要处理Broker的返回码，返回码包括以下几种：</p>
+<ul>
+<li>FLUSH_DISK_TIMEOUT 没有在规定时间刷盘</li>
+<li>FLUSH_SLAVE_TIMEOUT 没有在设定时间内完成主从同步（这种是在Broker主从同步方式设置成SYNC_MASTER时才有的）</li>
+<li>SLAVE_NOT_AVAILABLE 没有找到被配置成Slave的Broker节点（这种是在Broker主从同步方式设置成SYNC_MASTER时才有的）</li>
+<li>SEND_OK 发送成功</li>
+</ul>
+<p>第二种和第三种是基本一致的</p>
+<h3><a id="%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息类型</h3>
+<h4><a id="%E6%99%AE%E9%80%9A%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>普通顺序消息</h4>
+<p>RocketMQ按发送过程，可以将消息类型可以分成三种：顺序消息，延迟消息，事务消息</p>
+<p>顺序消息，是指Producer发送时，默认情况下是采取Round Robin轮询方式把消息发送到Topic下的不同的queue（分区队列），如果说queue只有一个，那么消息就是Topic下全局有序的，又如果说queue有多个，那么消息是分区有序，即只在当前queue里有序。</p>
+<h4><a id="%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>延迟消息</h4>
+<p>延迟消息，是指Producer发送给Broker之后，Broker会延迟一段时间再处理，使消息在用户设置的延迟时间之后才生效。</p>
+<p>使用方法，是在创建<code>Message对象</code>时，调用<code>setDelayTimeLevel(int level)</code>方法设置延迟时间，目前延迟的时间不支持任意设置，仅支持一些预设置的时间长度，这个预设置是在Broker配置，注意是全局生效（所有topic共用）。默认的值是<code>“1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h”</code>，一共18个级别。当级别为0时，表示非延迟消息，如果<code>level</code>大于等于18，也按最大的值计算。</p>
+<p>定时消息会暂存在名为<code>SCHEDULE_TOPIC_XXXX</code>的topic中，并根据<code>delayTimeLevel</code>存入特定的queue，<code>queueId = delayTimeLevel – 1</code>，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费<code>SCHEDULE_TOPIC_XXXX</code>，将消息写入真实的topic。</p>
+<h2><a id="%E6%B6%88%E6%81%AFmessage%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息Message知识点</h2>
+<p>RocketMQ消息系统所传输信息的物理载体，生产和消费数据的最小单位，每条消息必须属于一个主题。</p>
+<p>RocketMQ中每个消息拥有唯一的Message ID，且可以携带具有业务标识的Key。系统提供了通过Message ID和Key查询消息的功能。</p>
+<h3><a id="%E4%B8%A5%E6%A0%BC%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>严格顺序消息</h3>
+<p>严格顺序消息模式下，消费者收到的所有消息均是有顺序的。</p>
+<h3><a id="%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>顺序消息</h3>
+<p>普通顺序消费模式下，消费者通过同一个消息队列（ Topic分区，称作 Message Queue） 收到的消息是有顺序的，不同消息队列收到的消息则可能是无顺序的。</p>
+<h2><a id="%E6%A0%87%E7%AD%BEtag%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>标签Tag知识点</h2>
+<p>用于同一主题下区分不同类型的消息。</p>
+<p>来自同一业务单元的消息，可以根据不同业务目的在同一主题下设置不同标签。</p>
+<p>标签能够有效地保持代码的清晰度和连贯性，并优化RocketMQ提供的查询系统。</p>
+<p>消费者可以根据Tag实现对不同子主题的不同消费逻辑，实现更好的扩展性。</p>
+<hr />
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RocketMQ源码解读]]></title>
+    <link href="chaoranlaoge.top/16464531729826.html"/>
+    <updated>2022-03-05T12:06:12+08:00</updated>
+    <id>chaoranlaoge.top/16464531729826.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#nameserver%E6%BA%90%E7%A0%81">NameServer源码</a></li>
+<li><a href="#producer%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB">Producer源码解读</a>
+<ul>
+<li><a href="#producer%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%AE%9A%E4%B9%89%E5%85%B3%E7%B3%BB%E6%98%AF%EF%BC%9F">Producer在框架中的类定义关系是？</a></li>
+</ul>
+</li>
+<li><a href="#consumer%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB">Consumer源码解读</a>
+<ul>
+<li><a href="#consumer%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%AE%9A%E4%B9%89%E5%85%B3%E7%B3%BB%E6%98%AF%EF%BC%9F">Consumer在框架中的类定义关系是？</a></li>
+</ul>
+</li>
+</ul>
+
+<h2><a id="nameserver%E6%BA%90%E7%A0%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>NameServer源码</h2>
+<p>画了<a href="https://www.processon.com/view/link/6222ff675653bb07282706fa">PorcessOn-RocketMQ4.4-NameServer流程图</a></p>
+<p>从代码写法上来说，有几点疑问：</p>
+<ul>
+<li><code>MixAll</code>这个类，不知道设计来干啥的？而且金山的代码有使用到这个，不知道具体用法？</li>
+<li>命令行解析的写法值得借鉴，我感觉需要看一下最新的代码，看这块有无改进？</li>
+<li><code>RocketMQ</code>是如何支持多种日志框架的？</li>
+</ul>
+<h2><a id="producer%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Producer源码解读</h2>
+<h3><a id="producer%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%AE%9A%E4%B9%89%E5%85%B3%E7%B3%BB%E6%98%AF%EF%BC%9F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Producer在框架中的类定义关系是？</h3>
+<p>最基础的Producer接口是<code>MQProducer</code><br />
+<code>client</code>包中有两个类实现这个接口</p>
+<ul>
+<li><code>DefaultMQProducer</code> 线程安全<br />
+<img src="media/16464625257370/16465373770738.jpg" alt="" /></li>
+<li><code>TransactionMQProducer</code> 用于事务消息<br />
+<img src="media/16464625257370/16465374078801.jpg" alt="" /></li>
+</ul>
+<p>最主要的就是<code>send</code>方法</p>
+<p>这个需要查看<code>example</code>的代码来实践用法</p>
+<h2><a id="consumer%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consumer源码解读</h2>
+<h3><a id="consumer%E5%9C%A8%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%AE%9A%E4%B9%89%E5%85%B3%E7%B3%BB%E6%98%AF%EF%BC%9F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consumer在框架中的类定义关系是？</h3>
+<p>最基础的Consumer接口是<code>MQConsumer</code><br />
+<code>client</code>包有两个接口继承这个接口</p>
+<ul>
+<li><code>MQPullConsumer</code> 用于Pull方式的消费者</li>
+<li><code>MQPushConsumer</code> 用于Push方式的消费者</li>
+</ul>
+<p>其中，Push方式的类继承比较直接，是<code>DefaultMQPushConsumer</code><br />
+<img src="media/16464625257370/16465390123470.jpg" alt="" /></p>
+<p>而Pull方式的类继承就有一点绕，本来是<code>DefaultMQPullConsumer</code><br />
+<img src="media/16464625257370/16465390763066.jpg" alt="" /><br />
+但是按照代码注释来看，这个类被禁用了，2022年会被移除，在Pull方式下，官方建议使用<code>DefaultLitePullConsumer</code><br />
+<img src="media/16464625257370/16465391440469.jpg" alt="" /><br />
+但是奇怪的是，<code>LitePullConsumer</code>并没有实现<code>MQConsumer</code>的接口</p>
+<p>最主要的还是<code>registerMessageListener</code>方法</p>
+<p>其中方法参数是<code>MessageListener</code>消息监听者接口<br />
+继承该接口的接口是<code>MessageListenerConcurrently</code>,继承关系如下<br />
+<img src="media/16464531729826/16465399880336.jpg" alt="" /></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[速读摘要]]></title>
+    <link href="chaoranlaoge.top/16462210956998.html"/>
+    <updated>2022-03-02T19:38:15+08:00</updated>
+    <id>chaoranlaoge.top/16462210956998.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E4%B8%8E%E7%A1%85%E8%B0%B7%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0">数据中台与硅谷大数据平台</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E7%AB%A0">第一章</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0">第二章</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E7%AB%A0">第三章</a></li>
+<li><a href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0todo">第四章[TODO]</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%9E%B6%E6%9E%84%E5%92%8C%E6%96%B9%E6%B3%95%E8%AE%BA">数据中台架构和方法论</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%BA%94%E7%AB%A0todo">第五章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E5%85%AD%E7%AB%A0todo">第六章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%83%E7%AB%A0todo">第七章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E5%85%AB%E7%AB%A0">第八章</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B8%8E%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9">数据中台技术选型与核心内容</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0todo">第九章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E7%AB%A0%E9%AB%98%E4%BC%98">第十章[高优]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0todo">第十一章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%E9%AB%98%E4%BC%98">第十二章[高优]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%E9%AB%98%E4%BC%98">第十三章[高优]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0todo">第十四章[TODO]</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0todo">第十五章[TODO]</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90">数据中台案例分析</a>
+<ul>
+<li><a href="#%E5%8D%81%E5%85%AD%E7%AB%A0">十六章</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E4%B8%83%E7%AB%A0">第十七章</a></li>
+<li><a href="#%E7%AC%AC%E5%8D%81%E5%85%AB%E7%AB%A0">第十八章</a></li>
+</ul>
+</li>
+</ul>
+
+<h2><a id="%E5%89%8D%E8%A8%80" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>前言</h2>
+<p>作者彭峰，留美博士，在08年左右就开始做以开源Hadoop替换Oracle，并在此之上做了一系列数据驱动产品，满足了不断增长的数据产品需求。</p>
+<p>普遍认同的数据中台的任务：大同企业各个部门之间的数据，形成<strong>统一的数据开发和使用规范</strong>，在企业各个部门之间实现数据能力的<strong>抽象、共享和复用</strong>。</p>
+<p>数据中台的价值更多体现在<strong>与业务结合的能力矩阵</strong>，而不是简单的数据标准化和报表工具上。数据中台一般使用数据湖来存储可以反应全局业务情况的原始数据，能够对核心业务流程进行更全面、更深入的分析，并在此基础上加快对市场的认识和反应，降低产品研发和试错的成本，缩短时间。</p>
+<p>数据中台的一个<strong>天然特性</strong>是支持多元异构的数据以及处理这些数据的工具。为了避免不断建设独立的系统形成数据孤岛，利用云原生架构能够快速地扩展服务节点，简化了统一数据规范的工作。</p>
+<p><strong>建设数据中台的目的</strong>在于，深刻理解当前的业务流程，提出优化建议并提供能力支持。</p>
+<p><strong>数据中台应采取业务驱动、快速落地、小步快跑的方式</strong>，在这个过程中，使用合适的指标体系衡量数据中台的投入产出比，以及提供合适的工具赋能业务部门，有助于数据中台得到业务部门的支持和认可，顺利完成中台的实施。</p>
+<h2><a id="%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E4%B8%8E%E7%A1%85%E8%B0%B7%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据中台与硅谷大数据平台</h2>
+<h3><a id="%E7%AC%AC%E4%B8%80%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第一章</h3>
+<p>建设数据中台的最终目标是通过高效的数字化运营，实现“快速市场响应，精细化运营，开源节流”</p>
+<p>所有数据工具的建设目的都是从数据中提取<strong>价值</strong>来支持更有效的数字化运营。所谓价值，就是BI（Business Intelligence）和AI。</p>
+<p>数据中台有一个比传统大数据平台和数据仓库层次更高的要求：实现数据能力的全局抽象、共享和复用。</p>
+<p>如何实现数据中台建设目标：</p>
+<ul>
+<li>有从数据中产生价值的能力，必须有高效好用的数据处理工具</li>
+<li>要有全局的数据汇聚和治理，需要完成统一的数据规范</li>
+<li>对数据处理能力的抽象，实现能力的复用和共享
+<ul>
+<li>顶层设计后进行推广</li>
+<li>由实际需求设计再进行进一步抽象推广</li>
+</ul>
+</li>
+<li>协调复用和效率的矛盾，需要有一套工具来精确衡量数据能力的ROI（投入产出比）</li>
+</ul>
+<p>数据中台的特点：</p>
+<ul>
+<li>汇聚全局的数据为用户赋能</li>
+<li>实现数据能力的抽象</li>
+<li>通过工具体系让企业各部门共享抽象的数据能力</li>
+<li>高效地管理数据能力并加以复用</li>
+</ul>
+<p>大数据平台 转型为 数据中台的几点考量 （P18）</p>
+<p>大数据平台的架构图（P20）</p>
+<p>数据中台应该是大数据平台的一个超集：</p>
+<ul>
+<li>全局的数据应用资产管理</li>
+<li>全局的数据治理机制</li>
+<li>自助的、多租户的数据应用开发及发布</li>
+<li>数据应用的CI/CD</li>
+<li>新的数据应用技术框架的快速集成</li>
+<li>数据即服务，模型即服务（无代码的方式发布）</li>
+<li>数据能力共享管理</li>
+<li>完善的运营指标</li>
+<li>阿里巴巴提出的OneID，OneModel，OneService</li>
+<li>TotalPlatform，不允许数据孤岛和局部数据</li>
+<li>TotalInsight，用户可以轻松理解全局的数据资产和能力</li>
+</ul>
+<p>数据中台的五大要求（P23）</p>
+<p>数据中台建设方法论要点：</p>
+<ol>
+<li>业务驱动，快速落地</li>
+<li>顶层架构设计及数据规范</li>
+<li>平台管理</li>
+<li>明确得到责权利制定</li>
+<li>必须是一个安全、高效、稳定、可扩展的系统</li>
+</ol>
+<p>第六章详细介绍阐述，数据中台建设的一整套技术和方法论</p>
+<h3><a id="%E7%AC%AC%E4%BA%8C%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第二章</h3>
+<p>数字中台不是银弹，数字中台的成果是建立在信息化的基础上的，没有完善的信息化基础，企业就无法全面理解企业业务。</p>
+<p>数据中台是企业进入更高级管理阶段的一个标志。</p>
+<p>数据中台的核心能力（P31）</p>
+<ul>
+<li>全局商业洞见</li>
+<li>个性化服务</li>
+<li>实时数据报表</li>
+<li>共享能力开发新业务</li>
+</ul>
+<p>数据中台的行业应用场景（P41）</p>
+<ul>
+<li>互联网行业</li>
+<li>连锁零售业</li>
+<li>金融业</li>
+<li>物联网</li>
+</ul>
+<p>数据中台如何为企业赋能（P45）</p>
+<ul>
+<li>组织架构</li>
+<li>决策部门</li>
+<li>业务部门</li>
+<li>研发部门</li>
+<li>大数据部门</li>
+</ul>
+<h3><a id="%E7%AC%AC%E4%B8%89%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第三章</h3>
+<p>主要是讲数字化转型，数字驱动的案例，数字中台支持数字化转型的做法</p>
+<h3><a id="%E7%AC%AC%E5%9B%9B%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第四章[TODO]</h3>
+<p>主要是讲从大数据平台到数据中台的建设</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<hr />
+<h2><a id="%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%9E%B6%E6%9E%84%E5%92%8C%E6%96%B9%E6%B3%95%E8%AE%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据中台架构和方法论</h2>
+<h3><a id="%E7%AC%AC%E4%BA%94%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第五章[TODO]</h3>
+<p>主要是讲数据中台建设的教训和问题，如何评判效果，以及人员规划，技术选型</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E5%85%AD%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第六章[TODO]</h3>
+<p>主要是讲建设数据中台的方法论，有几个比较关注的就是，数据规范，数据驱动，关键指标，责权利怎么界定，管理迭代等重点问题</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E4%B8%83%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第七章[TODO]</h3>
+<p>以具体案例，讲解了典型的硅谷大数据平台架构，这个可以参考架构思路</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E5%85%AB%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第八章</h3>
+<p>主要是安利在云原生架构之下建设数据中台，比较偏理论和阐述观点</p>
+<h2><a id="%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B8%8E%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据中台技术选型与核心内容</h2>
+<h3><a id="%E7%AC%AC%E4%B9%9D%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第九章[TODO]</h3>
+<p>主要是列出数据中台的各领域的开源软件，给技术选型用以参考</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E7%AB%A0%E9%AB%98%E4%BC%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十章[高优]</h3>
+<p>主要是讲解数据湖和数据仓库，有空结合一下行内的数据湖和数据仓库的材料看一下</p>
+<p><strong>【高优先】 近期要着重看一下这章节</strong></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十一章[TODO]</h3>
+<p>数据资产管理，主要是讲解概念，定义和数据资产的ROI</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%E9%AB%98%E4%BC%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十二章[高优]</h3>
+<p>数据流水线管理，主要专业相关，侧重查看这个章节</p>
+<p><strong>【高优先】 近期要着重看一下这章节</strong></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%E9%AB%98%E4%BC%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十三章[高优]</h3>
+<p>数据应用开发，主要是讲解了应用侧的，实际上和我们数据集成做的工作比较相关，我们做的调度系统也比较偏向于应用调度系统，这个可以参考借鉴</p>
+<p><strong>【高优先】 近期要着重看一下这章节</strong></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十四章[TODO]</h3>
+<p>数据门户，主要是安利了，这个主要是看他怎么做社交属性和智能运维</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0todo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十五章[TODO]</h3>
+<p>数据中台演进，主要是看关键指标</p>
+<p><em>【TODO】 有空要着重看一下这章节</em></p>
+<h2><a id="%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据中台案例分析</h2>
+<h3><a id="%E5%8D%81%E5%85%AD%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>十六章</h3>
+<p>介绍EA数据中台</p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E4%B8%83%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十七章</h3>
+<p>介绍零售业的数据中台</p>
+<h3><a id="%E7%AC%AC%E5%8D%81%E5%85%AB%E7%AB%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第十八章</h3>
+<p>介绍物联网领域数据中台</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[消息队列学习笔记]]></title>
+    <link href="chaoranlaoge.top/16460146780363.html"/>
+    <updated>2022-02-28T10:17:58+08:00</updated>
+    <id>chaoranlaoge.top/16460146780363.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%A6%82%E8%BF%B0">消息队列概述</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">消息模型</a>
+<ul>
+<li><a href="#%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B">队列模型</a>
+<ul>
+<li><a href="#%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98">队列模型存在的问题</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B%EF%BC%88publish-subscribe-pattern%EF%BC%89">发布-订阅模型（Publish-Subscribe Pattern）</a></li>
+<li><a href="#rabbitmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">RabbitMQ的消息模型</a></li>
+<li><a href="#rocketmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">RocketMQ的消息模型</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF">事务消息</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1">消息丢失</a></li>
+<li><a href="#%E9%87%8D%E5%A4%8D%E6%B6%88%E6%81%AF">重复消息</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B">消息积压</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%87%AA%E6%9F%A5q-a">消息队列自查Q&amp;A</a></li>
+</ul>
+
+<h2><a id="%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%A6%82%E8%BF%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息队列概述</h2>
+<ul>
+<li>消息队列适合解决什么问题？</li>
+</ul>
+<ol>
+<li>异步处理</li>
+<li>流量控制</li>
+<li>解耦应用</li>
+<li>消息分发</li>
+</ol>
+<ul>
+<li>使用消息队列的问题和局限性</li>
+</ul>
+<ol>
+<li>引入消息队列带来的延迟问题</li>
+<li>增加了系统的复杂度</li>
+<li>可能产生数据不一致的问题</li>
+</ol>
+<ul>
+<li>可供选择的开源消息队列产品：</li>
+</ul>
+<ol>
+<li>老牌儿消息队列 RabbitMQ，俗称兔子 MQ。</li>
+</ol>
+<blockquote>
+<p>RabbitMQ 一个比较有特色的功能是支持非常灵活的<strong>路由配置</strong>，和其他消息队列不同的是，它在生产者（Producer）和队列（Queue）之间增加了一个 <strong>Exchange 模块</strong>，你可以理解为交换机。这个 Exchange 模块的作用和交换机也非常相似，根据配置的路由规则将生产者发出的消息分发到不同的队列中。路由的规则也非常灵活，甚至你可以自己来实现路由规则。基于这个 Exchange，可以产生很多的玩儿法，如果你正好需要这个功能，RabbitMQ 是个不错的选择。</p>
+<p>RabbitMQ有几个问题：1. 对消息堆积的支持并不好，大量消息堆积会导致RabbitMQ性能急剧下降。2. RabbitMQ性能比RocketMQ和Kafka都差，如果应用对消息队列性能要求非常高，不要选择RabbitMQ。3. RabbitMQ使用Erlang开发，不好做二次开发或拓展。</p>
+</blockquote>
+<ol start="2">
+<li>RocketMQ 是阿里巴巴在 2012 年开源的消息队列产品，后来捐赠给 Apache 软件基金会，2017 正式毕业，成为 Apache 的顶级项目。</li>
+</ol>
+<blockquote>
+<p>RocketMQ 就像一个品学兼优的好学生，有着不错的性能，稳定性和可靠性，具备一个现代的消息队列应该有的几乎全部功能和特性，并且它还在持续的成长中。</p>
+<p>RocketMQ 对在线业务的响应时延做了很多的优化，大多数情况下可以做到毫秒级的响应，如果你的应用场景很在意响应时延，那应该选择使用 RocketMQ。每秒钟大概能处理几十万条消息。</p>
+<p>RocketMQ 的一个劣势是，作为国产的消息队列，相比国外的比较流行的同类产品，在国际上还没有那么流行，与周边生态系统的集成和兼容程度要略逊一筹。</p>
+</blockquote>
+<ol start="3">
+<li>Kafka 最早是由 LinkedIn 开发，目前也是 Apache 的顶级项目。Kafka 最初的设计目的是用于处理海量的日志。</li>
+</ol>
+<blockquote>
+<p>Kafka 与周边生态系统的兼容性是最好的没有之一，尤其在大数据和流计算领域，几乎所有的相关开源软件系统都会优先支持 Kafka。</p>
+<p>Kafka 使用 Scala 和 Java 语言开发，设计上大量使用了批量和异步的思想，这种设计使得 Kafka 能做到超高的性能。Kafka 的性能，尤其是异步收发的性能，是三者中最好的，但与 RocketMQ 并没有量级上的差异，大约每秒钟可以处理几十万条消息。</p>
+<p>但是 Kafka 这种<strong>异步批量</strong>的设计带来的问题是，它的同步收发消息的响应时延比较高，因为当客户端发送一条消息的时候，Kafka 并不会立即发送出去，而是要等一会儿攒一批再发送，在它的 Broker 中，很多地方都会使用这种“先攒一波再一起处理”的设计。当你的业务场景中，每秒钟消息数量没有那么多的时候，Kafka 的时延反而会比较高。所以，Kafka 不太适合在线业务场景。</p>
+</blockquote>
+<ol start="4">
+<li>Pulsar是一个新兴的开源消息队列产品，最早是由 Yahoo 开发，目前处于成长期，流行度和成熟度相对没有那么高。与其他消息队列最大的不同是，Pulsar 采用存储和计算分离的设计.</li>
+</ol>
+<p>总结：如果只是需要一个开箱即用易于维护的产品，建议用RabbitMQ。如果主要常见在于处理在线业务，RocketMQ的低延迟和金融级的稳定性是需要的。如果需要处理海量消息，Kafka异步处理比较适合。</p>
+<h2><a id="%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息模型</h2>
+<h3><a id="%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>队列模型</h3>
+<p><img src="media/16460146780363/16460294424686.jpg" alt="" /></p>
+<blockquote>
+<p>早期的消息队列，就是按照“队列”的数据结构来设计的。我们一起看下这个图，生产者（Producer）发消息就是入队操作，消费者（Consumer）收消息就是出队也就是删除操作，服务端存放消息的容器自然就称为“队列”。</p>
+</blockquote>
+<h4><a id="%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>队列模型存在的问题</h4>
+<p>多个生产者往消息队列里面发送消息，消费者能够消费到的消息就是这些生产者生产的所有消息的合计。消息的顺序就是这些生产者发送消息的自然顺序。</p>
+<p>但如果有多个消费者接受同一个队列的消息，这些消费者之间实际上是竞争的关系，每个消费者只能收到队列中的一部分消息，也就是说任何一条消息只能被其中一个消费者收到。</p>
+<p>如果需要将一份消息数据分发给多个消费者，要求每个消费者都能收到这个消息，比如一份订单数据，风控系统、分析系统、支付系统等都需要接收消息。这个时候，单个队列就满足不了需求，一个可行的解决方式是，为每个消费者创建一个单独的队列，让生产者发送多份。这样会耗费大量资源，而且生产者必须知道有多少个消费者，这样他才能为每个消费者单独发送一份消息，这实际上违背了消息队列“解耦”的这个设计。</p>
+<h3><a id="%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B%EF%BC%88publish-subscribe-pattern%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>发布-订阅模型（Publish-Subscribe Pattern）</h3>
+<p><img src="media/16460146780363/16460295367852.jpg" alt="" /></p>
+<p>在发布 - 订阅模型中，消息的发送方称为<strong>发布者</strong>（Publisher），消息的接收方称为<strong>订阅者</strong>（Subscriber），服务端存放消息的容器称为<strong>主题</strong>（Topic）。</p>
+<p>发布者将消息发送到主题中，订阅者在接收消息之前需要先“订阅主题”。“订阅”在这里既是一个<strong>动作</strong>，同时还可以认为是主题在消费时的一个<strong>逻辑副本</strong>，每份订阅中，订阅者都可以接收到主题的所有消息。</p>
+<ul>
+<li>队列模型和发布-订阅模型最大的区别：一份消息数据能不能被消费多次的问题。</li>
+<li>队列模型和发布-订阅模型：如果只有一个订阅者，发布-订阅模型就是队列模型。</li>
+</ul>
+<h3><a id="rabbitmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>RabbitMQ的消息模型</h3>
+<p><img src="media/16460146780363/16460298278837.jpg" alt="" /></p>
+<p>在 RabbitMQ 中，Exchange 位于生产者和队列之间，生产者并不关心将消息发送给哪个队列，而是将消息发送给 Exchange，由 Exchange 上配置的策略来决定将消息投递到哪些队列中。</p>
+<ul>
+<li>RabbitMQ消息模型如何实现发布-订阅模型？</li>
+</ul>
+<p><strong>Exchange配置消息发送到多个队列，变相实现一份消息消费多次的发布-订阅模型。</strong></p>
+<p>同一份消息如果需要被多个消费者来消费，需要配置 Exchange 将消息发送到多个队列，每个队列中都存放一份完整的消息数据，可以为一个消费者提供消费服务。这也可以变相地实现新发布 - 订阅模型中，“一份消息数据可以被多个订阅者来多次消费”这样的功能。</p>
+<h3><a id="rocketmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>RocketMQ的消息模型</h3>
+<p>RocketMQ 使用的消息模型是标准的发布 - 订阅模型，但是，在 RocketMQ 也有队列（Queue）这个概念，并且队列在 RocketMQ 中是一个非常重要的概念。<strong>RocketMQ消息模型中，每个主题中包含了多个队列，通过多个队列来实现多实例并行生产和消费。</strong></p>
+<p><img src="media/16460146780363/16460300018938.jpg" alt="" /></p>
+<ul>
+<li>什么是“请求 - 确认”机制？</li>
+</ul>
+<p>几乎所有的消息队列产品都使用一种非常朴素的“请求 - 确认”机制，确保消息不会在传递过程中由于网络或服务器故障丢失。在生产端，生产者先将消息发送给服务端，也就是 Broker，服务端在收到消息并将消息写入主题或者队列中后，会给生产者发送确认的响应。如果生产者没有收到服务端的确认或者收到失败的响应，则会重新发送消息；在消费端，消费者在收到消息并完成自己的消费业务逻辑（比如，将数据保存到数据库中）后，也会给服务端发送消费成功的确认，服务端只有收到消费确认后，才认为一条消息被成功消费，否则它会给消费者重新发送这条消息，直到收到对应的消费成功确认。</p>
+<ul>
+<li>“请求-确认”机制会给消费端带来什么问题？</li>
+</ul>
+<p>在某一条消息被成功消费之前，下一条消息是不能被消费的，否则就会出现<strong>消息空洞</strong>，违背了有序性的原则。也就是说，<strong>发布-订阅模型中每个主题在任意时刻，至多只能有一个消费者实例在进行消费</strong>，那就无法通过水平扩展消费者的数量来提升提升消费端总体的消费性能。</p>
+<ul>
+<li>RocketMQ消息模型与发布-订阅模型的不同点</li>
+</ul>
+<p><strong>RocketMQ 只在队列上保证消息的有序性</strong>，主题层面是无法保证消息的严格顺序的。RocketMQ 中，订阅者的概念是通过消费组（Consumer Group）来体现的。<strong>每个消费组都消费主题中一份完整的消息，不同消费组之间消费进度彼此不受影响</strong>，也就是说，一条消息被 Consumer Group1 消费过，也会再给 Consumer Group2 消费。在 Topic 的消费过程中，由于消息需要被不同的组进行多次消费，所以<strong>消费完的消息并不会立即被删除</strong>，这就需要 RocketMQ 为每个消费组在每个队列上维护一个<strong>消费位置（Consumer Offset）</strong>，这个位置之前的消息都被消费过，之后的消息都没有被消费过，每成功消费一条消息，消费位置就加一。这个消费位置是非常重要的概念，我们在使用消息队列的时候，丢消息的原因大多是由于消费位置处理不当导致的。</p>
+<ul>
+<li>Kafka和RocketMQ消息模型的异同</li>
+</ul>
+<p>Kafka和RocketMQ在消息模型上是完全一致的，唯一的区别在于，RocketMQ中主题里面有分多个队列，而Kafka中队列的概念对应名称是“<strong>分区</strong>”。</p>
+<h2><a id="%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>事务消息</h2>
+<p>分布式事务的4个属性：ACID特性，原子性、一致性、隔离性、持久性</p>
+<p>比较常见的分布式事务：2PC（Two-phase commit，二阶段提交）TCC（Try-Confirm-Cancle）和事务消息。</p>
+<p>事务消息适用的常见主要是<strong>那些需要异步更新数据，并且对数据实时性要求不太高的场景。</strong></p>
+<ul>
+<li>消息队列如何实现分布式事务？</li>
+</ul>
+<p><img src="media/16460146780363/16462014497198.jpg" alt="" /></p>
+<ol>
+<li>订单系统在消息队列上<strong>开启一个事务</strong></li>
+<li>订单系统给消息服务器发送一个“半消息”，这个半消息不是说消息内容不完整，它包含的内容就是完整的消息内容，半消息和普通消息的唯一区别是，<strong>在事务提交之前，对于消费者来说，这个消息是不可见的。</strong></li>
+<li>半消息发送成功后，订单系统就可以<strong>执行本地事务</strong>了，在订单库中创建一条订单记录，并提交订单库的数据库事务。</li>
+<li>如果订单创建成功，那就<strong>提交事务消息</strong>，购物车系统就可以<strong>消费到这条消息</strong>继续后续的流程。如果订单创建失败，那就<strong>回滚事务消息</strong>，购物车系统就不会收到这条消息。</li>
+</ol>
+<p>第四步可能会出现提交事务消息失败，此时还是会出现不满足一致性要求的问题，</p>
+<ul>
+<li>Kafka和RocketMQ如何处理提交事务消息失败导致事务消息不满足一致性要求的问题？</li>
+</ul>
+<p>Kafka和RocketMQ都提供了相应的解决方案。如果提交事务消息失败，Kafka会直接抛出异常，让用户自行处理。在业务代码里，我们可以反复重试提交，直到提交成功，或者回退之前的本地处理。</p>
+<p>RocketMQ给出另外一种解决方案，RocketMQ增加了事务反查的机制来解决事务消息提交失败的问题。如果生产者在提交或者回滚事务消息时发生网络异常，RocketMQ的Broker没有收到提交或者回滚的要求，Broker会定期去Producer上反查这个事务对应的本地事务的状态，然后根据反查结果决定提交或者回滚这个事务。</p>
+<p>为了支撑这个事务反查机制，我们的业务代码需要实现一个<strong>反查本地事务状态的接口</strong>，告知<strong>RocketMQ本地事务是成功还是失败，这个本地事务的实现，并不依赖消息的发送方</strong>，这种情况下，即使是发送事务消息的生产者节点宕机了，RocketMQ仍然可以通过其他生产者节点来执行反查，确保事务的完整性。</p>
+<p><img src="media/16460146780363/16462014735098.jpg" alt="" /></p>
+<ul>
+<li>相比于原来的事务消息实现，RocketMQ有何不同点？</li>
+</ul>
+<p>RocketMQ对于第四步提交或回滚事务失败，能够实现本地事务反查机制，来根据本地事务的反查结果决定最后是否投递或者回滚事务消息。</p>
+<h2><a id="%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息丢失</h2>
+<ul>
+<li>如何检测消息丢失？</li>
+</ul>
+<p>IT基础设施比较完善的公司，一般都有<strong>分布式链路追踪系统</strong>，使用类似的追踪系统可以很方便地追踪每一条消息。但如果没有这样的追踪系统，我们可以<strong>利用消息队列的有序性来验证是否有消息丢失</strong>。</p>
+<p>我们给生产者节点发出的消息都附加一个连续递增的序号，然后在消费者节点来检查这个序号的连续性。如果消息没有丢失，序号必然是连续的，如果消息丢失了，那么就是丢消息了，还可以通过缺失的序号来确定丢失的是哪条消息，方便进一步排查原因。</p>
+<p>大多数消息队列的客户端都支持拦截器机制，可以利用这个机制将序号注入到消息中，在消费者节点收到消息的拦截器中检测序号的连续性，这样实现的好处是消息检测的代码不会侵入到业务代码，待系统稳定后，也方便讲这部分检测的逻辑关闭或者删除。</p>
+<p>以上是针对单机系统实现的消息丢失检测方法，对于分布式系统要实现这个消息丢失检测方法，还有几个问题：</p>
+<ol>
+<li>Kafka和RocketMQ这些消息队列，不保证Topic上的严格顺序，只能保证分区（队列）上的消息是有序的，所以我们在发消息的时候，要指定分区（队列），并且每个分区单独检测消息序号的连续性。</li>
+<li>如果系统的生产者节点是多实例的，由于并不好协调多个生产者端消息的发送顺序，所以也需要每个生产者分别生产各自的消息序号，并且需要附加上生产者节点的标识，在消费者端按照每个生产者来分别检测序号的连续性。</li>
+<li>消费者节点的数量最好和分区数量一致，做到消费者和分区一一对应，这样比较好单独处理每一个分区。</li>
+</ol>
+<ul>
+<li>日常使用中如何保证不会丢失消息？</li>
+</ul>
+<ol>
+<li>
+<p>生产阶段，生产者节点一定要根据请求确认机制，发送消息之后要正确处理返回值或者捕获异常，就可以保证这个阶段消息不会丢失。</p>
+</li>
+<li>
+<p>存储阶段，如果Broker出现了故障，比如进程死掉了或者服务器宕机了，还是可能会丢失信息。如果对消息的可靠性要求非常高，可以通过配置Broker参数来避免因为宕机丢失信息。</p>
+<p>如果是单节点的Broker，需要配置Broker参数，将消息写入磁盘后再给Producer返回确认响应，由于此时消息已经写入磁盘了，服务恢复之后还能继续消费。</p>
+<p>RocketMQ中，需要将刷盘方式flushDiskType配置为SYNC_FLUSH同步刷盘。</p>
+<p>如果是多节点组成的Broker，需要配置Broker集群为：至少将消息发送到2个以上的节点，再给客户端回复发送确认响应，这样当Broker宕机时，其他的Broker也可以替代宕机的Broker，也不会发生消息丢失。</p>
+</li>
+<li>
+<p>消费阶段和生产阶段一样，都是要根据请求确认机制，需要注意的是，不要再收到消息后就立即发送消费确认，而是应该在执行完所有消费业务逻辑之后，再发送消费确认。</p>
+</li>
+</ol>
+<h2><a id="%E9%87%8D%E5%A4%8D%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>重复消息</h2>
+<p>消息传递过程中，如果出现传递失败的情况，发送方会执行重试，重试的过程中就有可能会产生重复的消息。对使用消息队列的业务系统来说，如果没有对重复消息进行处理，就有可能会导致系统的数据出现错误。</p>
+<p>在MQTT协议中，给出了三种传递消息时能够提供的服务质量标准，这三种服务指令从低到高依次是：</p>
+<ul>
+<li>At most once，至多一次，没有消息可靠性包之，允许丢消息，消息传递时，最多会被送达一次。</li>
+<li>At least once，至少一次，不允许丢消息，但是允许有少量重复消息出现，消息传递时，至少会被送达一次。</li>
+<li>Exactly once，恰好一次，消息传递时，只会被送达一次，不允许丢失也不允许重复，这个是最高标准。</li>
+</ul>
+<p>这个服务指令标准不仅适用于MTQQ，对所有消息队列都是适用的。</p>
+<p>我们现在常用的绝大部分消息队列提供的服务质量都是At least once，包括RocketMQ/RabbitMQ/Kafka等，也就是说消息队列很难保证消息不重复。</p>
+<p>解决重复消息问题的关键在于：<strong>幂等性</strong>（让消费消息的业务方法具有幂等性，也就是说其认一多次执行所产生的影响均与一次执行的影响相同）</p>
+<p>如果我们系统消费消息的业务逻辑具备幂等性，那就不用担心消息重复的问题，从对系统影响结果来说，<strong>At least once + 幂等消费 = Exactly once</strong>。</p>
+<p>常用的几种设计幂等操作的方法有：</p>
+<ol>
+<li>利用数据库的唯一约束实现幂等</li>
+</ol>
+<p>如果是关系型数据库，只要是支持类似” <strong>INSERT IF NOT EXIST</strong>“ 语义的存储系统都可以用于实现幂等，Redis的SETNX命令也可以替代数据库的唯一约束，来实现幂等消费。</p>
+<ol start="2">
+<li>为更新数据设置前置条件</li>
+</ol>
+<p><strong>给数据变更设置一个前置条件，如果满足条件就更新数据，否则拒绝更新数据。</strong></p>
+<p>如果我们要更新的数据不是数值，是比较复杂的更新操作，<strong>更加通用的方法是给数据加一个版本号属性</strong>，每次更新数据之前，比较当前数据的版本号是否和消息中的版本号一致，如果不一致就拒绝更新数据，更新数据的同事将版本号+1，一样可以实现幂等更新。</p>
+<ol start="3">
+<li>记录并检查操作</li>
+</ol>
+<p>适用范围最广的实现幂等性的方法：记录并检查操作，也成为”Token机制或者GUID（全局唯一ID）机制“。</p>
+<p>具体实现方法是，在发送消息时，给每条消息指定一个全局唯一的ID，消费时先根据这个ID检查这条消息是否有被消费过，如果没被消费过，才更新数据，然后将消费状态设置为已消费。</p>
+<p>然而，分布式系统中要实现”<strong>检查消费状态，然后更新数据并且设置消费状态</strong>“这三个操作作为一组操作保证<strong>原子性</strong>，才能实现幂等，否则就会出现Bug。</p>
+<p>对于分布式系统，我们可以用事务，或者用锁来实现，但在分布式系统中，无论是分布式事务还是分布式锁都是比较难解决问题，所以一般不推荐使用。</p>
+<p><strong>幂等性同样适用于其他重试导致的重复调用问题，可以举一反三。</strong></p>
+<h2><a id="%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息积压</h2>
+<p>消息积压得直接原因：系统中某个部分出现了性能问题，来不及处理上游发送的消息才会导致消息积压。</p>
+<p>一般来说，我们解决消息积压问题时，关注点不应该是消息队列本身的性能（一般消息队列每秒钟能处理几万至几十万条消息的水平），主要关注点在于，我们的业务代码怎么和消息队列配合，达到一个最佳的性能。</p>
+<ol>
+<li>发送端性能优化</li>
+</ol>
+<p>一般发送端代码，都是先执行业务逻辑，最后才发送消息。如果说，发送端发送消息的性能上不去，需要有先检查一下，是不是<strong>发送消息之前的业务逻辑耗时太多导致</strong>。</p>
+<p>一般来说，单线程的发送端<strong>发送消息的耗时</strong>包含的步骤主要是：1）发送端准备数据，序列化消息，构造请求等逻辑的时间，也就是发送端在发送网络请求之前的耗时；2）发送消息和返回想要在网络传输中的耗时；3）Broker处理消息的时延。</p>
+<p>如果是单线程发送消息，每次只发送1条消息，相比于多线程，每次可以发送n条消息，再相比于多线程m批次发送消息，每次可以发送m*n条消息，所以只要业务逻辑能够适应多批量多线程的场景，<strong>设置合适的并发和批量大小，就可以达到很好的发送性能</strong>。</p>
+<p>对于业务逻辑来说，</p>
+<ol start="2">
+<li>消费端性能优化</li>
+</ol>
+<h2><a id="%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%87%AA%E6%9F%A5q-a" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息队列自查Q&amp;A</h2>
+<ul>
+<li>消息队列常见用途？</li>
+<li>使用消息队列有什么局限？</li>
+<li>常见的消息队列产品有哪些？他们各有什么优缺点？</li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[K8s利用Nginx实现Ingress流量分发原理]]></title>
+    <link href="chaoranlaoge.top/16454841763279.html"/>
+    <updated>2022-02-22T06:56:16+08:00</updated>
+    <id>chaoranlaoge.top/16454841763279.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kubectl 备考命令]]></title>
+    <link href="chaoranlaoge.top/16442421379135.html"/>
+    <updated>2022-02-07T21:55:37+08:00</updated>
+    <id>chaoranlaoge.top/16442421379135.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E5%BA%94%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7">应试小技巧</a></li>
+<li><a href="#kubectl-get">kubectl get</a>
+<ul>
+<li><a href="#kubectl-get%E9%A2%9D%E5%A4%96%E5%8F%82%E6%95%B0">kubectl get 额外参数</a></li>
+</ul>
+</li>
+<li><a href="#kubectl-describe">kubectl describe</a></li>
+<li><a href="#kubectl-run">kubectl run</a></li>
+<li><a href="#kubectl-create">kubectl create</a></li>
+<li><a href="#kubectl-scale">kubectl scale</a></li>
+<li><a href="#kubectl-expose">kubectl expose</a></li>
+<li><a href="#kubectl-label">kubectl label</a></li>
+<li><a href="#kubectl-taint">kubectl taint</a></li>
+</ul>
+
+<h2><a id="%E5%BA%94%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>应试小技巧</h2>
+<p><code>export do=&quot;--dry-run=client -o yaml&quot;</code><br />
+<code>kubectl run nginx --image=nginx $do &gt; pod.yaml</code></p>
+<p><code>export now=&quot;--force --grace-priod 0&quot;</code><br />
+<code>kubectl delete po nginx $now</code></p>
+<h2><a id="kubectl-get" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl get</h2>
+<p>kubectl 支持资源对象的简称：</p>
+<table>
+<thead>
+<tr>
+<th>资源对象</th>
+<th>简称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configmaps</td>
+<td>cfg</td>
+</tr>
+<tr>
+<td>Pod</td>
+<td>po</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>svc</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>deploy</td>
+</tr>
+<tr>
+<td>ReplicaSet</td>
+<td>rs</td>
+</tr>
+<tr>
+<td>ReplicaController</td>
+<td>rc</td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td>ns</td>
+</tr>
+<tr>
+<td>DaemonSets</td>
+<td>ds</td>
+</tr>
+<tr>
+<td>Nodes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>ServiceAccounts</td>
+<td>sa</td>
+</tr>
+<tr>
+<td>Services</td>
+<td>svc</td>
+</tr>
+<tr>
+<td>PersistentVolumeClaims</td>
+<td>pvc</td>
+</tr>
+<tr>
+<td>PersistentVolume</td>
+<td>pv</td>
+</tr>
+</tbody>
+</table>
+<h3><a id="kubectl-get%E9%A2%9D%E5%A4%96%E5%8F%82%E6%95%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl get 额外参数</h3>
+<ul>
+<li><code>-o yaml</code> 以yaml形式输出</li>
+<li><code>-o wide</code> 输出更多信息</li>
+<li><code>-l env=prod</code> 用以列出以标签env的值为prod的Pod</li>
+</ul>
+<h2><a id="kubectl-describe" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl describe</h2>
+<ul>
+<li>查看一个资源对象的详细信息</li>
+</ul>
+<blockquote>
+<p>kubectl describe 简称 对象名称</p>
+</blockquote>
+<h2><a id="kubectl-run" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl run</h2>
+<ul>
+<li>创建一个po叫做nginx，包含一个容器，镜像是nginx</li>
+</ul>
+<blockquote>
+<p>kubectl run nginx --image=nginx</p>
+</blockquote>
+<h2><a id="kubectl-create" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl create</h2>
+<ul>
+<li>创建一个deploy，名字是httpd，replicas=3，镜像名是httpd</li>
+</ul>
+<blockquote>
+<p>kubectl create deploy httpd --replicas=3 --image=httpd</p>
+</blockquote>
+<h2><a id="kubectl-scale" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl scale</h2>
+<ul>
+<li>将Replica Set设置成replicas=5</li>
+</ul>
+<blockquote>
+<p>kubectl scale --replicas=5 rs new-replica-set</p>
+</blockquote>
+<h2><a id="kubectl-expose" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl expose</h2>
+<ul>
+<li>将Deployment暴露为一个NodePort的Service，但需要注意的是，这个方法没办法指定NodePort端口，端口将为大于30000的随机端口，所以可以直接输出成文件之后再修改</li>
+</ul>
+<blockquote>
+<p>kubectl expose deployment simple-webapp-deployment --port=8080 --target-port=8080 --type='NodePort' --selector='name=simple-webapp' --name webapp-service --dry-run=client -o yaml &gt; service.yaml</p>
+</blockquote>
+<h2><a id="kubectl-label" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl label</h2>
+<h2><a id="kubectl-taint" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>kubectl taint</h2>
+<ul>
+<li>给Node1节点加上一个Taint信息</li>
+</ul>
+<blockquote>
+<p>kubectl taint nodes</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JVM排查命令备忘录]]></title>
+    <link href="chaoranlaoge.top/16425177538685.html"/>
+    <updated>2022-01-18T22:55:53+08:00</updated>
+    <id>chaoranlaoge.top/16425177538685.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="jmap" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jmap</h2>
+<p><code>jmap -histo:live 进程号 &gt; 转存文件名称</code></p>
+<p><code>jmap -histo:live</code> 会触发Full GC，<code>jmap -histo</code>不会触发</p>
+<p><code>jmap -dump:live,format=b,file=文件名 进程号</code></p>
+<h2><a id="jstat" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jstat</h2>
+<p><code>jstat -gcutil 进程号 1000 1000</code></p>
+<h2><a id="mat%E5%B7%A5%E5%85%B7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>MAT工具</h2>
+<p>可以从<a href="https://www.eclipse.org/mat/previousReleases.php">MAT工具下载页面</a>直接下载MAT工具</p>
+<p>MAT工具与JDK版本的关系是：<br />
+1.8版本及以下MAT工具，对应的是JDK1.8及以下版本<br />
+1.8版本及以上MAT工具，对应的是JDK1.9及以上版本</p>
+<h2><a id="arthas" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arthas</h2>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL问题排查备忘录]]></title>
+    <link href="chaoranlaoge.top/16419928857111.html"/>
+    <updated>2022-01-12T21:08:05+08:00</updated>
+    <id>chaoranlaoge.top/16419928857111.html</id>
+    <content type="html"><![CDATA[
+<p>MySQL，基于GPL开源协议，商标归属于Oracle，如果基于MySQL制作盈利软件，是需要购买Oracle的商业授权的，否则会违反GPL开源协议</p>
+<p>MySQL，默认的事务隔离级别是可重复读，可以降低为？</p>
+<h2><a id="%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84sql%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>几个常用的SQL：</h2>
+<p>select count(1) from xxx, 需要使用count(1), 不要使用count(*)，原因是？</p>
+<p>date_format(time, '%Y%m%d%H%i%s'), 其中，%Y表示四位2022，%y是两位22，%H是24小时，%h是12小时，%i表示分钟</p>
+<p>对于表里面的日期，Date类型的，可以直接 time = '20220101'</p>
+<p>contains(str, sub_str) 报 Geometry byte string must be little endian 是因为 MySQL使用的是 instr(str, sub_str)，网上说 instr 比 like 更加高效，为啥？</p>
+<p>insert into TABLE_NAME (PROPERTY_1, PROP_2, PROP_3) values (1, 2, 3)<br />
+insert into TABLE_NAME select xx as PROP1, xx as PROP_2, xx as PROP_3 from TABLE where xxx</p>
+<p>字符串匹配， str like / not like 'tmp%'</p>
+<h2><a id="mysql%E7%9A%84%E6%AD%BB%E9%94%81%E6%8E%92%E6%9F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>MySQL的死锁排查</h2>
+<p>使用语句： <code>show engine innodb status;</code></p>
+<p>会有一段类似：</p>
+<pre><code class="language-SQL">------------------------
+LATEST DETECTED DEADLOCK
+------------------------
+191028 13:33:14
+*** (1) TRANSACTION:
+TRANSACTION 2656E7, ACTIVE 1 sec starting index read
+mysql tables in use 1, locked 1
+LOCK WAIT 2 lock struct(s), heap size 376, 1 row lock(s)
+MySQL thread id 879805, OS thread handle 0x7f8d26308700, query id 3761780 XXXXXXXXXXXXX root Updating
+update student SET school = &quot;清华&quot; WHERE ( name = '小明' )
+*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E7 lock_mode X waiting
+XXXXXX
+
+*** (2) TRANSACTION:
+TRANSACTION 2656E2, ACTIVE 1 sec inserting
+mysql tables in use 1, locked 1
+4 lock struct(s), heap size 1248, 2 row lock(s), undo log entries 3
+MySQL thread id 879796, OS thread handle 0x7f8d261c3700, query id 3761781 XXXXXXXXXXXXX root update
+insert into student (XXXXXXXXXXXXXXXXXXXXXXXX)
+*** (2) HOLDS THE LOCK(S):
+RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E2 lock_mode X locks rec but not gap
+XXXXXX
+
+*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 0 page no 1362 n bits 376 index `name_age` of table `数据库1`.`student` trx id 2656E2 lock_mode X locks gap before rec insert intention waiting
+Record lock, heap no 292 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
+XXXXXX
+
+*** WE ROLL BACK TRANSACTION (1)
+------------
+
+</code></pre>
+<p>然后MySQL的锁机制是分引擎的，innodb和其他不一样，在查锁之前，要先搞清楚他本身的引擎类型</p>
+<p>如果是innodb，锁也是挺多种的，IX，意向写锁，IS，意向读锁，X写锁，S读锁，Gap是间隙锁，Next-Key是键值锁？</p>
+<p>MySQL有两种死锁，一种是他自检测到死锁，会自己解除。另一种是两者互相等待，会等到一个获取锁的超时时长，环境上有时候会配置600（10分钟）？</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[家居装修笔记]]></title>
+    <link href="chaoranlaoge.top/16374690084475.html"/>
+    <updated>2021-11-21T12:30:08+08:00</updated>
+    <id>chaoranlaoge.top/16374690084475.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li><a href="#%E5%AE%9E%E6%9C%A8%E5%BA%8A">实木床</a></li>
+<li><a href="#%E5%A2%99%E9%9D%A2%E6%9D%90%E6%96%99">墙面材料</a></li>
+<li><a href="#%E5%AE%9A%E5%88%B6%E6%9F%9C%E6%9D%BF%E6%9D%90">定制柜板材</a>
+<ul>
+<li><a href="#%E6%9F%9C%E9%97%A8%E6%80%BB%E7%BB%93">柜门总结</a></li>
+<li><a href="#%E6%9D%BF%E6%9D%90%E6%80%BB%E7%BB%93">板材总结</a></li>
+<li><a href="#%E7%9C%9F%E4%BC%AA%E9%89%B4%E5%AE%9A">真伪鉴定</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B0%81%E7%AA%97">封窗</a>
+<ul>
+<li><a href="#%E7%AA%97%E6%88%B7%E9%87%87%E8%B4%AD">窗户采购</a>
+<ul>
+<li><a href="#%E9%97%A8%E7%AA%97%E7%A7%8D%E7%B1%BB">门窗种类</a></li>
+<li><a href="#%E9%93%9D%E6%9D%90">铝材</a></li>
+<li><a href="#%E9%93%9D%E6%9D%90%E5%93%81%E7%89%8C">铝材品牌</a></li>
+<li><a href="#%E7%AA%97%E5%AE%BD">窗宽</a></li>
+<li><a href="#%E7%AA%97%E5%A3%81%E5%8E%9A">窗壁厚</a></li>
+<li><a href="#%E9%9A%94%E7%83%AD%E6%9D%A1">隔热条</a></li>
+<li><a href="#%E5%BC%80%E5%90%88%E8%83%B6%E6%9D%A1">开合胶条</a></li>
+<li><a href="#%E7%AA%97%E6%88%B7%E7%8E%BB%E7%92%83">窗户玻璃</a></li>
+<li><a href="#%E7%AA%97%E6%88%B7%E4%BA%94%E9%87%91">窗户五金</a></li>
+<li><a href="#%E7%AA%97%E6%88%B7%E7%BA%B1%E7%AA%97">窗户纱窗</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2><a id="%E5%AE%9E%E6%9C%A8%E5%BA%8A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>实木床</h2>
+<p>3k-6k 小半龙猫床 二黑木作保龄床</p>
+<p>6k-8k，MUU HOME和凡屋</p>
+<p>要着重看龙骨骨架间隙，不要大于5cm</p>
+<p>可以找沙发或者窗帘定制一个床头软包枕头，可拆卸</p>
+<h2><a id="%E5%A2%99%E9%9D%A2%E6%9D%90%E6%96%99" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>墙面材料</h2>
+<p>全屋建议：乳胶漆 &gt; 艺术漆 &gt; 墙布</p>
+<p>局部提高视觉：护墙板 &gt; 艺术漆/墙布</p>
+<p>护墙板 优点是隔音隔热 近期流行木饰面<br />
+木饰面有分两种：成品定制版和正规渠道的科定板，不要选竹木纤维板，要注意安装收口细节是否处理到位</p>
+<p>打算：电视背景墙和卧室背景墙，做局部视觉装饰</p>
+<h2><a id="%E5%AE%9A%E5%88%B6%E6%9F%9C%E6%9D%BF%E6%9D%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>定制柜板材</h2>
+<h3><a id="%E6%9F%9C%E9%97%A8%E6%80%BB%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>柜门总结</h3>
+<p><img src="media/16374690084475/16374741182561.jpg" alt="" /></p>
+<h3><a id="%E6%9D%BF%E6%9D%90%E6%80%BB%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>板材总结</h3>
+<p>建议柜体选择多层实木板，柜门选择高密度板，或者质地紧实的颗粒板，总结如下：</p>
+<p><img src="media/16374690084475/16374738823699.jpg" alt="" /></p>
+<h3><a id="%E7%9C%9F%E4%BC%AA%E9%89%B4%E5%AE%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>真伪鉴定</h3>
+<ul>
+<li>查看板材检测报告</li>
+<li>定准下面两个标识：<br />
+<img src="media/16374690084475/16374695206089.jpg" alt="" /></li>
+<li>看是否是国家级人造板检验中心</li>
+<li>报告内页的检验依据和检验项目里，甲醛释放量<br />
+<img src="media/16374690084475/16374696490936.jpg" alt="" /><br />
+甲醛释放量要小于等于0.124</li>
+<li>看商标栏填写的是否是你买的板材品牌名，可以扫描二维码</li>
+<li>荧光灯可以照射出板材上的logo</li>
+<li>进口品牌可以打公众号的联系电话，看授权点卖的是不是经销商进口的</li>
+</ul>
+<h2><a id="%E5%B0%81%E7%AA%97" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>封窗</h2>
+<h3><a id="%E7%AA%97%E6%88%B7%E9%87%87%E8%B4%AD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗户采购</h3>
+<p>优秀的系统门窗品牌有，旭格，贝洛克，墨瑟</p>
+<h4><a id="%E9%97%A8%E7%AA%97%E7%A7%8D%E7%B1%BB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>门窗种类</h4>
+<p>不推荐塑钢和铝合金<br />
+不推荐购买推拉窗，密封性和气密性差<br />
+普通断桥铝和系统门窗，就相当于组装台式机和品牌台式机的区别</p>
+<h4><a id="%E9%93%9D%E6%9D%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>铝材</h4>
+<p>铝材，有铝材检测报告，报告上的规格需要是：<br />
+<img src="media/16374690084475/16374699740228.jpg" alt="" /></p>
+<h4><a id="%E9%93%9D%E6%9D%90%E5%93%81%E7%89%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>铝材品牌</h4>
+<p>知名铝材品牌如下：<br />
+<img src="media/16374690084475/16374700029589.jpg" alt="" /></p>
+<p>预算充足情况下，选择氟碳喷涂的铝材，表面平整度搞，手感很亲肤细腻</p>
+<h4><a id="%E7%AA%97%E5%AE%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗宽</h4>
+<p>窗宽宽度，一般有65，70, 75, 85, 90, 120，具体是指<br />
+<img src="media/16374690084475/16374701685323.jpg" alt="" /></p>
+<p>窄的地方的宽度，窗宽不要选择75以下的</p>
+<h4><a id="%E7%AA%97%E5%A3%81%E5%8E%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗壁厚</h4>
+<p><img src="media/16374690084475/16374703521789.jpg" alt="" /></p>
+<p>壁厚至少要1.8mm起，壁厚要均匀</p>
+<h4><a id="%E9%9A%94%E7%83%AD%E6%9D%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>隔热条</h4>
+<p>选择PA66 gf25，具体图片如下：<br />
+<img src="media/16374690084475/16374704318421.jpg" alt="" /></p>
+<p>点火不会燃烧</p>
+<p>隔热胶条一般是随着窗宽越宽越好，75系列的要做到4cm左右</p>
+<p>要选择航架的隔热胶条，隔热性会更好</p>
+<p><img src="media/16374690084475/16374705408460.jpg" alt="" /></p>
+<p>专业隔热条品牌，泰诺风</p>
+<p>隔音隔热要更好，中间要防止聚氨酯发泡填充，保温棉效果会差很多</p>
+<h4><a id="%E5%BC%80%E5%90%88%E8%83%B6%E6%9D%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>开合胶条</h4>
+<p>选三元乙丙橡胶条，常用品牌是江阴海达</p>
+<h4><a id="%E7%AA%97%E6%88%B7%E7%8E%BB%E7%92%83" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗户玻璃</h4>
+<p><img src="media/16374690084475/16374719109919.jpg" alt="" /></p>
+<p>窗户要做一体弯工艺，比较美观</p>
+<p>黑色的丁基胶，第一道密封胶</p>
+<p>灰色的密封胶，外层密封胶应该使用中性胶，酸性的会和丁基胶发生反应，会渗油或水</p>
+<p>玻璃中间是惰性空气层，一般是打满90%的氩气</p>
+<p>横剖面如下：<br />
+<img src="media/16374690084475/16374720245600.jpg" alt="" /></p>
+<p>干燥剂要选择优质的分子筛</p>
+<p>玻璃要选择更好的low-e镀膜，隔热性更强，其他膜会影响采光</p>
+<p>中空玻璃间隙在9-27mm，建议选择12-15mm</p>
+<p>我要选择三波两腔的，图如下：</p>
+<p><img src="media/16374690084475/16374722375943.jpg" alt="" /></p>
+<p>隔音效果好的，要选中空夹胶玻璃，优质的玻璃品牌有如下图：</p>
+<p><img src="media/16374690084475/16374722848045.jpg" alt="" /></p>
+<h4><a id="%E7%AA%97%E6%88%B7%E4%BA%94%E9%87%91" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗户五金</h4>
+<p>好评度高的品牌如下：<br />
+<img src="media/16374690084475/16374732058406.jpg" alt="" /></p>
+<p>五金都是一套一套卖的，不存在单个零件多品牌的问题</p>
+<h4><a id="%E7%AA%97%E6%88%B7%E7%BA%B1%E7%AA%97" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>窗户纱窗</h4>
+<p>现在流行高透网，材质如下图：</p>
+<p><img src="media/16374690084475/16374733534189.jpg" alt="" /></p>
+<p>纱窗一定要做那种，可以轻松拆卸的</p>
+<p>比较推荐铝合金高透和进口的PET高透</p>
+<p>一般来说高透是20目，也有高级一点的48目</p>
+<ol>
+<li>纱网光滑有质感</li>
+<li>纱网装窗工艺，不会鼓包和保持平整</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第三部分摘录]]></title>
+    <link href="chaoranlaoge.top/16374149083076.html"/>
+    <updated>2021-11-20T21:28:28+08:00</updated>
+    <id>chaoranlaoge.top/16374149083076.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E9%81%93%E5%BE%B7%E8%B0%B4%E8%B4%A3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>道德谴责</h2>
+<blockquote>
+<p><strong>道德判断, 永远要先己后人</strong>。<br />
+爱因斯坦说: “真正的问题在于人的心灵与思想……让我们害怕的, 不是原子弹的爆炸力量, 而是人心的邪恶力量。”<br />
+我们每一个人都是问题的一部分。<br />
+安徒生有一个非常著名的成人童话, 叫作 <strong>《影子》</strong> 。故事的梗概是: 一个作家总是好奇对面阳台的人家, 越是看不到, 作家越是想偷窥。有一天, 作家的影子轻易投射到对面阳台, 影子看到了别人家的一切。后来作家醒来, 影子不见了。因为影子长大了, 离他而去。再后来影子回来了, 杀死了主人, 将主人取而代之。<br />
+我们每一个人都有一个黑暗的影子, 如果我们任由它长大, 有一天它会吞噬我们。<br />
+如果总是盯着他人的黑暗, 而无视自己内心的幽暗, 总有一天, 你的影子会吞掉你。<br />
+不要对人性抱以过高的期待, <strong>永远要警惕人性深处的幽暗</strong>。法治的前提就是对人性败坏的假设, <strong>所以任何人组成的权力机构都要受到法律严格的约束, 权力从来就不应被完全信任</strong>。<br />
+如果抛弃了这个假设, 认为人性良善, 法治也一定会为人治所取代, 对人性美好的假设往往都带来了空前的灾难。<br />
+因此, 这也是为什么<strong>绝大多数国家都很少在法律中规定单纯的“见危不救罪”, 法律只是对公民最低的道德要求</strong>。<br />
+刘某的懦弱令人遗憾, 值得谴责。<br />
+<strong>勇敢是一种高贵的品质, 但是不勇敢却没有必要如此口诛笔伐</strong>, 千夫所指, 甚至以犯罪论处。</p>
+</blockquote>
+<p>法律只是对公民最低的道德要求。</p>
+<blockquote>
+<p>每个人的心中都有一个“理想人”的范例, 用柏拉图的术语来说这叫作<strong>人的“共相”</strong>。这种“理想人”有着高尚、勇敢、知恩图报等诸多美德。<br />
+当他人的行为举止严重违反了“理想人”的标准, 就会激起我们内心的愤怒。这种愤怒本身是正常的。<br />
+虽然有很多人说人的“共相” (“理想人”范例) 并不存在, 它只是一种假设, 但<strong>我更愿意相信“共相”不是假设, 而是一种客观实在</strong>。正如人类无论用任何仪器都无法画出一个完美的圆, 但“圆”这个概念是客观存在的。<br />
+<strong>正是这种“理想人”的范例激起我们的道德意识, 也让我们一生可以不断行走在德行之路, 高山仰止, 虽不能至,心向往之</strong>。</p>
+</blockquote>
+<p>理想人，高山仰止。</p>
+<blockquote>
+<p>人为什么会进行道德谴责呢？动机多种多样，我想至少有如下理由：</p>
+<ol>
+<li>我们心中“理想人”范例的召唤。</li>
+<li>希望他人改过自新。</li>
+<li>自以为是, 表达道德优越。</li>
+<li>还有其他许多动机, 如博人眼球、营销造势、消费他人的痛苦等。</li>
+</ol>
+</blockquote>
+<p>道德谴责，不管是冷热，都是由自己针对他人，那目的主要还是希望他人改过自新，其意义最大，而其他动机则表现为对自身的增益，可有可无。</p>
+<blockquote>
+<p><strong>西汉文帝之所以废除肉刑, 就是因为肉刑断人肢体, 毁人容貌, 是对人格的侮辱, 也彻底断绝了罪犯改过自新的可能。</strong> 所以当<strong>缇萦救父</strong>, 上书文帝, 缇萦短短数语, 戳中文帝泪点——“妾父为吏, 齐中称其廉平, 今坐法当刑, 妾切痛死者不可复生, 而刑者不可复续, <strong>虽欲改过自新, 其路莫由</strong>。妾愿入身为官婢, 以赎父刑罪, 使得改行自新也。” (我的父亲做官吏, 齐地的人都说他清廉公平, 如今犯法应当获罪受刑。我为受刑而死的人不能复生感到悲痛,而受过刑的人不能再长出新的肢体, 即使想改过自新, 也没办法了。我愿意舍身做官府中的女仆来赎父亲的罪过, 让他能改过自新” ) 文帝后在废肉刑的诏书中直接援引少女缇萦之语——“虽欲改过自新, 其路莫由也。”</p>
+</blockquote>
+<blockquote>
+<p>因此, 所有的道德谴责都不应该随意侮辱他人的人格,诸如“人渣”“狗男女” “禽兽”这种情绪化的表达在<strong>亵渎他人的同时也侮辱了自己</strong>。同时, 将他人在道德上彻底“批臭批死”也从此堵住了他人改过自新的可能。</p>
+</blockquote>
+<p>留他人一条后路，给他人改过自新的机会。否则，不如以此为鉴，沉默自省。</p>
+<blockquote>
+<p><strong>道德与法律不同, 它主要是一种自律。</strong> 因此, 在开启道德谴责的阀门时, 一定也要进行自我的反省, 这样才能让本能的愤怒在正确的渠道中运行并产生积极的作用, 而不至于像洪水一般, 泛滥成灾。<br />
+老实说, 对于江歌案, 任何人都会感到愤怒, 人不能做到“太上而忘情”。但是, 当我陷入愤怒时, 心中的“理想人”告诉我要勇敢、要感恩、要知耻之时, 我首先把这种声音作为是对我自己的提醒。<br />
+当我批评他人懦弱的时候, 我真的希望自己能够勇敢一点, 我心中的“理想人”告诉我,<strong>“你真的不够勇敢。当你批评某个热点案件的当事人时, 除了加入集体情绪狂欢以外, 你还做了什么? 你敢不敢付出代价走出书斋,去帮助弱者, 去对抗不公, 去匡扶正义, 与悲伤的人一路同行?”</strong></p>
+</blockquote>
+<p>道德谴责终究停留在口头，要真正的走在对抗不公，匡扶正义的路上。</p>
+<h2><a id="%E8%BE%A9%E6%8A%A4%E5%88%B6%E5%BA%A6" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>辩护制度</h2>
+<p>刑事辩护，“为罪行重大之人辩护，正是为了防止无辜之人枉受追究”。</p>
+<blockquote>
+<p>今人多将刑事辩护追溯至古希腊, 却忘记了西方文明的另一重要源头——“希伯来—基督教信仰”。成书约公元前15世纪的《摩西五经》之一的《创世记》就有关于辩护的内容, 这远早于公元前8世纪才出现的古希腊文明。<br />
+《创世记》第十八章17—33节中, 当上帝欲毁灭所多玛和蛾摩拉两城时, 亚伯拉罕站了出来, 为这两城辩护。<br />
+亚伯拉罕近前来, 说: “无论善恶, 你都要剿灭吗? 假若那城里有五十个义人, 你还剿灭那地方吗? 不为城里这五十个义人饶恕其中的人吗? 将义人与恶人同杀, 将义人与恶人一样看待, 这断不是你所行的。审判全地的主岂不行公义吗?”耶和华说: “我若在所多玛城里见有五十个义人, 我就为他们的缘故饶恕那地方的众人。”亚伯拉罕说: “我虽然是灰尘, 还敢对主说话。假若这五十个义人短了五个, 你就因为短了五个毁灭全城吗?”他说: “我在那里若见有四十五个, 也不毁灭那城。”亚伯拉罕又对他说: “假若在那里见有四十个怎么样呢?”他说: “为这四十个的缘故, 我也不做这事。”亚伯拉罕说, 求主不要动怒, 容我说: “假若在那里见有三十个怎么样呢?”他说: “我在那里若见有三十个, 我也不作这事。”亚伯拉罕说:“我还敢对主说话, 假若在那里见有二十个怎么样呢?”他说: “为这二十个的缘故, 我也不毁灭那城。”亚伯拉罕说:“求主不要动怒, 我再说这一次, 假若在那里见有十个呢?”他说: “为这十个的缘故, 我也不毁灭那城。”耶和华与亚伯拉罕说完了话就走了; 亚伯拉罕也回到自己的地方去了。<br />
+《创世记》中的上帝通过欲毁灭罪城的案例, 生动形象地教导了亚伯拉罕何谓人类的公平正义以及如何对待有罪之人, 这奠定了刑事辩护制度的基本原则。上帝能够区分出有罪与无辜, 但人类则未必, 上帝用这个案例让亚伯拉罕思考, 人类如何建立一套制度来区分有罪与无辜。在这个上帝与人类交互式学习的案例中, 亚伯拉罕因为五十义人而质疑上帝毁城的决定, 上帝也乐意与他讨论, 最后亚伯拉罕以十个义人收尾。<br />
+上帝在教导亚伯拉罕, 人类的司法制度必然存在缺陷,最坏的制度是宁可错杀千人也不放过一人, 但为了不枉杀一人, 就放过千万个有罪之人, 也不太合适, 因此必须寻求一个平衡点。上帝同意亚伯拉罕的观点, 只要有足够的好人,就应该把整个团体, 包括其中的坏人一并饶过。但<strong>同时告诉亚伯拉罕如何在错杀与枉纵之间取得平衡, 所以最后亚伯拉罕到十人为止</strong>。<br />
+这个故事对于刑事辩护制度至关重要。上帝通过“案例教学”, 让亚伯拉罕学到了一堂生动的辩护课程。这个故事告诉我们, 辩护首先是防止冤枉无辜, 人类无法轻易区分谁有罪谁无罪, <strong>如果只有明显无辜的人才能得到刑事辩护, 那么必将有大量无辜的人受冤枉。所多玛和蛾摩拉罪恶滔天,但仍应为其辩护, 为罪行重大之人辩护, 正是为了防止无辜之人枉受追究。</strong>[2]<br />
+其次,《创世记》中的上帝乐于亚伯拉罕向他挑战, 这正是告诉亚伯拉罕, 默许冤屈就是罪恶, 世俗社会的任何权威都应该接受质疑, 连上帝都可以接受亚伯拉罕的质询,更何况由理性有限的人类所组成的政府机构。即便是最好的人类道德和司法制度, 也是有可能误杀无辜的。所以,<strong>司法机关必须虚心接受律师的诘问质疑, 否则必然导致司法擅权专断, 腐败无能</strong>。<br />
+最后, 《创世记》中的上帝让亚伯拉罕知道, 世俗社会的公平正义就是寻找合适的<strong>平衡点</strong>, 辩护制度也不例外。</p>
+</blockquote>
+<p>古希腊的人本主义传统会导致，律师以辩护人利益最大化为目的，而曲意逢迎，无主见且狡黠。柏拉图甚至直言“律师总是忙忙碌碌,似乎总有什么力量不断驱赶着他……他是一个奴隶。在他的主人面前, 与他同是奴隶的伙伴们争论不休”。</p>
+<blockquote>
+<p>“希伯来—基督教”信仰强调神本主义, 一神论的信仰确认了绝对真理的客观存在, 上帝之道即为真理, 所谓“太初有道, 道与上帝同在, 道就是上帝”。因此, **辩护制度应当接受绝对真理的约束, 辩护必须在规则范围内行使。**按照这种信仰观, 辩护人在辩护时要受到限制, <strong>十诫中第九诫“不可作假见证陷害人”当为辩护人之铁律</strong>; 同时人权也须受到限制, 正如亚伯拉罕在为罪城辩护的案例中所学习到的, <strong>保障人权不能以完全牺牲惩罚犯罪为代价</strong>。</p>
+</blockquote>
+<p>“辩护制度应当接受绝对真理的约束, 辩护必须在规则范围内行使”</p>
+<p>律师制度的定位：</p>
+<ol>
+<li>律师必须在法律范围内维护当事人的合法权益</li>
+<li>刑法应在惩罚犯罪与保障人权这两个价值之中寻找平衡</li>
+</ol>
+<blockquote>
+<p>哈佛大学教授德肖维茨说: “一个国家是否有真正的自由, 试金石之一是它对那些为有罪之人、为世人不耻之徒辩护的人的<strong>态度</strong>。在大部分专制国家里, 独立自主的辩护律师队伍是不存在的。诚然, <strong>专制压迫肆虐无忌</strong>的明显标志之一就是<strong>政府开始迫害辩护律师</strong>。”</p>
+</blockquote>
+<h2><a id="%E5%BC%82%E6%97%8F%E4%BB%87%E6%81%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>异族仇恨</h2>
+<blockquote>
+<p>人类历史上, 几乎所有的<strong>暴政最初都是利用民众对外族的仇恨</strong>, 如当初希特勒上台时鼓动德国人对法国的仇恨。<br />
+当仇恨在心中发芽、长大, 人也就慢慢忘记了最宝贵的东西是<strong>他的内在尊严</strong>, 而不在于外在的身份。<br />
+仇恨, 总有一天会让人把枪口调转, 从对外变成对内,进而对着自己的亲朋好友。<br />
+当人的心为仇恨所奴役, 他的肉体也必然 <strong>被外在的强权所奴役</strong>。</p>
+</blockquote>
+<blockquote>
+<p>在美国拉斯维加斯枪击案这样一个特殊的时候, 愿你我感同身受, 让我们再次重温<strong>约翰·多恩古旧的布道辞“不要问丧钟为谁而鸣”</strong>:<br />
+“没有人是自成一体、与世隔绝的孤岛, 每一个人都是广袤大陆的一部分。如果海浪冲掉了一块岩石, 欧洲就减少。如同一个海岬失掉一角, 如同你的朋友或者你自己的领地失掉一块。每个人的死亡都是我的哀伤, 因为我是人类的一员。所以, 不要问丧钟为谁而鸣, 它就为你而鸣!”<br />
+爱, 是永不止息。</p>
+</blockquote>
+<h2><a id="%E5%8E%9F%E8%B0%85" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>原谅</h2>
+<p>既然我们每天都在原谅一个不那么可爱的自己, 那么当别人做错事的时候, 当别人冒犯你时, 你是不是也能够<strong>爱人如己, 推己及人</strong>呢?</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[人生一串 第三季]]></title>
+    <link href="chaoranlaoge.top/16374121683009.html"/>
+    <updated>2021-11-20T20:42:48+08:00</updated>
+    <id>chaoranlaoge.top/16374121683009.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E7%AC%AC%E4%B8%80%E9%9B%86" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第一集</h2>
+<p>山东-临淄 葱+小饼+烤肉 烤梅花猪肉，加花生碎 芽葱 高丽烧烤</p>
+<p>延边黄牛 每10头只有一头有雪中玫瑰的惊艳花色 雪花肉</p>
+<p>吉林大兴沟 牛小肝 独有湿料 老宋烧烤</p>
+<p>中山小榄镇 盒装内裤生产份额占3成 脆肉皖（草鱼鱼腩） 淡水黄油 大师兄烧烤</p>
+<p>云南西双版纳勐海县 老街 傣族烧烤 蘸水（柠檬蘸水沾鱼，干料沾肉，腐乳蘸料）， 百旺（碎肉+鲜猪血） 百旺烧烤</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[初识数据库连接池到读懂HikariCP源码]]></title>
+    <link href="chaoranlaoge.top/16361613816170.html"/>
+    <updated>2021-11-06T09:16:21+08:00</updated>
+    <id>chaoranlaoge.top/16361613816170.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/16361613816170/16361616058541.jpg" alt="HikariCP" /></p>
+<p>HikariCP，第二代数据库连接池产品，代码非常精简高效，是一个值得深度源码的项目。本文从数据库连接池这个小众领域介绍开始，慢慢梳理HikariCP的源码。</p>
+<p><img src="media/16361613816170/16361616887609.jpg" alt="github-page" /></p>
+<span id="more"></span><!-- more -->
+<h2><a id="%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%E5%8E%9F%E7%90%86" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据库连接池原理</h2>
+<ul>
+<li>什么是数据库连接池？</li>
+</ul>
+<blockquote>
+<p>在软件工程中，连接池（英语：connection pool）是维护的数据库连接的缓存，以便在将来需要对数据库发出请求时可以重用连接。--- Wikipedia</p>
+</blockquote>
+<p>数据库连接池，本质上是缓存，存储可复用的数据库连接。所谓的数据库连接，具体指的是物理网络的TCP/IP连接，程序中会被抽象为程序对象。</p>
+<blockquote>
+<p>数据库连接(database connection)是数据库服务器与客户端之间的通信联系。客户通过数据库连接发送命令、接收服务器返回的结果。 -- Wikipedia</p>
+</blockquote>
+<p>基本上所有主流的数据库，都使用连接池技术来改善性能。建立连接时，通常需要提供一个驱动程序和一个连接字符串（eg. jdbc-url)</p>
+<ul>
+<li>市面上的数据库连接池有几种？</li>
+</ul>
+<p>市面上的数据库连接池产品有两代，区分的特征是看他在架构和设计时采用的线程模型，一般来说是两种线程模型，单线程模型和多线程模型。</p>
+<p>第一代产品包括：DBCP，C3P0，Tomcat-jdbc<br />
+第二代产品包括：Druid，HikariCP</p>
+<ul>
+<li>为什么要使用数据库连接池？</li>
+</ul>
+<blockquote>
+<p>连接池用于提高在数据库上执行命令的性能。为每个用户打开和维护数据库连接，尤其是对动态数据库驱动的网站应用程序发出的请求，既昂贵又浪费资源。 -- Wikipedia</p>
+</blockquote>
+<ul>
+<li>
+<p>连接池是怎么实现？</p>
+</li>
+<li>
+<p>HikariCP和Druid怎么使用？</p>
+</li>
+<li>
+<p>连接池产品如何选型？</p>
+</li>
+</ul>
+<h2><a id="hikaricp%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>HikariCP产品介绍</h2>
+<ul>
+<li>
+<p>HikariCP的性能如何？</p>
+</li>
+<li>
+<p>HikariCP的性能突破来源于什么？</p>
+</li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[小王子，他学会的爱与被爱]]></title>
@@ -153,156 +1401,43 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Go语言特性]]></title>
-    <link href="chaoranlaoge.top/16321151686617.html"/>
-    <updated>2021-09-20T13:19:28+08:00</updated>
-    <id>chaoranlaoge.top/16321151686617.html</id>
-    <content type="html"><![CDATA[
-<h2><a id="%E5%BC%80%E5%8F%91%E5%BF%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>开发快</h2>
-<h3><a id="%E7%BC%96%E8%AF%91%E5%BF%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译快</h3>
-<p>只会关注那些被直接被引用的库，而不是像 Java、C 和 C++那样,要遍历依赖链中所有依赖的库</p>
-<p>在现代硬件上,编译整个 Go 语言的源码树只需要 20 秒。</p>
-<h3><a id="%E7%BC%96%E8%AF%91%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译类型检查</h3>
-<p>因为没有从编译代码到执行代码的中间过程,用动态语言编写应用程序可以快速看到输出。<br />
-代价是, 动态语言不提供静态语言提供的类型安全特性, 不得不经常用大量的测试套件来避免在运行的时候出现类型错误这类 bug。</p>
-<p>在 Go 语言里,完全不用为这件事情操心,因为编译器就能帮用户捕获这种类型错误。</p>
-<h2><a id="%E5%8E%9F%E7%94%9F%E6%94%AF%E6%8C%81%E5%B9%B6%E5%8F%91" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>原生支持并发</h2>
-<p>go语言内置并发支持，称为goroutine，但仅仅原生支持并不够。</p>
-<p>并发的最难的部分就是要确保其他并发运行的进程、线程或 goroutine不会意外修改用户的数据。当不同的线程在没有同步保护的情况下修改同一个数据时，总会发生灾难。在其他语言中，如果使用全局变量或者共享内存，必须使用复杂的锁规则来防止对同一个变量的不同步修改。</p>
-<p>为了解决这个问题，通道（channel）提供了一种新模式,从而保证并发修改时的数据安全。通道这一模式保证同一时刻只会有一个 goroutine修改数据。</p>
-<h3><a id="goroutine" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>goroutine</h3>
-<p>goroutine，执行单位是函数，相当于其他语言中线程的作用，但是他占用的内存比线程小，需要编写的代码比线程少，而且go语言会有内置的一组逻辑处理器，来做goroutine的调度，调度器会绑定在线程上，一个机器可以启动成千上万个goroutine。</p>
-<p>goroutine，只需要关键字go，就能触发。</p>
-<h3><a id="channel" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>channel</h3>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Shell备忘录]]></title>
     <link href="chaoranlaoge.top/16272759911547.html"/>
     <updated>2021-07-26T13:06:31+08:00</updated>
     <id>chaoranlaoge.top/16272759911547.html</id>
     <content type="html"><![CDATA[
+<h2><a id="vim%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>vim 快捷键备忘录</h2>
+<p>G 到文件尾部<br />
+:num num指的是行号<br />
+:vs file_path 左右打开文件<br />
+:sp file_path 上下打开文件<br />
+:winc j/k/h/l 上下左右窗口光标移动</p>
 <h2><a id="%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件处理类型</h2>
-<ol>
-<li>查看文件夹目录底下的所有文件大小</li>
-</ol>
-<blockquote>
-<p>du -h --max-depth=1</p>
-</blockquote>
-<ol start="2">
-<li>查看文件系统大小列表</li>
-</ol>
-<blockquote>
-<p>df -h</p>
-</blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Go速成（Java）]]></title>
-    <link href="chaoranlaoge.top/16140023691726.html"/>
-    <updated>2021-02-22T21:59:29+08:00</updated>
-    <id>chaoranlaoge.top/16140023691726.html</id>
-    <content type="html"><![CDATA[
-<p>本文主要是作者看到<a href="https://oi-wiki.org/lang/java/">OI wiki</a>上的Java速成，刚好那时候读完了Go语言之旅<a href="https://tour.go-zh.org/list">tour.go-zh.org</a>，试着写的一个Go语言语法速成指南。</p>
-<blockquote>
-<p>Go（又称Golang）是Google开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言。</p>
-</blockquote>
-<p>从某种程度上来说，我更愿意以Java来对比Go，但对于一些语法糖，我更愿意转向Python来对比。</p>
-<span id="more"></span><!-- more -->
 <ul>
-<li><a href="#%E5%AE%89%E8%A3%85">安装</a>
-<ul>
-<li><a href="#%E4%BB%8E%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%B8%8B%E8%BD%BD">从国内网站下载</a></li>
-<li><a href="#ide%E6%8E%A8%E8%8D%90">IDE推荐</a></li>
-</ul>
+<li>
+<p>查看文件夹目录底下的所有文件大小<br />
+<code> du -h --max-depth=1</code></p>
 </li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">基本语法</a>
-<ul>
-<li><a href="#%E6%B3%A8%E9%87%8A">注释</a></li>
-<li><a href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E">变量声明</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">基本数据类型</a></li>
-<li><a href="#%E6%95%B0%E7%BB%84">数组</a></li>
-<li><a href="#%E5%88%87%E7%89%87">切片</a></li>
-<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
-<li><a href="#%E8%BE%93%E5%87%BA">输出</a></li>
-<li><a href="#%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5">控制语句</a>
-<ul>
-<li><a href="#%E9%80%89%E6%8B%A9">选择</a></li>
-<li><a href="#%E5%BE%AA%E7%8E%AF">循环</a></li>
-</ul>
+<li>
+<p>查看文件系统大小列表<br />
+<code> df -h</code></p>
 </li>
-<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
-</ul>
+<li>
+<p>grep去掉grep自身的进程并获取进程号<br />
+<code> ps -eo pid,cmd | grep exec | grep -v grep | awk 'print {$1}'</code></p>
+</li>
+<li>
+<p>ps 获取进程开始时间<br />
+<code> ps -eo lstart,etime | grep exec</code></p>
+</li>
+<li>
+<p>字符串截取 截取字符串中左边或者右边的字符串</p>
 </li>
 </ul>
-
-<h2><a id="%E5%AE%89%E8%A3%85" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装</h2>
-<p>学习Go，可能是很多CS学生或者技术爱好者拥抱云原生浪潮最开始的第一步，但无奈的是，大多数人在第一个浪来的时候，就被拍死在沙滩上了。这里主要是以下几个原因：</p>
-<ol>
-<li>由于是谷歌公司开发的语言，Go语言的官方网址是托管在谷歌服务器上的，所以国内访问被墙是毫无疑问。</li>
-<li>官方网站无法访问的情况下，不知道去哪里获取语言安装包，其次不知道去哪里获取标准的官方文档。</li>
-<li>由于Go语言开发时，谷歌公司选择利用Github进行托管，导致Go语言相关的核心依赖包也顺理成章地都托管在Github上，当使用命令 <code>go get</code> 时基本上都会连接超时而无法下载依赖包，这个相当于是第二个噩耗（国内访问Github也是经常连不上，语言安装完成之后，依赖包无法下载就更无法处理程序编译了）。</li>
-<li>如果有科学上网梯子，那以上3个问题就迎刃而解。（不得不吐槽，对于国内CS学生或者技术爱好者，科学上网梯子真的太重要了）最后，工欲善其事，必先利其器。选择哪一款趁手兵器（IDE），就是困扰初学者敲代码前的最后一个问题了。</li>
-</ol>
-<p>进入这个章节，我们着眼于解决前文提到的第一个问题：Go语言官方网站国内访问不上，如何安装Go语言。</p>
-<h3><a id="%E4%BB%8E%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%B8%8B%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>从国内网站下载</h3>
-<p>国内支持下载安装包的网址有：</p>
-<ol>
-<li><a href="https://studygolang.com/dl">Go语言中文网下载页面</a></li>
-</ol>
-<p>如果有梯子的话，官方下载地址为：<a href="https://golang.org/dl/">GoLang官网下载页面</a></p>
-<p>下载完成之后，对于Windows和MacOS双击启动安装，并遵循提示进行安装。<br />
-安装完成之后，会将可执行二进制文件的文件夹<code>bin</code>目录加入系统的<code>PATH</code>环境变量。</p>
-<h3><a id="ide%E6%8E%A8%E8%8D%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>IDE推荐</h3>
-<table>
-<thead>
-<tr>
-<th>IDE</th>
-<th>环境搭建难度</th>
-<th>推荐指数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VSCode</td>
-<td>有点难</td>
-<td>🌟🌟🌟</td>
-</tr>
-<tr>
-<td>GoLand（收费）</td>
-<td>无难度</td>
-<td>🌟🌟🌟🌟🌟</td>
-</tr>
-</tbody>
-</table>
-<h2><a id="%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>基本语法</h2>
-<p>注意Go，类似Java/C/C++ 语言，有一个函数作为程序执行的起始点，所有的程序只有一个主函数，每次执行的时候都会从主类开始，主函数是整个程序的入口，一切从此处开始。</p>
-<p>以下给出一段经典的“Hello,World”示例代码：</p>
-<pre><code class="language-go">package main
-
-import &quot;fmt&quot;
-
-func main() {
-	fmt.Println(&quot;Hello, World&quot;)
-}
+<pre><code class="language-shell">name=filebeat/platform
+echo ${name%/*} # = filebeat = 删除了字符 '/' 右边的所有字符
+echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
 </code></pre>
-<h3><a id="%E6%B3%A8%E9%87%8A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>注释</h3>
-<p>和 C/C++/Java一样，Go 使用 // 和 /* */ 分别注释单行和多行。</p>
-<h3><a id="%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>变量声明</h3>
-<h3><a id="%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>基本数据类型</h3>
-<h3><a id="%E6%95%B0%E7%BB%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>数组</h3>
-<h3><a id="%E5%88%87%E7%89%87" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>切片</h3>
-<p>可变数组，使用上可以类比Python的切片</p>
-<h3><a id="%E5%AD%97%E7%AC%A6%E4%B8%B2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>字符串</h3>
-<h3><a id="%E8%BE%93%E5%87%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>输出</h3>
-<h3><a id="%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>控制语句</h3>
-<h4><a id="%E9%80%89%E6%8B%A9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>选择</h4>
-<h4><a id="%E5%BE%AA%E7%8E%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>循环</h4>
-<h3><a id="%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>注意事项</h3>
 
 ]]></content>
   </entry>
@@ -325,57 +1460,6 @@ func main() {
 <li>日本黑道文化+纹身文化+泡汤文化</li>
 <li>Q的五个测试设计和接头人</li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[想幸福的人]]></title>
-    <link href="chaoranlaoge.top/16128386822319.html"/>
-    <updated>2021-02-09T10:44:42+08:00</updated>
-    <id>chaoranlaoge.top/16128386822319.html</id>
-    <content type="html"><![CDATA[
-<p>今天听到的一首歌，杨丞琳的新歌，《想幸福的人》，写了我今年所有想说，而没说的话。</p>
-<p>2021年了，临近今年春节之际，祝大家新年快乐。</p>
-<p>给那些和我一样的温暖的狗子们，来年能遇到会生根的缘分！！！</p>
-<p>正文内容是歌词，词写的很好，我手敲了一遍，以表感激。</p>
-<span id="more"></span><!-- more -->
-<hr />
-<p>《想幸福的人》</p>
-<pre><code class="language-plain_text">-- 杨丞琳（歌手）
--- 姚若龙（词手）
-</code></pre>
-<p>心里的乌云</p>
-<p>眼角的秘密</p>
-<p>来不及燃烧的感情</p>
-<p>被流言给吹熄</p>
-<p>转身回到孤寂</p>
-<p>生活的丛林</p>
-<p>坚强的游戏</p>
-<p>在白天掏空了勇气</p>
-<p>在黑夜剩不平</p>
-<p>不懂错在哪里</p>
-<p>我不过是一个很想幸福的人</p>
-<p>为什么遇不到会生根的缘分</p>
-<p>学着戒掉悲观 负我的都不恨</p>
-<p>让心灵完整 美丽动人</p>
-<p>还是一个人</p>
-<p>生活的丛林</p>
-<p>坚强的游戏</p>
-<p>在白天掏空了勇气</p>
-<p>在黑夜剩不平</p>
-<p>不懂错在哪里</p>
-<p>寂寞地当一个很想幸福的人</p>
-<p>等待着一颗心接受我的坦诚</p>
-<p>懂得爱甜蜜中有苦涩的成分</p>
-<p>会和我争论 爱却不磨损</p>
-<p>没有不信任</p>
-<p>我相信 当一个很想幸福的人</p>
-<p>也必须是能够让人幸福的人</p>
-<p>我不怕去付出 也肯承担责任</p>
-<p>温暖的诚恳 温柔的迷人</p>
-<p>谁是那个人 能让我沸腾</p>
-<p>想幸福的人</p>
 
 ]]></content>
   </entry>
@@ -625,242 +1709,6 @@ sbin/start-all.sh
 # 关闭集群
 sbin/stop-all.sh
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[平平无奇，靠什么弯道超车]]></title>
-    <link href="chaoranlaoge.top/16101634062262.html"/>
-    <updated>2021-01-09T11:36:46+08:00</updated>
-    <id>chaoranlaoge.top/16101634062262.html</id>
-    <content type="html"><![CDATA[
-<h2><a id="%E8%AF%BB%E3%80%8A%E5%86%AF%E5%94%90%E6%88%90%E4%BA%8B%E5%BF%83%E6%B3%95%E3%80%8B%E7%9A%84%E6%80%9D%E8%80%83%EF%BC%88%E4%BA%8C%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>读《冯唐成事心法》的思考（二）</h2>
-<blockquote>
-<p>人生惟有常是第一美德。</p>
-</blockquote>
-<p>第一次看到书里的这句话曾公的原话，其实平平无奇。坚持，是一种态度，也被很多名人所推崇，也被推崇为是“复利”。但曾公这里说，是第一美德。为啥这么说？</p>
-<p>曾公例举的是自己练书法的过程，就是一直写，没有断。“遂觉月异而岁不同“，慢慢地就一直有进步，渐渐地看到不同。谈到这里，我认为主要是曾公对于这时间的投入感到满意。然而他接着说了一句，“可见年无分老少，事无分难易，但行之有恒“，他觉得，可见不管老人小孩，事情难或者易，只要我们有恒心，恒行，都能成功。所以，要论成事，曾公说人生只有”有常“，是第一美德。</p>
-<p>”有常“二字在历史上也经常看到，古代很多能人志士也都以此作为自己的字。西方文化逐渐侵入国内之后，“复利”这一说法，在如今更为广泛一点，但太有功利性了，我不喜欢。我喜欢这句话的一个很大的原因是，我喜欢”有常“二字，其中常指恒心。</p>
-<p>相反地，佛家常说无常，所谓无常，一般意指没有预期的死亡。当我们把无常这一词放在有常旁边之时，是不是能感到一点有常的魅力？人有智识，通灵性，能用文字记录时间，是万物之唯一。而无常面前，每一个复杂的个体的反思，是不是生命的缺憾大多在于，没有践行有常，这一美德？</p>
-<p>说到底，有常这一美德，应一生践行。</p>
-<h2><a id="%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%87%AA%E5%B7%B1%E6%9C%89%E6%B2%A1%E6%9C%89%E5%A4%A9%E8%B5%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>如何判断自己有没有天赋</h2>
-<p>也许你看过很多美国超级英雄的大片，比如说《超人》《蜘蛛侠》《闪电侠》等等（又抑或你曾经看过因辱华而被禁掉的《我的英雄学院》），剧情套路上来说，超能力者一开始一般是不知道原来自己有这个能力，大多都是慢慢地发现，练习，再挖掘，最后把能力使用地炉火纯青，拯救了世界。</p>
-<p>除了超能力，现实之中高手也不乏有天赋一说，年少成名的也被叫做天才。如何判断自己是否有天赋呢？冯唐老师在这本书中写了三个原则，我归纳了有三点：</p>
-<ol>
-<li>拾之不辍。书中冯唐老师写的是“虽千万人吾往矣“，其意思是千千万万人反对，你都偷偷摸摸地坚持做下去。我认为能遭受多数人反对的事情，一般要么是不好生计，要么是名声不好，但天赋一词大多其实对应正经职业，再不正经的事多数也因为困难所以被人尊敬而变成了职业，如电竞选手。我认为一般能判断天赋的事情，会遭受反对的比较少，多数在于自己放弃。而你能不能时不时捡起来，然后一直坚持，就对应你到底有没有天赋的一部分。</li>
-<li>会感到快乐和满足。这条是书中冯唐老师写的，这个其实就是看你做这个事情内心体验好不好了。</li>
-<li>有没有自己的风格。这条也是冯唐老师书中写的，有自己的风格，就有辨识度。说白了，就比较容易脱颖而出。其实，就观察来看，大多困难的事情，还是先源于模仿，再逐渐有自己的风格。</li>
-</ol>
-<p>以上三点，就是判断自己有没有天赋的依据。如果自己对一件事情有天赋，那其实会相对容易做到有常。如果自己没有天赋，那坚持做到有常，也能“遂觉月异而岁不同”，最后即便没有自己的风格。如曾国藩的书法，虽然并非特别有特色，但是其背后坚持数十年如一日的精神，让很多人爱字中的精神，也能卖个不错的价格。</p>
-<blockquote>
-<p>凡事皆用困知勉行功夫，不可求名太骤，求效太捷也。<br />
-困时切莫间断，熬过此关，便可少进。<br />
-不特习字，凡事皆有极困极难之时，打得通的，便是好汉。</p>
-</blockquote>
-<blockquote>
-<p>临事静对猛虎，事了闲看落花。<br />
-敬字，恒字二端，是彻始彻终工夫。鄙人生平欠此二字，至今老而无成，深自悔憾。</p>
-</blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[大丈夫，能屈能伸]]></title>
-    <link href="chaoranlaoge.top/16101619474323.html"/>
-    <updated>2021-01-09T11:12:27+08:00</updated>
-    <id>chaoranlaoge.top/16101619474323.html</id>
-    <content type="html"><![CDATA[
-<h2><a id="%E8%AF%BB%E3%80%8A%E5%86%AF%E5%94%90%E6%88%90%E4%BA%8B%E5%BF%83%E6%B3%95%E3%80%8B%E7%9A%84%E6%80%9D%E8%80%83%EF%BC%88%E4%B8%80%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>读《冯唐成事心法》的思考（一）</h2>
-<blockquote>
-<p>强自禁制，降伏此心。释氏谓之降龙伏虎，龙即相火也，虎即肝火也。多少英雄豪杰打此二关不破，亦不仅余与弟为然，要在稍稍遏抑，不令过炽。古圣所谓窒欲，即降龙也；所谓惩忿，即伏虎也。释儒之道不同，而其节制血气未尝不同。总不使吾之嗜欲戕害吾之躯命而已。至于倔强二字，却不可少。功业文章，皆须有此二字贯注其中。孟子所谓至刚，孔子所谓贞固，皆从倔强二字做出。吾兄弟好处正在倔强。若能去忿欲以养体，存倔强以励志，则日进无疆矣。</p>
-</blockquote>
-<span id="more"></span><!-- more -->
-<p>这段话的意思，我也一并引用：</p>
-<blockquote>
-<p>曾国藩劝他在前线带兵打仗的弟弟时是这么讲的：“强自禁制，降伏此心。”你要摁住自己，没有什么更好的办法了。“释氏谓之降龙伏虎，龙即相火也，虎即肝气也”，佛家讲的降龙伏虎，龙虎都是肝火。“多少英雄豪杰打此两关不破，亦不仅余与弟为然，要在稍稍遏抑，不令过炽”，古今多少豪杰，都会遇上欲望这一关，不只是我跟你是这样，怎么办呢？“稍稍遏抑”，不是全杀掉，全杀掉可能你就没有动力干其他事了，要遏制，不能让它过分强烈。<br />
-“古圣所谓窒欲，即降龙也；所谓惩忿，即伏虎也”，这个龙虎，就是欲望以及得不到满足产生的愤怒。“释儒之道不同，而其节制血气未尝不同”，佛家跟儒家的道理、三观有不尽相同的地方，但是遏制与节制这种血气、这种欲望和愤怒，有共通的地方。这是曾国藩的想法。“总不使吾之嗜欲戕害吾之躯命而已”，它们共同的地方就是不能让自己心中的大毛怪——我经常把心中的欲望、愤怒比喻成一个大毛怪——伤害自己的身心。<br />
-然后，曾国藩话锋一转：“至于倔强二字，却不可少。”你摁住欲望的时候，又不能把自己变成没有血性的人，“倔强”这两个字要保持住，不能让它没有。“功业文章，皆须有此二字贯注其中。否则，柔靡不能成一事”，你想成名、立功，“倔强”这两个字都必须在其中，把欲望、愤怒都摁下去了，就会变得很弱，很可能变成一只“弱鸡”，什么事都做不了。<br />
-“孟子所谓至刚，孔子所谓贞固，皆从倔强二字做出。吾兄弟好处正在倔强。若能去忿欲以养体，存倔强以励志，则日进无疆矣。”曾国藩用了两个词，“至刚”“贞固”，就是特别坚固的意思。你是我的好兄弟，你的长处在于你倔强，能够坚持你的志向，如果能够把欲望去掉、把怒气控制住，那你每天的进步就没有边界了。<br />
-这句话虽然长，核心其实只有两点：一是节制欲望，不要向外袒露；二是自立自强，强在内心。</p>
-</blockquote>
-<p>说实话，我看到这段话的前几个月，心中愤懑难平，常常夜不能寐，嗜欲，确实戕害吾之躯命。所以当初看到这段话时，我非常感慨，相见恨晚，虽然晚但不迟。</p>
-<p>而后，我开始了一段与欲望和怒气斗争的过程，说实话，心灵体验更糟糕了。主要是因为我心理资源耗费了很多在与压抑自己的情绪，排除自己的欲望上，然而直到后来我才知道“压抑和排除”并不是什么好方法。我不知道曾公的弟弟当时听完这段话后，有没有很好的解决这个问题，但至少我没有。</p>
-<p>在那之后，我就开始不相信这段话了。从现代心理学的角度来说，用接纳自己的方法，好过和自己作斗争。我开始学会了正念，学着做“课题分离”，学习“复原力”。我感觉我从这些方式上才真正做到了“去忿欲以养体”，由外界而起的愤怒和欲望，着实被我消化掉了，结果我就确确实实地变得佛系，感受到了岁月静好，无欲无求的圆满。</p>
-<p>遗憾的是，我发现，这种圆满往往只是一瞬，而这一瞬之后，仍然有一股不安，甚至焦躁，不是来源于外界，而是来源于我的思想深处。就好比，当你感受到一个环境从极其吵杂逐渐变得安静时，你会渐渐地听到楼上楼下的动静，空调的电机运转声，时钟的滴答声。我察觉到的，最后的这一股，是对自身发展，对理想志向实现的焦虑，这一股焦虑，也像是预警，从圆满的梦境中将我惊醒。无法压抑，无法消解，无穷无尽，我想，就是一股血性。或许因为，我心中还有对理想和志向实现后憧憬，有希望，而希望中就诞生了，这无穷无尽的血性。</p>
-<p>是的，年轻人就是血性阳刚，一时的血性，叫做冲动。但是，只有时时刻刻保有血性，才能叫做倔强。“孟子所谓至刚，孔子所谓贞固，皆从倔强二字做出。“一开始我不知道如何理解这句话，直到我又一次开始去健身房，又一次开始坚持学习的时候，坚持不下去的时候，我才明白有一关，我要用这一生来过——”人的一生之敌，永远是自己“，要打败自己，就必须变得倔强，或者是说要有韧性，甚至至刚，贞固。</p>
-<p>不过打败自己，变得倔强，难道就仅仅只是为了健身和学习？三十而立，四十而不惑，五十而知天命。在知天命之前，或许无数人就已经在财米油盐面前磨的毫无血性了，或者又有幸事业有成，安逸度日之后，又哪来需要血性的地方呢？“功业文章，皆须有此二字贯注其中“，曾公所说，功业文章，也就是如今所说的能够回报社会的人生理想，理想还未完成之前，这一辈子都需要这股血性来贯注其中。用自己的时间，去不断地进步，最后用生命去造福无数弱势百姓，才是正道。</p>
-<p>经过这段时间，现代心理学教会了我，如果变成水，就能在外界的击打摧毁之下，波澜不惊。而曾公的倔强一说，是在提醒我们，要成事必须要保留一股血性，用理想将化自己为磐石，不畏欲望和愤怒的侵蚀，努力去实现理想。</p>
-<p>总结就是，大丈夫，要能屈能伸。如水无形，如磐石贞固。大丈夫，不要忘了一股血性，不要忘了心中的理想抱负。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[干饭这么苦，为什么还要干？]]></title>
-    <link href="chaoranlaoge.top/16060557017293.html"/>
-    <updated>2020-11-22T22:35:01+08:00</updated>
-    <id>chaoranlaoge.top/16060557017293.html</id>
-    <content type="html"><![CDATA[
-<h2><a id="%E8%AF%BB%E3%80%8A%E4%BA%BA%E9%97%B4%E5%80%BC%E5%BE%97%E3%80%8B%E7%9A%84%E6%80%9D%E8%80%83" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>读《人间值得》的思考</h2>
-<p>从内推而引发的关于近期状态的思考</p>
-<span id="more"></span><!-- more -->
-<p>最近，好几个学弟学妹找内推，从学长的角度我也给了一些建议，比如说：<br />
-1）多试着拿一些大公司的offer<br />
-2）更大胆地去一线城市历练<br />
-3）要把年轻的时间花在刀尖上，最好不要得过且过<br />
-4）多试着拿一些待遇更高，发展空间更大的offer<br />
-5）想要安稳，就去考公务员或者事业单位<br />
-6）大城市的房价太高了，对年轻人很不友好，刚毕业工作要短时间白手起家太难<br />
-7）试着去争取一下人才保障房</p>
-<p>从上面7点建议，反映了我一些个人价值观，总结起来，我鼓励<br />
-1）一线城市生活<br />
-2）大公司打工<br />
-3）抓紧时间提升自己<br />
-4）如果不想太辛苦，就争取该有的安稳<br />
-5）尽自己努力挣更多的钱</p>
-<p>这些底层的想法，是我最真实的渴望吧。但就目前的现状，<br />
-1）二线城市生活<br />
-2）不大不小的公司打工<br />
-3）常常没有时间提升自己<br />
-4）没有感觉到该有的安稳<br />
-5）自己再怎么努力，涨薪和努力也没有直接关系</p>
-<p>这样的生活，就像是咱以前把目标定在了100分，但是目前就只拿到了75分的成绩</p>
-<p>我目前最大的矛盾就在于，常常没时间提升自己，一遍害怕自己的落后，会让自己失去安稳，另一边目前的收入确实也没有给自己带来任何的安全感。</p>
-<p>现在的我就像是无依的浮萍，常常会想向恒子老师这样的智者去询问，“工作的意义到底在哪？”</p>
-<p>恒子老师的回答原文是这样的：</p>
-<blockquote>
-<p>我希望大家先想想看：人原本是为什么而工作呢？<br />
-也许有人说“是为了做自己想做的事”，也有人说“是为了实现梦想”。<br />
-我认为，这些回答都是正确的。<br />
-然而，从本质上来说，人就是为了生活而工作。<br />
-这个道理，亘古未变。为了养活自己，为了养活家人而工作，我认为这是工作的首要目的。<br />
-因此，在我看来，为了钱而工作，并不是可耻的事情，这是理所当然的事，我认为是非常了不起的。<br />
-至于“人生价值”“自我成长”之类，是要等自己立足安稳后，在闲暇之余慢慢思考的问题。人生很长，慢慢思考就好了。<br />
-如果你已经可以自食其力，工作十分出色，没有什么需求要满足，那可以试着考虑一下，还有哪些想法没实现。<br />
-总之，为了活着而工作，并不是什么可耻的事情。</p>
-</blockquote>
-<p>当我去思考这段话的时候，我悬在心里石头落了地，工作哪有什么意义，只是社会给予个体的一个身份。工作让个体通过这个身份付出劳动获取收入，个体利用自己的劳动所得来养活自己和家人，在这个社会上立足，是我们早出晚归最根本的意义。</p>
-<p>对于现阶段的我来说，可以等到自己立足安稳之后，日常的闲暇之余再去慢慢思考自己真正想要的是什么，而不是持续地逼迫自己去得出一个远期计划，以此去获得自以为是的先发优势。</p>
-<p>人生还很长，慢慢去反复推敲，最好的答案，必然是经得起时间考验的答案。</p>
-<p>相反地，需要聚焦的是，我们当下的生活里每一个大大小小的问题，身体力行地去解决这些问题。</p>
-<p>当然，迎难而上很需要勇气。关于工作上的问题，恒子老师的表述是：</p>
-<blockquote>
-<p>当你投入工作时，仍然发现某处有所不妙，那么就不断努力，不断钻研，困难自然会迎刃而解。<br />
-如果还没去做就顾虑重重，那很可能止步不前。<br />
-当人活到七老八十的时候，“胜利”与“失败”都毫无意义。<br />
-我不关心头衔和职位，这些都如过眼云烟。<br />
-如果自己和家人健康、精力充沛，有几个知己可以交谈，还有什么其他奢望呢？<br />
-相反，如果你拼命工作，身体状况因此变得糟糕，自己和家人关系疏远，即使你挣了很多钱，那又有什么幸福可言？</p>
-</blockquote>
-<p>对于这些大大小小的问题，为了自己和家人的未来，自己要量力而行，太过拼命结果让身体状况变得糟糕的话就显得过于短视了。</p>
-<p>不管是“胜利”还是“失败”，有或者没有头衔，晋升或者不晋升，这些从时间长河里往回看，都是过往云烟。对恒子老师来说，</p>
-<blockquote>
-<p>饮食足以温饱，有工作需要自己，其实这样的生活刚刚好。在此基础上，如果有人对我的工作感到满意，我会很高兴。</p>
-</blockquote>
-<p>而我，其实也一样哈。既然如此，还是让自己着眼于工作的根本，去努力吧。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Lecture 1]]></title>
-    <link href="chaoranlaoge.top/16053228002405.html"/>
-    <updated>2020-11-14T11:00:00+08:00</updated>
-    <id>chaoranlaoge.top/16053228002405.html</id>
-    <content type="html"><![CDATA[
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Go 安装技巧 + IDE + 资源推荐]]></title>
-    <link href="chaoranlaoge.top/16051903090609.html"/>
-    <updated>2020-11-12T22:11:49+08:00</updated>
-    <id>chaoranlaoge.top/16051903090609.html</id>
-    <content type="html"><![CDATA[
-<ul>
-<li>本文主要为初学者提供了Windows和Mac的防止被墙的安装技巧</li>
-<li>最后给初学者推荐了优质电子书/网站/学习资源及课程</li>
-<li>阅读时间5分钟</li>
-</ul>
-<span id="more"></span><!-- more -->
-<p>学习Go，可能是很多CS学生或者技术爱好者拥抱云原生浪潮最开始的第一步，但无奈的是，大多数人在第一个浪来的时候，就被拍死在沙滩上了。这里主要是以下几个原因：</p>
-<ol>
-<li>由于是谷歌公司开发的语言，Go语言的官方网址是托管在谷歌服务器上的，所以国内访问被墙是毫无疑问。</li>
-<li>官方网站无法访问的情况下，不知道去哪里获取语言安装包，其次不知道去哪里获取标准的官方文档。</li>
-<li>由于Go语言开发时，谷歌公司选择利用Github进行托管，导致Go语言相关的核心依赖包也顺理成章地都托管在Github上，当使用命令 <code>go get</code> 时基本上都会连接超时而无法下载依赖包，这个相当于是第二个噩耗（国内访问Github也是经常连不上，语言安装完成之后，依赖包无法下载就更无法处理程序编译了）。</li>
-<li>如果有科学上网梯子，那以上3个问题就迎刃而解。（不得不吐槽，对于国内CS学生或者技术爱好者，科学上网梯子真的太重要了）最后，工欲善其事，必先利其器。选择哪一款“低价/免费”的趁手兵器（IDE），就是困扰初学者敲代码前的最后一个问题了。</li>
-</ol>
-<p>很多人，看不上前面4个问题，放弃入门Go出门左拐去拥抱Python了，也有很多人，看了这个教程，从现在开始的5分钟之后就开始运行完了HelloWorld。</p>
-<h2><a id="go-windows%E5%92%8Cmac%E5%AE%89%E8%A3%85%E5%B0%8F%E6%8A%80%E5%B7%A7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go Windows和Mac安装小技巧</h2>
-<p>进入这个章节，我们着眼于解决前文提到的第一个问题：Go语言官方网站国内访问不上，如何安装Go语言。</p>
-<h3><a id="%E4%BB%8E%E5%9B%BD%E5%86%85%E7%BD%91%E7%AB%99%E4%B8%8B%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>从国内网站下载</h3>
-<p>国内支持下载安装包的网址有：</p>
-<ol>
-<li><a href="https://studygolang.com/dl">Go语言中文网下载页面</a></li>
-</ol>
-<p>如果有梯子的话，官方下载地址为：<a href="https://golang.org/dl/">GoLang官网下载页面</a></p>
-<p>下载完成之后，对于Windows和MacOS双击启动安装，并遵循提示进行安装。<br />
-安装完成之后，会将可执行二进制文件的文件夹<code>bin</code>目录加入系统的<code>PATH</code>环境变量。</p>
-<h3><a id="%E4%BF%AE%E6%94%B9%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E4%BE%9D%E8%B5%96%E5%8C%85%E4%B8%8B%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>修改国内镜像加速依赖包下载</h3>
-<p>国内镜像加速的方式，是通过开启国内代理的方式实现的。具体的方式可以参考(Go社区Wiki)[https://learnku.com/go/wikis/38122]:</p>
-<pre><code class="language-shell"># 对于类Unix系统
-# 启用 Go Modules 功能
-go env -w GO111MODULE=on
-
-# 配置 GOPROXY 环境变量，以下三选一
-
-# 1. 七牛 CDN
-go env -w  GOPROXY=https://goproxy.cn,direct
-
-# 2. 阿里云
-go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
-
-# 3. 官方
-go env -w  GOPROXY=https://goproxy.io,direct
-</code></pre>
-<p>对于Windows，该网站给出的脚本有点问题，我在Win10上无法使用，具体被我修改为：</p>
-<pre><code class="language-powershell">#对于Windows
-# 启用 Go Modules 功能
-SETX GO111MODULE=&quot;on&quot;
-
-# 配置 GOPROXY 环境变量，以下三选一
-
-# 1. 七牛 CDN
-go env -w GOPROXY=&quot;https://goproxy.cn,direct&quot;
-
-# 2. 阿里云
-go env -w GOPROXY=&quot;https://mirrors.aliyun.com/goproxy/,direct&quot;
-
-# 3. 官方
-go env -w GOPROXY=&quot;https://goproxy.io,direct&quot;
-</code></pre>
-<p>需要注意的是，<code>GO111MODULE</code>变量初始值为<code>auto</code>，事实上，设置<code>auto</code>是官方降低语言学习门槛有意为之。</p>
-<p>如果设置了环境变量，<code>go env -w</code>设置<code>GO111MODULE</code>变量初始值为<code>auto</code>的时候提示无法写入，一般是大家在ide中操作，大家需要先关闭ide，然后删除环境变量后再执行<code>go env</code>命令进行修改.</p>
-<p>我经过折腾之后，也不建议初学者一开始就设置代理（有时候初学者分不清楚到底是Go 语言相关的环境变量是否就是系统环境变量，而且会强制要求写<code>gomod</code>文件），建议一开始还是挂科学上网梯子。</p>
-<p>至于为什么会是这样的？如果大家点赞（在看超过50），我会再出一篇《go module 包管理器的上位之路》，由这篇博文来讲述来龙去脉。</p>
-<h3><a id="%E7%A6%BB%E7%BA%BF%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>离线环境安装依赖包</h3>
-<p>离线环境安装依赖包，需要提前先下载好依赖，这本身比较麻烦，建议直接安装一体化的IDE工具，比如说GoLand。如果不想使用GoLand，想要使用VSCode，那么参考如下安装教程：</p>
-<pre><code class="language-shell">
-</code></pre>
-<h2><a id="go-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go VSCode 编程环境构建</h2>
-<h3><a id="%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8E%A8%E8%8D%90vscode%E4%BD%9C%E4%B8%BAgo%E7%9A%84ide" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>为什么推荐VSCode作为Go的IDE</h3>
-<p>vscode要使用梯子，配置首选项添加代理http：//127.0.0.1:1080（ssr）<br />
-go install （win是ctrl+shift+p，mac是cmt+opt+p）</p>
-<h3><a id="%E5%AE%89%E8%A3%85%E7%9A%84%E5%8C%85%E5%92%8C%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装的包和作用</h3>
-<h2><a id="go%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E6%8E%A8%E8%8D%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Go 学习资源推荐</h2>
-<p>总的来说，推荐学习顺序如下：</p>
-<ol>
-<li>Go tour （推荐指数 🌟🌟🌟🌟🌟）<br />
-推荐理由：</li>
-<li>Go</li>
-</ol>
-<h3><a id="%E7%94%B5%E5%AD%90%E4%B9%A6%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>电子书分享</h3>
-<h3><a id="%E4%BC%98%E8%B4%A8%E7%BD%91%E7%AB%99%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质网站分享</h3>
-<h3><a id="%E4%BC%98%E8%B4%A8%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质资源分享</h3>
-<h3><a id="%E4%BC%98%E8%B4%A8%E8%AF%BE%E7%A8%8B%E5%88%86%E4%BA%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优质课程分享</h3>
 
 ]]></content>
   </entry>

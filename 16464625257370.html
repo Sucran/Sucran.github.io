@@ -1,0 +1,610 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  RocketMQ知识点 - 超燃老哥
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="超燃老哥" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:chaoranlaoge.top ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 超燃老哥</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="Others.html">Others</a></li>
+        
+            <li><a href="Language.html">Language</a></li>
+        
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
+        
+            <li><a href="Book.html">Book</a></li>
+        
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>RocketMQ知识点</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2022/03/05</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='MessageQueue.html'>MessageQueue</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <ul>
+<li><a href="#producer%E7%9F%A5%E8%AF%86%E7%82%B9">Producer知识点</a>
+<ul>
+<li><a href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%BB%84">生产者组</a></li>
+<li><a href="#%E5%8F%91%E9%80%81%E6%96%B9%E5%BC%8F">发送方式</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E8%BF%94%E5%9B%9E%E7%A0%81">消息返回码</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B">消息类型</a>
+<ul>
+<li><a href="#%E6%99%AE%E9%80%9A%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">普通顺序消息</a></li>
+<li><a href="#%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF">延迟消息</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%B6%88%E6%81%AFmessage%E7%9F%A5%E8%AF%86%E7%82%B9">消息Message知识点</a>
+<ul>
+<li><a href="#%E4%B8%A5%E6%A0%BC%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">严格顺序消息</a></li>
+<li><a href="#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF">顺序消息</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%87%E7%AD%BEtag%E7%9F%A5%E8%AF%86%E7%82%B9">标签Tag知识点</a></li>
+</ul>
+
+<h2><a id="producer%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Producer知识点</h2>
+<p>RocketMQ的消息发送方，叫做Producer（生产者）。一般由业务系统负责生产消息。一个消息生产者会把业务应用系统里产生的消息发送到broker服务器。</p>
+<h3><a id="%E7%94%9F%E4%BA%A7%E8%80%85%E7%BB%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>生产者组</h3>
+<p>RocketMQ设计了一个Producer Group（生产者组）的概念，这类Producer发送同一类消息且发送逻辑一致。</p>
+<p>生产者组的意义在于互备，如果发送的是事务消息且原始生产者在发送之后崩溃，则Broker服务器会联系同一生产者组的其他生产者实例以提交或回溯消费。</p>
+<h3><a id="%E5%8F%91%E9%80%81%E6%96%B9%E5%BC%8F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>发送方式</h3>
+<p>RocketMQ提供多种发送方式，同步发送、异步发送、顺序发送、单向发送。同步和异步方式均需要Broker返回确认信息，单向发送不需要。</p>
+<p>消息发送典型的形式是同步发送和异步发送。同步发送，调用的就是<code>send</code>方法。异步发送，也是<code>send</code>方法，但是需要创建<code>SendCallBack</code>，来重写<code>onSuccess</code>和<code>onException</code>两个方法。</p>
+<p>单向发送，调用的是<code>sendOneWay</code>方法，调用之后没有任何返回结果。主要是用在不关心发送结果的场景，比如日志发送。</p>
+<h3><a id="%E6%B6%88%E6%81%AF%E8%BF%94%E5%9B%9E%E7%A0%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息返回码</h3>
+<p>当Producer采用同步或者异步发送方式时，都需要处理Broker的返回码，返回码包括以下几种：</p>
+<ul>
+<li>FLUSH_DISK_TIMEOUT 没有在规定时间刷盘</li>
+<li>FLUSH_SLAVE_TIMEOUT 没有在设定时间内完成主从同步（这种是在Broker主从同步方式设置成SYNC_MASTER时才有的）</li>
+<li>SLAVE_NOT_AVAILABLE 没有找到被配置成Slave的Broker节点（这种是在Broker主从同步方式设置成SYNC_MASTER时才有的）</li>
+<li>SEND_OK 发送成功</li>
+</ul>
+<p>第二种和第三种是基本一致的</p>
+<h3><a id="%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息类型</h3>
+<h4><a id="%E6%99%AE%E9%80%9A%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>普通顺序消息</h4>
+<p>RocketMQ按发送过程，可以将消息类型可以分成三种：顺序消息，延迟消息，事务消息</p>
+<p>顺序消息，是指Producer发送时，默认情况下是采取Round Robin轮询方式把消息发送到Topic下的不同的queue（分区队列），如果说queue只有一个，那么消息就是Topic下全局有序的，又如果说queue有多个，那么消息是分区有序，即只在当前queue里有序。</p>
+<h4><a id="%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>延迟消息</h4>
+<p>延迟消息，是指Producer发送给Broker之后，Broker会延迟一段时间再处理，使消息在用户设置的延迟时间之后才生效。</p>
+<p>使用方法，是在创建<code>Message对象</code>时，调用<code>setDelayTimeLevel(int level)</code>方法设置延迟时间，目前延迟的时间不支持任意设置，仅支持一些预设置的时间长度，这个预设置是在Broker配置，注意是全局生效（所有topic共用）。默认的值是<code>“1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h”</code>，一共18个级别。当级别为0时，表示非延迟消息，如果<code>level</code>大于等于18，也按最大的值计算。</p>
+<p>定时消息会暂存在名为<code>SCHEDULE_TOPIC_XXXX</code>的topic中，并根据<code>delayTimeLevel</code>存入特定的queue，<code>queueId = delayTimeLevel – 1</code>，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费<code>SCHEDULE_TOPIC_XXXX</code>，将消息写入真实的topic。</p>
+<h2><a id="%E6%B6%88%E6%81%AFmessage%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息Message知识点</h2>
+<p>RocketMQ消息系统所传输信息的物理载体，生产和消费数据的最小单位，每条消息必须属于一个主题。</p>
+<p>RocketMQ中每个消息拥有唯一的Message ID，且可以携带具有业务标识的Key。系统提供了通过Message ID和Key查询消息的功能。</p>
+<h3><a id="%E4%B8%A5%E6%A0%BC%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>严格顺序消息</h3>
+<p>严格顺序消息模式下，消费者收到的所有消息均是有顺序的。</p>
+<h3><a id="%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>顺序消息</h3>
+<p>普通顺序消费模式下，消费者通过同一个消息队列（ Topic分区，称作 Message Queue） 收到的消息是有顺序的，不同消息队列收到的消息则可能是无顺序的。</p>
+<h2><a id="%E6%A0%87%E7%AD%BEtag%E7%9F%A5%E8%AF%86%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>标签Tag知识点</h2>
+<p>用于同一主题下区分不同类型的消息。</p>
+<p>来自同一业务单元的消息，可以根据不同业务目的在同一主题下设置不同标签。</p>
+<p>标签能够有效地保持代码的清晰度和连贯性，并优化RocketMQ提供的查询系统。</p>
+<p>消费者可以根据Tag实现对不同子主题的不同消费逻辑，实现更好的扩展性。</p>
+<hr />
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="16465400869241.html" 
+          title="Previous Post: RocketMQ安装与实践">&laquo; RocketMQ安装与实践</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="16464531729826.html" 
+          title="Next Post: RocketMQ源码解读">RocketMQ源码解读 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>超燃老哥</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="Others.html"><strong>Others</strong></a>
+        
+            <a href="Language.html"><strong>Language</strong></a>
+        
+            <a href="DataBase.html"><strong>DataBase</strong></a>
+        
+            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
+        
+            <a href="Book.html"><strong>Book</strong></a>
+        
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
+        
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
+        
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16464625257370.html">RocketMQ知识点</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>

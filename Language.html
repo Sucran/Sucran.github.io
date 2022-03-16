@@ -79,11 +79,17 @@
         
             <li><a href="Language.html">Language</a></li>
         
-            <li><a href="Course.html">Course</a></li>
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
         
             <li><a href="Book.html">Book</a></li>
         
-            <li><a href="Deploy.html">Deploy</a></li>
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
          
 
       </ul>
@@ -106,29 +112,25 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="16321151686617.html">
+                <a class="clearlink" href="16425177538685.html">
                 
-                  <h1>Go语言特性</h1>
+                  <h1>JVM排查命令备忘录</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2><a id="%E5%BC%80%E5%8F%91%E5%BF%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>开发快</h2>
-<h3><a id="%E7%BC%96%E8%AF%91%E5%BF%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译快</h3>
-<p>只会关注那些被直接被引用的库，而不是像 Java、C 和 C++那样,要遍历依赖链中所有依赖的库</p>
-<p>在现代硬件上,编译整个 Go 语言的源码树只需要 20 秒。</p>
-<h3><a id="%E7%BC%96%E8%AF%91%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>编译类型检查</h3>
-<p>因为没有从编译代码到执行代码的中间过程,用动态语言编写应用程序可以快速看到输出。<br />
-代价是, 动态语言不提供静态语言提供的类型安全特性, 不得不经常用大量的测试套件来避免在运行的时候出现类型错误这类 bug。</p>
-<p>在 Go 语言里,完全不用为这件事情操心,因为编译器就能帮用户捕获这种类型错误。</p>
-<h2><a id="%E5%8E%9F%E7%94%9F%E6%94%AF%E6%8C%81%E5%B9%B6%E5%8F%91" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>原生支持并发</h2>
-<p>go语言内置并发支持，称为goroutine，但仅仅原生支持并不够。</p>
-<p>并发的最难的部分就是要确保其他并发运行的进程、线程或 goroutine不会意外修改用户的数据。当不同的线程在没有同步保护的情况下修改同一个数据时，总会发生灾难。在其他语言中，如果使用全局变量或者共享内存，必须使用复杂的锁规则来防止对同一个变量的不同步修改。</p>
-<p>为了解决这个问题，通道（channel）提供了一种新模式,从而保证并发修改时的数据安全。通道这一模式保证同一时刻只会有一个 goroutine修改数据。</p>
-<h3><a id="goroutine" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>goroutine</h3>
-<p>goroutine，执行单位是函数，相当于其他语言中线程的作用，但是他占用的内存比线程小，需要编写的代码比线程少，而且go语言会有内置的一组逻辑处理器，来做goroutine的调度，调度器会绑定在线程上，一个机器可以启动成千上万个goroutine。</p>
-<p>goroutine，只需要关键字go，就能触发。</p>
-<h3><a id="channel" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>channel</h3>
+                        	<h2><a id="jmap" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jmap</h2>
+<p><code>jmap -histo:live 进程号 &gt; 转存文件名称</code></p>
+<p><code>jmap -histo:live</code> 会触发Full GC，<code>jmap -histo</code>不会触发</p>
+<p><code>jmap -dump:live,format=b,file=文件名 进程号</code></p>
+<h2><a id="jstat" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jstat</h2>
+<p><code>jstat -gcutil 进程号 1000 1000</code></p>
+<h2><a id="mat%E5%B7%A5%E5%85%B7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>MAT工具</h2>
+<p>可以从<a href="https://www.eclipse.org/mat/previousReleases.php">MAT工具下载页面</a>直接下载MAT工具</p>
+<p>MAT工具与JDK版本的关系是：<br />
+1.8版本及以下MAT工具，对应的是JDK1.8及以下版本<br />
+1.8版本及以上MAT工具，对应的是JDK1.9及以上版本</p>
+<h2><a id="arthas" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arthas</h2>
 
                         
                       </div>
@@ -137,10 +139,10 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2021/09/20</span>
+                    <span class="date">2022/01/18</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='Language.html'>Language</a></span>
+          					    <span class="posted-in"><a href='Java.html'>Java</a></span>
           				   
                     
 
@@ -163,19 +165,38 @@
                       
                       <div class="a-content-text">
                         
-                        	<h2><a id="%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件处理类型</h2>
-<ol>
-<li>查看文件夹目录底下的所有文件大小</li>
-</ol>
-<blockquote>
-<p>du -h --max-depth=1</p>
-</blockquote>
-<ol start="2">
-<li>查看文件系统大小列表</li>
-</ol>
-<blockquote>
-<p>df -h</p>
-</blockquote>
+                        	<h2><a id="vim%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>vim 快捷键备忘录</h2>
+<p>G 到文件尾部<br />
+:num num指的是行号<br />
+:vs file_path 左右打开文件<br />
+:sp file_path 上下打开文件<br />
+:winc j/k/h/l 上下左右窗口光标移动</p>
+<h2><a id="%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件处理类型</h2>
+<ul>
+<li>
+<p>查看文件夹目录底下的所有文件大小<br />
+<code> du -h --max-depth=1</code></p>
+</li>
+<li>
+<p>查看文件系统大小列表<br />
+<code> df -h</code></p>
+</li>
+<li>
+<p>grep去掉grep自身的进程并获取进程号<br />
+<code> ps -eo pid,cmd | grep exec | grep -v grep | awk 'print {$1}'</code></p>
+</li>
+<li>
+<p>ps 获取进程开始时间<br />
+<code> ps -eo lstart,etime | grep exec</code></p>
+</li>
+<li>
+<p>字符串截取 截取字符串中左边或者右边的字符串</p>
+</li>
+</ul>
+<pre><code class="language-shell">name=filebeat/platform
+echo ${name%/*} # = filebeat = 删除了字符 '/' 右边的所有字符
+echo ${name##*/} # = platform = 删除了字符 '/' 左边的所有字符
+</code></pre>
 
                         
                       </div>
@@ -188,84 +209,6 @@
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Shell.html'>Shell</a></span>
-          				   
-                    
-
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="16140023691726.html">
-                
-                  <h1>Go速成（Java）</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>本文主要是作者看到<a href="https://oi-wiki.org/lang/java/">OI wiki</a>上的Java速成，刚好那时候读完了Go语言之旅<a href="https://tour.go-zh.org/list">tour.go-zh.org</a>，试着写的一个Go语言语法速成指南。</p>
-<blockquote>
-<p>Go（又称Golang）是Google开发的一种静态强类型、编译型、并发型，并具有垃圾回收功能的编程语言。</p>
-</blockquote>
-<p>从某种程度上来说，我更愿意以Java来对比Go，但对于一些语法糖，我更愿意转向Python来对比。</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="16140023691726.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2021/02/22</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Go.html'>Go</a></span>
-          				   
-                    
-
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="16051903090609.html">
-                
-                  <h1>Go 安装技巧 + IDE + 资源推荐</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<ul>
-<li>本文主要为初学者提供了Windows和Mac的防止被墙的安装技巧</li>
-<li>最后给初学者推荐了优质电子书/网站/学习资源及课程</li>
-<li>阅读时间5分钟</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="16051903090609.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2020/11/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Go.html'>Go</a></span>
           				   
                     
 
@@ -336,11 +279,17 @@
         
             <a href="Language.html"><strong>Language</strong></a>
         
-            <a href="Course.html"><strong>Course</strong></a>
+            <a href="DataBase.html"><strong>DataBase</strong></a>
+        
+            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
         
             <a href="Book.html"><strong>Book</strong></a>
         
-            <a href="Deploy.html"><strong>Deploy</strong></a>
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
+        
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
+        
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
          
         </p>
 
@@ -357,33 +306,47 @@
 	      
 		      
 			      <li class="post">
-			        <a href="16335352502635.html">小王子，他学会的爱与被爱</a>
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16321151686617.html">Go语言特性</a>
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16272759911547.html">Shell备忘录</a>
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16140023691726.html">Go速成（Java）</a>
+			        <a href="16464625257370.html">RocketMQ知识点</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16132317373263.html">记观影《唐人街探案3》的十个优秀细节</a>
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
 		  
 		      
 		  

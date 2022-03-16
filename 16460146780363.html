@@ -1,0 +1,768 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  消息队列学习笔记 - 超燃老哥
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="超燃老哥" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:chaoranlaoge.top ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 超燃老哥</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="Others.html">Others</a></li>
+        
+            <li><a href="Language.html">Language</a></li>
+        
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
+        
+            <li><a href="Book.html">Book</a></li>
+        
+            <li><a href="Hadoop.html">Hadoop</a></li>
+        
+            <li><a href="Alluxio.html">Alluxio</a></li>
+        
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>消息队列学习笔记</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2022/02/28</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='MessageQueue.html'>MessageQueue</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <ul>
+<li><a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%A6%82%E8%BF%B0">消息队列概述</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">消息模型</a>
+<ul>
+<li><a href="#%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B">队列模型</a>
+<ul>
+<li><a href="#%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98">队列模型存在的问题</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B%EF%BC%88publish-subscribe-pattern%EF%BC%89">发布-订阅模型（Publish-Subscribe Pattern）</a></li>
+<li><a href="#rabbitmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">RabbitMQ的消息模型</a></li>
+<li><a href="#rocketmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B">RocketMQ的消息模型</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF">事务消息</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1">消息丢失</a></li>
+<li><a href="#%E9%87%8D%E5%A4%8D%E6%B6%88%E6%81%AF">重复消息</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B">消息积压</a></li>
+<li><a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%87%AA%E6%9F%A5q-a">消息队列自查Q&amp;A</a></li>
+</ul>
+
+<h2><a id="%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%A6%82%E8%BF%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息队列概述</h2>
+<ul>
+<li>消息队列适合解决什么问题？</li>
+</ul>
+<ol>
+<li>异步处理</li>
+<li>流量控制</li>
+<li>解耦应用</li>
+<li>消息分发</li>
+</ol>
+<ul>
+<li>使用消息队列的问题和局限性</li>
+</ul>
+<ol>
+<li>引入消息队列带来的延迟问题</li>
+<li>增加了系统的复杂度</li>
+<li>可能产生数据不一致的问题</li>
+</ol>
+<ul>
+<li>可供选择的开源消息队列产品：</li>
+</ul>
+<ol>
+<li>老牌儿消息队列 RabbitMQ，俗称兔子 MQ。</li>
+</ol>
+<blockquote>
+<p>RabbitMQ 一个比较有特色的功能是支持非常灵活的<strong>路由配置</strong>，和其他消息队列不同的是，它在生产者（Producer）和队列（Queue）之间增加了一个 <strong>Exchange 模块</strong>，你可以理解为交换机。这个 Exchange 模块的作用和交换机也非常相似，根据配置的路由规则将生产者发出的消息分发到不同的队列中。路由的规则也非常灵活，甚至你可以自己来实现路由规则。基于这个 Exchange，可以产生很多的玩儿法，如果你正好需要这个功能，RabbitMQ 是个不错的选择。</p>
+<p>RabbitMQ有几个问题：1. 对消息堆积的支持并不好，大量消息堆积会导致RabbitMQ性能急剧下降。2. RabbitMQ性能比RocketMQ和Kafka都差，如果应用对消息队列性能要求非常高，不要选择RabbitMQ。3. RabbitMQ使用Erlang开发，不好做二次开发或拓展。</p>
+</blockquote>
+<ol start="2">
+<li>RocketMQ 是阿里巴巴在 2012 年开源的消息队列产品，后来捐赠给 Apache 软件基金会，2017 正式毕业，成为 Apache 的顶级项目。</li>
+</ol>
+<blockquote>
+<p>RocketMQ 就像一个品学兼优的好学生，有着不错的性能，稳定性和可靠性，具备一个现代的消息队列应该有的几乎全部功能和特性，并且它还在持续的成长中。</p>
+<p>RocketMQ 对在线业务的响应时延做了很多的优化，大多数情况下可以做到毫秒级的响应，如果你的应用场景很在意响应时延，那应该选择使用 RocketMQ。每秒钟大概能处理几十万条消息。</p>
+<p>RocketMQ 的一个劣势是，作为国产的消息队列，相比国外的比较流行的同类产品，在国际上还没有那么流行，与周边生态系统的集成和兼容程度要略逊一筹。</p>
+</blockquote>
+<ol start="3">
+<li>Kafka 最早是由 LinkedIn 开发，目前也是 Apache 的顶级项目。Kafka 最初的设计目的是用于处理海量的日志。</li>
+</ol>
+<blockquote>
+<p>Kafka 与周边生态系统的兼容性是最好的没有之一，尤其在大数据和流计算领域，几乎所有的相关开源软件系统都会优先支持 Kafka。</p>
+<p>Kafka 使用 Scala 和 Java 语言开发，设计上大量使用了批量和异步的思想，这种设计使得 Kafka 能做到超高的性能。Kafka 的性能，尤其是异步收发的性能，是三者中最好的，但与 RocketMQ 并没有量级上的差异，大约每秒钟可以处理几十万条消息。</p>
+<p>但是 Kafka 这种<strong>异步批量</strong>的设计带来的问题是，它的同步收发消息的响应时延比较高，因为当客户端发送一条消息的时候，Kafka 并不会立即发送出去，而是要等一会儿攒一批再发送，在它的 Broker 中，很多地方都会使用这种“先攒一波再一起处理”的设计。当你的业务场景中，每秒钟消息数量没有那么多的时候，Kafka 的时延反而会比较高。所以，Kafka 不太适合在线业务场景。</p>
+</blockquote>
+<ol start="4">
+<li>Pulsar是一个新兴的开源消息队列产品，最早是由 Yahoo 开发，目前处于成长期，流行度和成熟度相对没有那么高。与其他消息队列最大的不同是，Pulsar 采用存储和计算分离的设计.</li>
+</ol>
+<p>总结：如果只是需要一个开箱即用易于维护的产品，建议用RabbitMQ。如果主要常见在于处理在线业务，RocketMQ的低延迟和金融级的稳定性是需要的。如果需要处理海量消息，Kafka异步处理比较适合。</p>
+<h2><a id="%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息模型</h2>
+<h3><a id="%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>队列模型</h3>
+<p><img src="media/16460146780363/16460294424686.jpg" alt="" /></p>
+<blockquote>
+<p>早期的消息队列，就是按照“队列”的数据结构来设计的。我们一起看下这个图，生产者（Producer）发消息就是入队操作，消费者（Consumer）收消息就是出队也就是删除操作，服务端存放消息的容器自然就称为“队列”。</p>
+</blockquote>
+<h4><a id="%E9%98%9F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>队列模型存在的问题</h4>
+<p>多个生产者往消息队列里面发送消息，消费者能够消费到的消息就是这些生产者生产的所有消息的合计。消息的顺序就是这些生产者发送消息的自然顺序。</p>
+<p>但如果有多个消费者接受同一个队列的消息，这些消费者之间实际上是竞争的关系，每个消费者只能收到队列中的一部分消息，也就是说任何一条消息只能被其中一个消费者收到。</p>
+<p>如果需要将一份消息数据分发给多个消费者，要求每个消费者都能收到这个消息，比如一份订单数据，风控系统、分析系统、支付系统等都需要接收消息。这个时候，单个队列就满足不了需求，一个可行的解决方式是，为每个消费者创建一个单独的队列，让生产者发送多份。这样会耗费大量资源，而且生产者必须知道有多少个消费者，这样他才能为每个消费者单独发送一份消息，这实际上违背了消息队列“解耦”的这个设计。</p>
+<h3><a id="%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B%EF%BC%88publish-subscribe-pattern%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>发布-订阅模型（Publish-Subscribe Pattern）</h3>
+<p><img src="media/16460146780363/16460295367852.jpg" alt="" /></p>
+<p>在发布 - 订阅模型中，消息的发送方称为<strong>发布者</strong>（Publisher），消息的接收方称为<strong>订阅者</strong>（Subscriber），服务端存放消息的容器称为<strong>主题</strong>（Topic）。</p>
+<p>发布者将消息发送到主题中，订阅者在接收消息之前需要先“订阅主题”。“订阅”在这里既是一个<strong>动作</strong>，同时还可以认为是主题在消费时的一个<strong>逻辑副本</strong>，每份订阅中，订阅者都可以接收到主题的所有消息。</p>
+<ul>
+<li>队列模型和发布-订阅模型最大的区别：一份消息数据能不能被消费多次的问题。</li>
+<li>队列模型和发布-订阅模型：如果只有一个订阅者，发布-订阅模型就是队列模型。</li>
+</ul>
+<h3><a id="rabbitmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>RabbitMQ的消息模型</h3>
+<p><img src="media/16460146780363/16460298278837.jpg" alt="" /></p>
+<p>在 RabbitMQ 中，Exchange 位于生产者和队列之间，生产者并不关心将消息发送给哪个队列，而是将消息发送给 Exchange，由 Exchange 上配置的策略来决定将消息投递到哪些队列中。</p>
+<ul>
+<li>RabbitMQ消息模型如何实现发布-订阅模型？</li>
+</ul>
+<p><strong>Exchange配置消息发送到多个队列，变相实现一份消息消费多次的发布-订阅模型。</strong></p>
+<p>同一份消息如果需要被多个消费者来消费，需要配置 Exchange 将消息发送到多个队列，每个队列中都存放一份完整的消息数据，可以为一个消费者提供消费服务。这也可以变相地实现新发布 - 订阅模型中，“一份消息数据可以被多个订阅者来多次消费”这样的功能。</p>
+<h3><a id="rocketmq%E7%9A%84%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>RocketMQ的消息模型</h3>
+<p>RocketMQ 使用的消息模型是标准的发布 - 订阅模型，但是，在 RocketMQ 也有队列（Queue）这个概念，并且队列在 RocketMQ 中是一个非常重要的概念。<strong>RocketMQ消息模型中，每个主题中包含了多个队列，通过多个队列来实现多实例并行生产和消费。</strong></p>
+<p><img src="media/16460146780363/16460300018938.jpg" alt="" /></p>
+<ul>
+<li>什么是“请求 - 确认”机制？</li>
+</ul>
+<p>几乎所有的消息队列产品都使用一种非常朴素的“请求 - 确认”机制，确保消息不会在传递过程中由于网络或服务器故障丢失。在生产端，生产者先将消息发送给服务端，也就是 Broker，服务端在收到消息并将消息写入主题或者队列中后，会给生产者发送确认的响应。如果生产者没有收到服务端的确认或者收到失败的响应，则会重新发送消息；在消费端，消费者在收到消息并完成自己的消费业务逻辑（比如，将数据保存到数据库中）后，也会给服务端发送消费成功的确认，服务端只有收到消费确认后，才认为一条消息被成功消费，否则它会给消费者重新发送这条消息，直到收到对应的消费成功确认。</p>
+<ul>
+<li>“请求-确认”机制会给消费端带来什么问题？</li>
+</ul>
+<p>在某一条消息被成功消费之前，下一条消息是不能被消费的，否则就会出现<strong>消息空洞</strong>，违背了有序性的原则。也就是说，<strong>发布-订阅模型中每个主题在任意时刻，至多只能有一个消费者实例在进行消费</strong>，那就无法通过水平扩展消费者的数量来提升提升消费端总体的消费性能。</p>
+<ul>
+<li>RocketMQ消息模型与发布-订阅模型的不同点</li>
+</ul>
+<p><strong>RocketMQ 只在队列上保证消息的有序性</strong>，主题层面是无法保证消息的严格顺序的。RocketMQ 中，订阅者的概念是通过消费组（Consumer Group）来体现的。<strong>每个消费组都消费主题中一份完整的消息，不同消费组之间消费进度彼此不受影响</strong>，也就是说，一条消息被 Consumer Group1 消费过，也会再给 Consumer Group2 消费。在 Topic 的消费过程中，由于消息需要被不同的组进行多次消费，所以<strong>消费完的消息并不会立即被删除</strong>，这就需要 RocketMQ 为每个消费组在每个队列上维护一个<strong>消费位置（Consumer Offset）</strong>，这个位置之前的消息都被消费过，之后的消息都没有被消费过，每成功消费一条消息，消费位置就加一。这个消费位置是非常重要的概念，我们在使用消息队列的时候，丢消息的原因大多是由于消费位置处理不当导致的。</p>
+<ul>
+<li>Kafka和RocketMQ消息模型的异同</li>
+</ul>
+<p>Kafka和RocketMQ在消息模型上是完全一致的，唯一的区别在于，RocketMQ中主题里面有分多个队列，而Kafka中队列的概念对应名称是“<strong>分区</strong>”。</p>
+<h2><a id="%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>事务消息</h2>
+<p>分布式事务的4个属性：ACID特性，原子性、一致性、隔离性、持久性</p>
+<p>比较常见的分布式事务：2PC（Two-phase commit，二阶段提交）TCC（Try-Confirm-Cancle）和事务消息。</p>
+<p>事务消息适用的常见主要是<strong>那些需要异步更新数据，并且对数据实时性要求不太高的场景。</strong></p>
+<ul>
+<li>消息队列如何实现分布式事务？</li>
+</ul>
+<p><img src="media/16460146780363/16462014497198.jpg" alt="" /></p>
+<ol>
+<li>订单系统在消息队列上<strong>开启一个事务</strong></li>
+<li>订单系统给消息服务器发送一个“半消息”，这个半消息不是说消息内容不完整，它包含的内容就是完整的消息内容，半消息和普通消息的唯一区别是，<strong>在事务提交之前，对于消费者来说，这个消息是不可见的。</strong></li>
+<li>半消息发送成功后，订单系统就可以<strong>执行本地事务</strong>了，在订单库中创建一条订单记录，并提交订单库的数据库事务。</li>
+<li>如果订单创建成功，那就<strong>提交事务消息</strong>，购物车系统就可以<strong>消费到这条消息</strong>继续后续的流程。如果订单创建失败，那就<strong>回滚事务消息</strong>，购物车系统就不会收到这条消息。</li>
+</ol>
+<p>第四步可能会出现提交事务消息失败，此时还是会出现不满足一致性要求的问题，</p>
+<ul>
+<li>Kafka和RocketMQ如何处理提交事务消息失败导致事务消息不满足一致性要求的问题？</li>
+</ul>
+<p>Kafka和RocketMQ都提供了相应的解决方案。如果提交事务消息失败，Kafka会直接抛出异常，让用户自行处理。在业务代码里，我们可以反复重试提交，直到提交成功，或者回退之前的本地处理。</p>
+<p>RocketMQ给出另外一种解决方案，RocketMQ增加了事务反查的机制来解决事务消息提交失败的问题。如果生产者在提交或者回滚事务消息时发生网络异常，RocketMQ的Broker没有收到提交或者回滚的要求，Broker会定期去Producer上反查这个事务对应的本地事务的状态，然后根据反查结果决定提交或者回滚这个事务。</p>
+<p>为了支撑这个事务反查机制，我们的业务代码需要实现一个<strong>反查本地事务状态的接口</strong>，告知<strong>RocketMQ本地事务是成功还是失败，这个本地事务的实现，并不依赖消息的发送方</strong>，这种情况下，即使是发送事务消息的生产者节点宕机了，RocketMQ仍然可以通过其他生产者节点来执行反查，确保事务的完整性。</p>
+<p><img src="media/16460146780363/16462014735098.jpg" alt="" /></p>
+<ul>
+<li>相比于原来的事务消息实现，RocketMQ有何不同点？</li>
+</ul>
+<p>RocketMQ对于第四步提交或回滚事务失败，能够实现本地事务反查机制，来根据本地事务的反查结果决定最后是否投递或者回滚事务消息。</p>
+<h2><a id="%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息丢失</h2>
+<ul>
+<li>如何检测消息丢失？</li>
+</ul>
+<p>IT基础设施比较完善的公司，一般都有<strong>分布式链路追踪系统</strong>，使用类似的追踪系统可以很方便地追踪每一条消息。但如果没有这样的追踪系统，我们可以<strong>利用消息队列的有序性来验证是否有消息丢失</strong>。</p>
+<p>我们给生产者节点发出的消息都附加一个连续递增的序号，然后在消费者节点来检查这个序号的连续性。如果消息没有丢失，序号必然是连续的，如果消息丢失了，那么就是丢消息了，还可以通过缺失的序号来确定丢失的是哪条消息，方便进一步排查原因。</p>
+<p>大多数消息队列的客户端都支持拦截器机制，可以利用这个机制将序号注入到消息中，在消费者节点收到消息的拦截器中检测序号的连续性，这样实现的好处是消息检测的代码不会侵入到业务代码，待系统稳定后，也方便讲这部分检测的逻辑关闭或者删除。</p>
+<p>以上是针对单机系统实现的消息丢失检测方法，对于分布式系统要实现这个消息丢失检测方法，还有几个问题：</p>
+<ol>
+<li>Kafka和RocketMQ这些消息队列，不保证Topic上的严格顺序，只能保证分区（队列）上的消息是有序的，所以我们在发消息的时候，要指定分区（队列），并且每个分区单独检测消息序号的连续性。</li>
+<li>如果系统的生产者节点是多实例的，由于并不好协调多个生产者端消息的发送顺序，所以也需要每个生产者分别生产各自的消息序号，并且需要附加上生产者节点的标识，在消费者端按照每个生产者来分别检测序号的连续性。</li>
+<li>消费者节点的数量最好和分区数量一致，做到消费者和分区一一对应，这样比较好单独处理每一个分区。</li>
+</ol>
+<ul>
+<li>日常使用中如何保证不会丢失消息？</li>
+</ul>
+<ol>
+<li>
+<p>生产阶段，生产者节点一定要根据请求确认机制，发送消息之后要正确处理返回值或者捕获异常，就可以保证这个阶段消息不会丢失。</p>
+</li>
+<li>
+<p>存储阶段，如果Broker出现了故障，比如进程死掉了或者服务器宕机了，还是可能会丢失信息。如果对消息的可靠性要求非常高，可以通过配置Broker参数来避免因为宕机丢失信息。</p>
+<p>如果是单节点的Broker，需要配置Broker参数，将消息写入磁盘后再给Producer返回确认响应，由于此时消息已经写入磁盘了，服务恢复之后还能继续消费。</p>
+<p>RocketMQ中，需要将刷盘方式flushDiskType配置为SYNC_FLUSH同步刷盘。</p>
+<p>如果是多节点组成的Broker，需要配置Broker集群为：至少将消息发送到2个以上的节点，再给客户端回复发送确认响应，这样当Broker宕机时，其他的Broker也可以替代宕机的Broker，也不会发生消息丢失。</p>
+</li>
+<li>
+<p>消费阶段和生产阶段一样，都是要根据请求确认机制，需要注意的是，不要再收到消息后就立即发送消费确认，而是应该在执行完所有消费业务逻辑之后，再发送消费确认。</p>
+</li>
+</ol>
+<h2><a id="%E9%87%8D%E5%A4%8D%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>重复消息</h2>
+<p>消息传递过程中，如果出现传递失败的情况，发送方会执行重试，重试的过程中就有可能会产生重复的消息。对使用消息队列的业务系统来说，如果没有对重复消息进行处理，就有可能会导致系统的数据出现错误。</p>
+<p>在MQTT协议中，给出了三种传递消息时能够提供的服务质量标准，这三种服务指令从低到高依次是：</p>
+<ul>
+<li>At most once，至多一次，没有消息可靠性包之，允许丢消息，消息传递时，最多会被送达一次。</li>
+<li>At least once，至少一次，不允许丢消息，但是允许有少量重复消息出现，消息传递时，至少会被送达一次。</li>
+<li>Exactly once，恰好一次，消息传递时，只会被送达一次，不允许丢失也不允许重复，这个是最高标准。</li>
+</ul>
+<p>这个服务指令标准不仅适用于MTQQ，对所有消息队列都是适用的。</p>
+<p>我们现在常用的绝大部分消息队列提供的服务质量都是At least once，包括RocketMQ/RabbitMQ/Kafka等，也就是说消息队列很难保证消息不重复。</p>
+<p>解决重复消息问题的关键在于：<strong>幂等性</strong>（让消费消息的业务方法具有幂等性，也就是说其认一多次执行所产生的影响均与一次执行的影响相同）</p>
+<p>如果我们系统消费消息的业务逻辑具备幂等性，那就不用担心消息重复的问题，从对系统影响结果来说，<strong>At least once + 幂等消费 = Exactly once</strong>。</p>
+<p>常用的几种设计幂等操作的方法有：</p>
+<ol>
+<li>利用数据库的唯一约束实现幂等</li>
+</ol>
+<p>如果是关系型数据库，只要是支持类似” <strong>INSERT IF NOT EXIST</strong>“ 语义的存储系统都可以用于实现幂等，Redis的SETNX命令也可以替代数据库的唯一约束，来实现幂等消费。</p>
+<ol start="2">
+<li>为更新数据设置前置条件</li>
+</ol>
+<p><strong>给数据变更设置一个前置条件，如果满足条件就更新数据，否则拒绝更新数据。</strong></p>
+<p>如果我们要更新的数据不是数值，是比较复杂的更新操作，<strong>更加通用的方法是给数据加一个版本号属性</strong>，每次更新数据之前，比较当前数据的版本号是否和消息中的版本号一致，如果不一致就拒绝更新数据，更新数据的同事将版本号+1，一样可以实现幂等更新。</p>
+<ol start="3">
+<li>记录并检查操作</li>
+</ol>
+<p>适用范围最广的实现幂等性的方法：记录并检查操作，也成为”Token机制或者GUID（全局唯一ID）机制“。</p>
+<p>具体实现方法是，在发送消息时，给每条消息指定一个全局唯一的ID，消费时先根据这个ID检查这条消息是否有被消费过，如果没被消费过，才更新数据，然后将消费状态设置为已消费。</p>
+<p>然而，分布式系统中要实现”<strong>检查消费状态，然后更新数据并且设置消费状态</strong>“这三个操作作为一组操作保证<strong>原子性</strong>，才能实现幂等，否则就会出现Bug。</p>
+<p>对于分布式系统，我们可以用事务，或者用锁来实现，但在分布式系统中，无论是分布式事务还是分布式锁都是比较难解决问题，所以一般不推荐使用。</p>
+<p><strong>幂等性同样适用于其他重试导致的重复调用问题，可以举一反三。</strong></p>
+<h2><a id="%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息积压</h2>
+<p>消息积压得直接原因：系统中某个部分出现了性能问题，来不及处理上游发送的消息才会导致消息积压。</p>
+<p>一般来说，我们解决消息积压问题时，关注点不应该是消息队列本身的性能（一般消息队列每秒钟能处理几万至几十万条消息的水平），主要关注点在于，我们的业务代码怎么和消息队列配合，达到一个最佳的性能。</p>
+<ol>
+<li>发送端性能优化</li>
+</ol>
+<p>一般发送端代码，都是先执行业务逻辑，最后才发送消息。如果说，发送端发送消息的性能上不去，需要有先检查一下，是不是<strong>发送消息之前的业务逻辑耗时太多导致</strong>。</p>
+<p>一般来说，单线程的发送端<strong>发送消息的耗时</strong>包含的步骤主要是：1）发送端准备数据，序列化消息，构造请求等逻辑的时间，也就是发送端在发送网络请求之前的耗时；2）发送消息和返回想要在网络传输中的耗时；3）Broker处理消息的时延。</p>
+<p>如果是单线程发送消息，每次只发送1条消息，相比于多线程，每次可以发送n条消息，再相比于多线程m批次发送消息，每次可以发送m*n条消息，所以只要业务逻辑能够适应多批量多线程的场景，<strong>设置合适的并发和批量大小，就可以达到很好的发送性能</strong>。</p>
+<p>对于业务逻辑来说，</p>
+<ol start="2">
+<li>消费端性能优化</li>
+</ol>
+<h2><a id="%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%87%AA%E6%9F%A5q-a" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>消息队列自查Q&amp;A</h2>
+<ul>
+<li>消息队列常见用途？</li>
+<li>使用消息队列有什么局限？</li>
+<li>常见的消息队列产品有哪些？他们各有什么优缺点？</li>
+<li></li>
+</ul>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="16462210956998.html" 
+          title="Previous Post: 速读摘要">&laquo; 速读摘要</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="16454841763279.html" 
+          title="Next Post: K8s利用Nginx实现Ingress流量分发原理">K8s利用Nginx实现Ingress流量分发原理 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>超燃老哥</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="Others.html"><strong>Others</strong></a>
+        
+            <a href="Language.html"><strong>Language</strong></a>
+        
+            <a href="DataBase.html"><strong>DataBase</strong></a>
+        
+            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
+        
+            <a href="Book.html"><strong>Book</strong></a>
+        
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
+        
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
+        
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16464625257370.html">RocketMQ知识点</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>

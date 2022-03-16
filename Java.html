@@ -79,15 +79,17 @@
         
             <li><a href="Language.html">Language</a></li>
         
-            <li><a href="Course.html">Course</a></li>
+            <li><a href="DataBase.html">DataBase</a></li>
+        
+            <li><a href="Kubernetes.html">Kubernetes</a></li>
         
             <li><a href="Book.html">Book</a></li>
         
-            <li><a href="Deploy.html">Deploy</a></li>
+            <li><a href="Hadoop.html">Hadoop</a></li>
         
-            <li><a href="Poems.html">Poems</a></li>
+            <li><a href="Alluxio.html">Alluxio</a></li>
         
-            <li><a href="Framework.html">Framework</a></li>
+            <li><a href="MessageQueue.html">MessageQueue</a></li>
          
 
       </ul>
@@ -110,14 +112,26 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="16323982286748.html">
+                <a class="clearlink" href="16425177538685.html">
                 
-                  <h1>String 和 Int 互转</h1>
+                  <h1>JVM排查命令备忘录</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	
+                        	<h2><a id="jmap" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jmap</h2>
+<p><code>jmap -histo:live 进程号 &gt; 转存文件名称</code></p>
+<p><code>jmap -histo:live</code> 会触发Full GC，<code>jmap -histo</code>不会触发</p>
+<p><code>jmap -dump:live,format=b,file=文件名 进程号</code></p>
+<h2><a id="jstat" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>jstat</h2>
+<p><code>jstat -gcutil 进程号 1000 1000</code></p>
+<h2><a id="mat%E5%B7%A5%E5%85%B7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>MAT工具</h2>
+<p>可以从<a href="https://www.eclipse.org/mat/previousReleases.php">MAT工具下载页面</a>直接下载MAT工具</p>
+<p>MAT工具与JDK版本的关系是：<br />
+1.8版本及以下MAT工具，对应的是JDK1.8及以下版本<br />
+1.8版本及以上MAT工具，对应的是JDK1.9及以上版本</p>
+<h2><a id="arthas" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arthas</h2>
+
                         
                       </div>
                   </div>
@@ -125,41 +139,7 @@
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2021/09/23</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Java.html'>Java</a></span>
-          				   
-                    
-
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="16323982084453.html">
-                
-                  <h1>Date，LocalDate日期计算</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2021/09/23</span>
+                    <span class="date">2022/01/18</span>
                     <span>posted in&nbsp;</span> 
           				  
           					    <span class="posted-in"><a href='Java.html'>Java</a></span>
@@ -233,15 +213,17 @@
         
             <a href="Language.html"><strong>Language</strong></a>
         
-            <a href="Course.html"><strong>Course</strong></a>
+            <a href="DataBase.html"><strong>DataBase</strong></a>
+        
+            <a href="Kubernetes.html"><strong>Kubernetes</strong></a>
         
             <a href="Book.html"><strong>Book</strong></a>
         
-            <a href="Deploy.html"><strong>Deploy</strong></a>
+            <a href="Hadoop.html"><strong>Hadoop</strong></a>
         
-            <a href="Poems.html"><strong>Poems</strong></a>
+            <a href="Alluxio.html"><strong>Alluxio</strong></a>
         
-            <a href="Framework.html"><strong>Framework</strong></a>
+            <a href="MessageQueue.html"><strong>MessageQueue</strong></a>
          
         </p>
 
@@ -258,33 +240,37 @@
 	      
 		      
 			      <li class="post">
-			        <a href="16324434246136.html">进酒浇愁</a>
+			        <a href="16474467310881.html">Alluxio数据编排原理与解析</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16323983076218.html">ParameterType和ResultType</a>
+			        <a href="16467274330567.html">Alluxio 安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16323982286748.html">String 和 Int 互转</a>
+			        <a href="16465400869241.html">RocketMQ安装与实践</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16323982084453.html">Date，LocalDate日期计算</a>
+			        <a href="16464625257370.html">RocketMQ知识点</a>
 			      </li>
 		     
 		  
 		      
 			      <li class="post">
-			        <a href="16322140588541.html">读书心得</a>
+			        <a href="16464531729826.html">RocketMQ源码解读</a>
 			      </li>
 		     
+		  
+		      
+		  
+		      
 		  
 		      
 		  
