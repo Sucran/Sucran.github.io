@@ -12,6 +12,9 @@ enableSearch = true
 # Site branding
 copyright = "© 2025 Sucran. All rights reserved."
 
+# Enable Mermaid diagrams
+mermaid = true
+
 
 # Homepage settings
 [homepage]
