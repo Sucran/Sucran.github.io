@@ -1,7 +1,7 @@
 ---
 title: "【Confluent Current 24】用 KIP-890 加固你的事务"
 date: 2024-12-10T13:51:48+08:00
-draft: true
+draft: false
 description: ""
 ---
 

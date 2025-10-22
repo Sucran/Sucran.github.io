@@ -1,7 +1,7 @@
 ---
 title: "【Confluent Current 24】Fortifying Your Transactions with KIP-890"
 date: 2024-12-10T13:51:48+08:00
-draft: true
+draft: false
 description: ""
 ---
 
