@@ -1,0 +1,24 @@
+# Required Congo theme markup configuration
+# Based on official documentation
+
+[goldmark]
+  [goldmark.renderer]
+    unsafe = true
+  [goldmark.parser]
+    [goldmark.parser.attribute]
+      block = true
+      title = true
+
+[highlight]
+  style = "github-dark"
+  lineNos = true
+  lineNumbersInTable = true
+  noClasses = false
+  codeFences = true
+  guessSyntax = true
+  tabWidth = 4
+
+[tableOfContents]
+  endLevel = 4
+  ordered = false
+  startLevel = 2

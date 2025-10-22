@@ -1,0 +1,23 @@
+# Chinese language configuration
+languageCode = "zh-Hans"
+languageName = "中文"
+languageDirection = "ltr"
+weight = 1
+
+title = "Sucran's Blog"
+description = "专注于技术分享和生活记录的个人博客"
+copyright = "© 2025 Sucran. 保留所有权利。"
+dateFormat = "2006年1月2日"
+
+[params.author]
+  name = "Richard Su"
+  image = "/img/author.jpeg"
+  headline = """在大数据、云原生、人工智能 \n
+    反复横跳的软件工程师"""
+  bio = """在大数据、云原生、人工智能 \n
+    反复横跳的软件工程师"""
+  links = [
+    { github = "https://github.com/sucran" },
+    { email = "mailto:richardsucran@gmail.com" },
+    { x-twitter = "https://x.com/sucran_richard" }
+  ]

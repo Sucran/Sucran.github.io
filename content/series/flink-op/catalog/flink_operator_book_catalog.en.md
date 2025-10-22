@@ -1,0 +1,131 @@
+---
+title: "Flink Operator Technical Book Plan"
+date: 2024-10-21T17:25:48+08:00
+draft: true
+description: ""
+---
+
+## Planned Table of Contents and Progress
+
+- [x] Preface: [Big Data and Cloud-Native](../ch_0/flink_operator_book_ch_0.en.md)
+- [x] 1. [Flink Operator Installation and Debugging](../ch_1/flink_operator_book_ch_1.en.md)
+    - [x] 1.1 Introduction to Flink Operator
+    - [x] 1.2 Installing Flink Operator
+    - [x] 1.3 Usage of Flink Operator
+    - [x] 1.4 Flink Operator Source Code and Debugging
+- [x] 2. [Operator Technology and Java Operator SDK](../ch_2/flink_operator_book_ch_2.en.md)
+    - [x] 2.1 Origins of Operator Technology
+        - [x] 2.1.1 Kubernetes API Server
+        - [x] 2.1.2 Kubernetes API and API Extensions
+        - [x] 2.1.3 Origins of CRDs
+        - [x] 2.1.4 From CRDs to Early Operator Development
+    - [x] 2.2 Java Operator SDK
+        - [x] 2.2.1 Why Choose Java Operator SDK
+        - [x] 2.2.2 Java Operator SDK Related Terminology
+    - [x] 2.3 How to Use Java Operator SDK
+        - [x] 2.3.1 Official WebPage Example
+    - [x] 2.4 Operator Development Workflow
+        - [x] 2.4.1 Step 1: Create Maven Project
+        - [x] 2.4.2 Step 2: Build Custom Resources
+        - [x] 2.4.3 Step 3: Controller Core Reconciliation Logic
+        - [x] 2.4.4 Step 4: Create Operator and Add Controller
+        - [x] 2.4.5 Step 5: Test Reconciliation Logic
+        - [x] 2.4.6 Step 6: Package Image
+        - [x] 2.4.7 Step 7: Kind Deployment and Testing
+- [x] 3. [Flink Operator CRD Analysis](../ch_3/flink_operator_book_ch_3.en.md)
+    - [x] 3.1 CRD and API Layered Design
+        - [x] 3.1.1 FlinkDeployment & FlinkSessionJob
+    - [x] 3.2 CRD Code Design Analysis
+        - [x] 3.2.1 Job Level Design
+        - [x] 3.2.3 Cluster Level Design
+    - [x] 3.3 Kubectl Configuration Code
+    - [x] 3.4 Diff Mechanism Code
+        - [x] 3.4.1 Diff, DiffResult Classes
+        - [x] 3.4.2 Diffable Interface & SpecDiff Annotation
+        - [x] 3.4.3 DiffBuilder and ReflectiveDiffBuilder
+        - [x] 3.4.4 ReflectiveDiffBuilder Difference Detection Sequence Diagram
+        - [x] 3.4.5 Practical Application Example
+- [x] 4. [FlinkOperator Source Code Analysis](../ch_4/flink_operator_book_ch_4.en.md)
+    - [x] 4.1 FlinkOperator Startup Process
+        - [x] 4.1.1 Deep Analysis of Core Member Variables
+        - [x] 4.1.2 Operator Creation
+    - [x] 4.2 FlinkConfigManager Configuration Management
+        - [x] 4.2.1 Configuration Loading Architecture
+        - [x] 4.2.2 Operator Configuration Override Mechanism
+        - [x] 4.2.3 FlinkDeployment Instance Configuration Cache Mechanism
+        - [x] 4.2.4 Operator Configuration Hot Reload Mechanism
+    - [x] 4.3 EventRecorder Event Recording
+        - [x] 4.3.1 Custom Event Components
+        - [x] 4.3.2 Four-Level Deduplication Strategy
+        - [x] 4.3.3 Event Listener Mechanism
+    - [x] 4.4 Plugin Architecture (SPI Mechanism)
+        - [x] 4.4.1 SPI Mechanism Principle
+        - [x] 4.4.2 Plugin Discovery Mechanism
+        - [x] 4.4.3 Custom Plugin Code Examples
+    - [x] 4.5 Controllers Registration Mechanism
+    - [x] 4.6 Health Probes and Graceful Shutdown
+        - [x] 4.6.1 Health Probes
+        - [x] 4.6.2 Graceful Shutdown
+- [x] 5. [FlinkDeployment and FlinkSessionJob Control Flow Source Code Analysis](../ch_5/flink_operator_book_ch_5.en.md)
+    - [x] 5.1 Common Design Patterns
+        - [x] 5.1.1 Observer Pattern
+            - [x] 5.1.1.1 Job Status Observer
+            - [x] 5.1.1.2 Snapshot Observer
+        - [x] 5.1.2 Reconciliation Pattern - Reconciler
+            - [x] 5.1.2.1 Basic Interface and Class Hierarchy
+            - [x] 5.1.2.2 Common Reconciliation Flow
+        - [x] 5.1.3 Status Recorder - StatusRecorder
+        - [x] 5.1.4 Resource Context Factory - FlinkResourceContextFactory
+        - [x] 5.1.5 Operator Health Monitoring Pattern - CanaryResourceManager
+    - [x] 5.2 FlinkDeployment Controller Source Code Analysis
+        - [x] 5.2.1 Core Member Variables and Methods
+        - [x] 5.2.2 Reconciliation Preparation Phase
+        - [x] 5.2.3 Observation Phase
+        - [x] 5.2.4 Validation Phase
+        - [x] 5.2.5 Reconciliation Phase
+        - [x] 5.2.6 Resource Cleanup Phase
+    - [x] 5.3 FlinkSessionJob Controller Source Code Analysis
+        - [x] 5.3.1 Core Member Variables and Methods
+        - [x] 5.3.2 Reconciliation Preparation Phase
+        - [x] 5.3.3 Reconciliation Observation Phase
+        - [x] 5.3.4 Reconciliation Validation Phase
+        - [x] 5.3.5 Reconciliation Deployment Phase
+        - [x] 5.3.6 Resource Cleanup Phase
+- [ ] 6. Job Status and Monitoring
+    - [ ] 6.1 Flink Service Design
+    - [ ] 6.2 Job Status Transition Logic
+- [ ] 7. Flink Kubernetes Native Deployment Design
+    - [ ] 7.1 Flink JobManager K8s Deployment
+    - [ ] 7.2 Flink TaskManager K8s Deployment
+- [ ] 8. Flink Kubernetes Native Deployment Design
+    - [ ] 8.1 Why Do We Need Standalone?
+    - [ ] 8.2 Standalone Design Analysis
+- [ ] 9. Flink Kubernetes HA Source Code Analysis
+    - [ ] 9.1 Flink HA Design
+    - [ ] 9.2 Flink HA Configuration
+    - [ ] 9.3 Flink Kubernetes Source Code Analysis
+- [ ] 10. Flink Operator Plugin Mechanism
+    - [ ] 10.1 Observe Plugin Development and Design
+    - [ ] 10.2 Validation Plugin Development and Design
+    - [ ] 10.3 Reconciliation Plugin Development and Design
+- [ ] 11. AutoScaler Source Code Analysis
+    - [ ] 11.1 AutoScaler Design Analysis
+    - [ ] 11.2 AutoScaler Examples
+    - [ ] 11.3 AutoScaler Source Code Analysis
+- [ ] 12. Flink Operator Metrics and Monitoring
+    - [ ] 12.1 Metrics Design Analysis
+    - [ ] 12.2 Core Metrics Analysis
+    - [ ] 12.3 Metrics Monitoring
+- [ ] 13. Flink Operator FAQ
+    - [ ] 13.1 Why Missing JMDeployment?
+    - [ ] 13.2 Why HA Configuration Not Deleted?
+    - [ ] 13.3 Why OOM?
+    - [ ] 13.4 What are the Performance Limits of Operator?
+    - [ ] 13.5 Is Operator Serverless?
+    - [ ] 13.6 How Does Operator Integrate with External Systems?
+- [ ] 14. Contributing to Apache Flink Open Source Community
+    - [ ] 14.1 How to Contribute Flink Operator Code?
+    - [ ] 14.2 How to Submit Issues to Apache Flink / Flink Operator?
+    - [ ] 14.3 How to Interact with Apache Community?
+- [x] Epilogue: [Where are the Opportunities for Flink in the AI Era?](../ch_ep/flink_operator_book_ch_ep.en.md)
+- [ ] Appendix A: Flink Operator Configuration Analysis 

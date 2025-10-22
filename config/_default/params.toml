@@ -1,0 +1,89 @@
+# Official Congo theme parameters
+# Based on https://jpanther.github.io/congo/docs/configuration/
+
+# Theme appearance
+colorScheme = "congo"  # Options: congo, avocado, cherry, fire, ocean, sapphire, slate
+defaultAppearance = "light"  # Options: light, dark
+autoSwitchAppearance = true
+enableImageLazyLoading = true
+enableImageWebp = true
+enableSearch = true
+
+# Site branding
+copyright = "© 2025 Sucran. All rights reserved."
+
+
+# Homepage settings
+[homepage]
+  layout = "profile"  # Options: page, profile, custom
+  showRecent = false
+  recentLimit = 5
+
+# Header settings
+[header]
+  layout = "hybrid"  # Options: basic, hamburger, hybrid, custom
+  showTitle = true
+
+# Footer settings
+[footer]
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = true
+  showScrollToTop = true
+
+# Article settings
+[article]
+  showDate = true
+  showDateUpdated = false
+  showAuthor = true
+  showBreadcrumbs = false
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  invertPagination = false
+  showReadingTime = true
+  showTableOfContents = true
+  showTaxonomies = false
+  showWordCount = false
+  showComments = false
+  sharingLinks = ["facebook", "x-twitter", "mastodon", "pinterest", "reddit", "linkedin", "email", "threads", "telegram", "line", "weibo", "xing", "bluesky"]
+
+# List settings
+[list]
+  showBreadcrumbs = true
+  showTableOfContents = true
+  showTaxonomies = false
+  showSummary = true
+  groupByYear = true
+  paginationWidth = 1
+
+# Taxonomy settings
+[taxonomy]
+  showTermCount = true
+
+# Sitemap settings
+[sitemap]
+  excludedKinds = ["taxonomy", "term"]
+
+# Search settings
+enableSearch = true
+
+# Code settings
+enableCodeCopy = true
+
+# Media settings
+enableImageLazyLoading = true
+enableImageWebp = true
+enableQuicklink = true
+
+# Analytics settings
+fingerprintAlgorithm = "sha256"
+defaultThemeColor = "#FFFFFF"
+
+# Favicon settings
+favicon = "/favicon.ico"
+faviconSVG = "/favicon.svg"
+
+# Background settings
+background = "fireworks"

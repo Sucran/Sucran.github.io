@@ -1,0 +1,23 @@
+# English language configuration
+languageCode = "en"
+languageName = "English"
+languageDirection = "ltr"
+weight = 2
+
+title = "Sucran's Blog"
+description = "A personal blog dedicated to technology insights and life experiences"
+copyright = "© 2025 Sucran. All rights reserved."
+dateFormat = "2 January 2006"
+
+[params.author]
+  name = "Richard Su"
+  image = "/img/author.jpeg"
+  headline = """A domain-hopping software engineer \n
+   currently bouncing between Big Data, Cloud Native, and AI."""
+  bio = """A domain-hopping software engineer, \n
+  currently bouncing between Big Data, Cloud Native, and AI."""
+  links = [
+    { github = "https://github.com/sucran" },
+    { email = "mailto:richardsucran@gmail.com" },
+    { x-twitter = "https://x.com/sucran_richard" }
+  ]

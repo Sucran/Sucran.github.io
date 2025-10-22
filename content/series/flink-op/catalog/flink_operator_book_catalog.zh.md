@@ -1,0 +1,131 @@
+---
+title: "Flink Operator 技术成册计划"
+date: 2024-10-21T17:25:48+08:00
+draft: true
+description: ""
+---
+
+## 计划中的目录和进展
+
+- [x] 序 [大数据与云原生](../ch_0/flink_operator_book_ch_0.zh.md)
+- [x] 1. [Flink Operator 安装和调试](../ch_1/flink_operator_book_ch_1.zh.md)
+    - [x] 1.1 初始 Flink Operator
+    - [x] 1.2 安装 Flink Operator
+    - [x] 1.3 Flink Operator 如何用
+    - [x] 1.4 Flink Operator 源码和调试
+- [x] 2. [Operator技术 和 Java Operator SDK](../ch_2/flink_operator_book_ch_2.zh.md)
+    - [x] 2.1 Operator 技术来源
+        - [x] 2.1.1 Kubernetes 的 API Server
+        - [x] 2.1.2 Kubernetes 的 API 和 API 扩展
+        - [x] 2.1.3 CRD 的由来
+        - [x] 2.1.4 从 CRD 到早期 Operator 开发
+    - [x] 2.2 Java Operator SDK
+        - [x] 2.2.1 为什么选择 Java Operator SDK
+        - [x] 2.2.2 Java Operator SDK 相关术语
+    - [x] 2.3 Java Operator SDK 如何使用
+        - [x] 2.3.1 官方 WebPage 案例
+    - [x] 2.4 Operator 的开发流程
+        - [x] 2.4.1 第一步：创建 Maven 项目
+        - [x] 2.4.2 第二步：构建自定义资源
+        - [x] 2.4.3 第三步：Controller 核心调谐逻辑
+        - [x] 2.4.4 第四步：创建 Operator 并增加 Controller
+        - [x] 2.4.5 第五步：测试调谐逻辑
+        - [x] 2.4.6 第六步：打包镜像
+        - [x] 2.4.7 第七步：Kind 部署和测试
+- [x] 3. [Flink Operator CRD 解析](../ch_3/flink_operator_book_ch_3.zh.md)
+    - [x] 3.1 CRD 与 API 分层设计
+        - [x] 3.1.1 FlinkDeployment & FlinkSessionJob
+    - [x] 3.2 CRD 代码设计解析
+        - [x] 3.2.1 作业层级设计
+        - [x] 3.2.3 集群层级设计
+    - [x] 3.3 Kubectl 的配置代码
+    - [x] 3.4 Diff 机制代码
+        - [x] 3.4.1 Diff、DiffResult 类
+        - [x] 3.4.2 接口 Diffable & 注解 SpecDiff
+        - [x] 3.4.3 DiffBuilder 和 ReflectiveDiffBuilder
+        - [x] 3.4.4 ReflectiveDiffBuilder 差异检测时序图
+        - [x] 3.4.5 实际应用示例
+- [x] 4. [FlinkOperator 源码分析](../ch_4/flink_operator_book_ch_4.zh.md)
+    - [x] 4.1 FlinkOperator 启动流程
+        - [x] 4.1.1 核心成员变量深度解析
+        - [x] 4.1.2 Operator 创建
+    - [x] 4.2 FlinkConfigManager 配置管理
+        - [x] 4.2.1 配置加载架构
+        - [x] 4.2.2 Operator 配置覆盖机制
+        - [x] 4.2.3 FlinkDeployment 实例配置缓存机制
+        - [x] 4.2.4 Operator 配置热加载机制
+    - [x] 4.3 EventRecorder 事件记录
+        - [x] 4.3.1 自定义事件组成部分
+        - [x] 4.3.2 四级去重策略
+        - [x] 4.3.3 事件监听器机制
+    - [x] 4.4 插件化架构（SPI机制）
+        - [x] 4.4.1 SPI机制原理
+        - [x] 4.4.2 插件发现机制
+        - [x] 4.4.3 自定义插件代码实例
+    - [x] 4.5 Controllers 注册机制
+    - [x] 4.6 健康探针和优雅关闭
+        - [x] 4.6.1 健康探针
+        - [x] 4.6.2 优雅关闭
+- [x] 5. [FlinkDeployment 和 FlinkSessionJob 控制流源码解析](../ch_5/flink_operator_book_ch_5.zh.md)
+    - [x] 5.1 共有设计模式
+        - [x] 5.1.1 观察模式 - Observer
+            - [x] 5.1.1.1 作业状态观察器
+            - [x] 5.1.1.2 快照观察器
+        - [x] 5.1.2 调谐模式 - Reconciler
+            - [x] 5.1.2.1 基础接口与类层次
+            - [x] 5.1.2.2 通用调谐流程
+        - [x] 5.1.3 状态记录器 - StatusRecorder
+        - [x] 5.1.4 资源上下文工厂 - FlinkResourceContextFactory
+        - [x] 5.1.5 Operator健康监控模式 - CanaryResourceManager
+    - [x] 5.2 FlinkDeployment Controller 源码解析
+        - [x] 5.2.1 核心成员变量和方法
+        - [x] 5.2.2 调谐准备阶段
+        - [x] 5.2.3 调谐观察阶段
+        - [x] 5.2.4 调谐验证阶段
+        - [x] 5.2.5 调谐部署阶段
+        - [x] 5.2.6 资源清理阶段
+    - [x] 5.3 FlinkSessionJob Controller 源码解析
+        - [x] 5.3.1 核心成员变量和方法
+        - [x] 5.3.2 调谐准备阶段
+        - [x] 5.3.3 调谐观察阶段
+        - [x] 5.3.4 调谐验证阶段
+        - [x] 5.3.5 调谐部署阶段
+        - [x] 5.3.6 资源清理阶段
+- [ ] 6. [Flink 作业状态与监测](../ch_6/flink_operator_book_ch_6.zh.md)
+    - [ ] 6.1 Flink Service 设计
+    - [ ] 6.2 作业状态流转逻辑
+- [ ] 7. [Flink Kubernetes Native 部署设计](../ch_7/flink_operator_book_ch_7.zh.md)
+    - [ ] 7.1 Flink Jobmanager的K8s部署
+    - [ ] 7.2 Flink Taskmanager的K8s部署
+- [ ] 8. [Flink Kubernetes Standalone 部署设计](../ch_8/flink_operator_book_ch_8.zh.md)
+    - [ ] 8.1 为什么需要Standalone?
+    - [ ] 8.2 Standalone 设计解析
+- [ ] 9. [Flink Kubernetes HA 源码解析](../ch_9/flink_operator_book_ch_9.zh.md)
+    - [ ] 9.1 Flink HA 设计
+    - [ ] 9.2 Flink HA 配置
+    - [ ] 9.3 Flink Kubernetes 源码解析
+- [ ] 10. [Flink Operator Plugin 机制](../ch_10/flink_operator_book_ch_10.zh.md)
+    - [ ] 10.1 Observe Plugin 开发与设计
+    - [ ] 10.2 Validation Plugin 开发与设计
+    - [ ] 10.3 调谐插件 开发与设计
+- [ ] 11. AutoScaler 源码拆解
+    - [ ] 11.1 AutoScaler 设计解析
+    - [ ] 11.2 AutoScaler 示例
+    - [ ] 11.3 AutoScaler 源码解析
+- [ ] 12 Flink Operator 指标和监控
+    - [ ] 12.1 指标设计解析
+    - [ ] 12.2 核心指标分析
+    - [ ] 12.3 指标监控
+- [ ] 13 Flink Operator FAQ
+    - [ ] 13.1 为什么Missing JMDeployment?
+    - [ ] 13.2 为什么HA配置没被删掉?
+    - [ ] 13.3 为什么OOM?
+    - [ ] 13.4 Operator的性能上限在哪?
+    - [ ] 13.5 Operator是Serverless吗?
+    - [ ] 13.6 Operator怎么与外部系统配合?
+- [ ] 14 参与Apache Flink 开源社区
+    - [ ] 14.1 如何贡献Flink Operator代码?
+    - [ ] 14.2 如何给Apache Flink / Flink Operator提Issue?
+    - [ ] 14.3 如何与Apache社区互动?
+- [x] 后记 [人工智能时代, Flink的机会在哪里?](../ch_ep/flink_operator_book_ch_ep.zh.md) 
+- [ ] 附录A Flink Operator 配置解析
