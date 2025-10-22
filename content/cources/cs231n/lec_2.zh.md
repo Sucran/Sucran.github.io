@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第二讲：线性分类器中的图像分类"
 date: 2025-09-04T16:10:02+08:00
-draft: true
+draft: false
 description: ""
 ---
 

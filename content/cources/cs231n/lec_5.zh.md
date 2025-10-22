@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第五讲：图像分类与卷积神经网络"
 date: 2025-09-07T16:17:11+08:00
-draft: true
+draft: false
 description: ""
 ---
 

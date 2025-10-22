@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第八讲：注意力机制与Transformer模型"
 date: 2025-09-10T17:45:37+08:00
-draft: true
+draft: false
 description: ""
 ---
 

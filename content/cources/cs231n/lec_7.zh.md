@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第七讲：循环神经网络"
 date: 2025-09-09T17:28:06+08:00
-draft: true
+draft: false
 description: ""
 ---
 

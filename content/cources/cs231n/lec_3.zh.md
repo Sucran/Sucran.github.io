@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第三讲：正则化与优化"
 date: 2025-09-05T16:11:47+08:00
-draft: true
+draft: false
 description: ""
 ---
 

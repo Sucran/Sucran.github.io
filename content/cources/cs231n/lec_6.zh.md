@@ -1,7 +1,7 @@
 ---
 title: "斯坦福 CS231N | 2025 春季 | 第六讲：CNN架构 "
 date: 2025-09-08T17:26:01+08:00
-draft: true
+draft: false
 description: ""
 ---
 
