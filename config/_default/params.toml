@@ -59,6 +59,7 @@ mermaid = true
   showTaxonomies = false
   showSummary = true
   groupByYear = true
+  showPagination = true
   paginationWidth = 1
 
 # Taxonomy settings
