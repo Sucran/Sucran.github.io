@@ -86,7 +86,7 @@ hugo new posts/my-new-post.zh.md
 
 ## 🚀 Deployment
 
-This blog is automatically deployed to GitHub Pages via GitHub Actions on every push to the `main` branch.
+This blog is automatically deployed to GitHub Pages via GitHub Actions on every push to the `release` branch.
 
 ## 📝 Content Guidelines
 
@@ -101,5 +101,5 @@ Feel free to open issues or submit pull requests for improvements.
 
 ## 📄 License
 
-The content of this blog is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed)
+The content of this blog is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 The code is licensed under [MIT License](LICENSE).
