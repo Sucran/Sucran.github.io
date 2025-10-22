@@ -1,33 +1,30 @@
 # .github/workflows/gh-pages.yml
 
-name: GitHub Pages
+name: Deploy Hugo Site to GitHub Pages
 
 on:
   push:
     branches:
       - release
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
-
-      - name: Debug - Show directory structure
-        run: |
-          echo "=== Directory structure ==="
-          find . -type f -name "*.toml" -o -name "*.yaml" -o -name "*.yml" | head -20
-          echo "=== Config files ==="
-          ls -la config/_default/
-          echo "=== Module files ==="
-          cat go.mod
-          cat go.sum
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -35,27 +32,21 @@ jobs:
           hugo-version: "latest"
           extended: true
 
-      - name: Debug - Hugo version and modules
-        run: |
-          echo "=== Hugo version ==="
-          hugo version
-          echo "=== Hugo modules ==="
-          hugo mod graph
-          echo "=== Hugo config ==="
-          hugo config
-
-      - name: Debug - Test Hugo build with verbose output
-        run: |
-          echo "=== Testing Hugo build ==="
-          hugo --verbose --debug --logLevel debug --minify 2>&1 | head -50
-
       - name: Build
         run: hugo --minify
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/release' }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./public
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
