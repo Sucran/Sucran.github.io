@@ -19,11 +19,35 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Debug - Show directory structure
+        run: |
+          echo "=== Directory structure ==="
+          find . -type f -name "*.toml" -o -name "*.yaml" -o -name "*.yml" | head -20
+          echo "=== Config files ==="
+          ls -la config/_default/
+          echo "=== Module files ==="
+          cat go.mod
+          cat go.sum
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.120.0"
+          hugo-version: "latest"
           extended: true
+
+      - name: Debug - Hugo version and modules
+        run: |
+          echo "=== Hugo version ==="
+          hugo version
+          echo "=== Hugo modules ==="
+          hugo mod graph
+          echo "=== Hugo config ==="
+          hugo config
+
+      - name: Debug - Test Hugo build with verbose output
+        run: |
+          echo "=== Testing Hugo build ==="
+          hugo --verbose --debug --logLevel debug --minify 2>&1 | head -50
 
       - name: Build
         run: hugo --minify
