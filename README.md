@@ -29,75 +29,13 @@ Content files are organized with language-specific extensions:
 - Go (v1.19+)
 - Git
 
-### Local Development
-
-```bash
-# Clone the repository
-git clone https://github.com/sucran/sucran.github.io.git
-cd sucran.github.io
-
-# Install dependencies
-hugo mod get -u github.com/jpanther/congo/v2
-
-# Start development server
-hugo server -D
-```
-
-The site will be available at `http://localhost:1313/`
-
-### Adding New Content
-
-#### English Content
-```bash
-hugo new posts/my-new-post.en.md
-```
-
-#### Chinese Content
-```bash
-hugo new posts/my-new-post.zh.md
-```
-
-### Configuration
-
-- **Site Configuration**: `config/_default/hugo.toml`
-- **Theme Configuration**: `config/_default/params.toml`
-- **Language Settings**: `config/_default/languages.en.toml` / `config/_default/languages.zh.toml`
-- **Navigation Menus**: `config/_default/menus.en.toml` / `config/_default/menus.zh.toml`
-
-## 📁 Project Structure
-
-```
-├── archetypes/          # Content templates
-├── assets/             # SCSS, JS files
-├── config/_default/    # Hugo configuration files
-├── content/            # Blog content
-│   ├── posts/         # Blog posts
-│   ├── tech/          # Technical articles
-│   ├── life/          # Personal stories
-│   ├── about/         # About page
-│   ├── contact/       # Contact page
-│   └── privacy/       # Privacy policy
-├── data/              # Site data files
-├── i18n/              # Translation files
-├── layouts/           # Custom layouts (if needed)
-├── static/            # Static files (images, etc.)
-└── themes/            # Hugo themes (via modules)
-```
-
 ## 🚀 Deployment
 
 This blog is automatically deployed to GitHub Pages via GitHub Actions on every push to the `release` branch.
 
-## 📝 Content Guidelines
-
-- Use front matter for metadata: title, date, tags, categories
-- Add appropriate tags and categories for better organization
-- Include images in the `static/images/` directory
-- Use proper Markdown formatting
-
 ## 🤝 Contributing
 
-Feel free to open issues or submit pull requests for improvements.
+Feel free to open issues.
 
 ## 📄 License
 
