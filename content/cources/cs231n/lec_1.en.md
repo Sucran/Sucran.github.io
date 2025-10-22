@@ -650,7 +650,4 @@ The first few weeks will focus on **fundamental concepts**, which are essential 
 Next class, we will begin covering the topics listed today.
 
 
-
-![](/img/cs231n/lec1_image82.png)
-
 This will cover **image classification** and **linear classifiers**, taking us into the world of CS231N. Thank you.

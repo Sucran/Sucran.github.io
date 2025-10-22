@@ -139,9 +139,6 @@ description: ""
 - **图像分类**：*X*为图像，*Y*为类别标签
 - **图像描述生成**：*X*为图像，*Y*为文本描述
 
-（注：译文严格遵循技术术语规范，采用"正交维度"对应"orthogonal axes"，"映射函数"对应"function that maps"，"范式"对应"paradigm"等专业表述。通过拆分英文长句为中文短句结构，并保留Markdown加粗格式与项目符号，实现技术文档的精准转换。）
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec13_image16.png)
 
