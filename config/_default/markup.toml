@@ -22,3 +22,7 @@
   endLevel = 4
   ordered = false
   startLevel = 2
+
+[mermaid]
+  enable = true
+  theme = "dark"
