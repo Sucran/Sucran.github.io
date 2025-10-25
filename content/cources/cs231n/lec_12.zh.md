@@ -523,15 +523,6 @@ Lab色彩空间提供一个亮度通道（L）和两个用于定义实际颜色�
 
 现在我将暂停以解答疑问。  
 
-（注：技术术语处理说明：
-1. **MAE**保留英文缩写并补充中文全称"掩码自编码器"（计算机视觉领域通用译法）
-2. **DINO**和**MoCo v3**保留原名（这些是算法专有名称）
-3. **Pretext tasks**译为"前置任务"（自监督学习领域标准译法）
-4. "contrastive learning frameworks"译为"对比学习框架"（保持技术语境准确性）
-5. 被动语态"the learned representations may lack generality"主动化为"学习到的表征可能缺乏普适性"，符合中文表达习惯）
-
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec12_image68.png)
 
 它们可能不适用于一般的预文本任务。问题在于，在一个**分裂脑自编码器**中，当给定一个输入通道（例如**L通道**即亮度通道）时，模型如何学会预测另一个通道？
@@ -621,9 +612,6 @@ Lab色彩空间提供一个亮度通道（L）和两个用于定义实际颜色�
 这正是我们采用此函数作为损失函数并着手最小化其值的原因。**INFO-NCE**论文还提出了一个理论洞见：增加负样本数量会使得边界更紧致。因此，边界的紧致程度与负样本数量呈正相关。  
 
 这也解释了为何用此类损失函数训练**神经网络**需要较大的批次规模——更多的负样本有助于实现更优且更快速的训练收敛。  
-
-（注：严格保留"INFO-NCE"、"neural networks"等专业术语原格式，通过"边界更紧致/紧致程度"准确传达"tighter bound/bound's tightness"的数学含义，使用"呈正相关"替代直译"scales with"以符合中文技术文献表述习惯，并通过破折号衔接因果逻辑使长句更流畅。）
-
 
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec12_image79.png)

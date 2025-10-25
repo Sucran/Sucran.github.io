@@ -1,6 +1,6 @@
 ---
 title: "Stanford CS231N Deep Learning for Computer Vision | Spring 2025 | Lecture 1: Introduction"
-date: 2025-09-10T16:01:24+08:00
+date: 2025-09-03T16:01:24+08:00
 draft: false
 description: ""
 ---

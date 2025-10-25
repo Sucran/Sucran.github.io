@@ -16,6 +16,8 @@ description: ""
 
 我们将从**线性分类器**开始讲解。回顾上节课讨论的教学大纲，我们概括了三大主题类别：
 
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-08-13.png)
+
 1. **深度学习基础**  
 2. 感知与理解视觉世界  
 3. 重建与交互视觉世界  
@@ -23,6 +25,8 @@ description: ""
 每个类别都包含若干子主题。今天我们将聚焦前三个要点：**数据驱动方法**、**线性分类**以及**k近邻算法**。  
 
 与上节课相同，我们将从计算机视觉的基础任务——**图像分类**这一核心课题切入。该任务是绝佳的算法性能基准，本学期我们将反复以此为例来阐释算法运作原理。  
+
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-10-22.png)
 
 今天我们将明确图像分类任务的定义，并针对该任务介绍两种数据驱动方法。
 
@@ -39,26 +43,18 @@ description: ""
 补充幻灯片中列出了其他方法，您可以在课后查阅。但**本次课程的重点**将放在此处概述的方法上。
 
 
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-10-49.png)
 
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image5.png)
 
 图像分类是指为给定图像从一组预设类别（如**狗**、**猫**、**卡车**或**飞机**）中分配对应标签的任务。虽然人类凭借与生俱来的整体视觉信息认知能力可以轻松完成这项任务，但对人工智能系统而言却构成了重大挑战。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image6.png)
 
 然而，当涉及编码并理解计算机如何解析这张图像时，挑战就变得截然不同了。**我们的重点**在于探索机器如何理解这类数据。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image7.png)
-
 图像通常以数据矩阵的形式表示，更广义地说，是**张量**。每个像素值通常在0到255之间，对应一个**8位数据结构**。
 
 对于分辨率为800×600像素的彩色RGB图像，数据会形成一个大小为800×600×3的三维张量，分别代表红、绿、蓝三个通道，如幻灯片所示。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image8.png)
 
@@ -80,14 +76,7 @@ description: ""
 
 因此，同一物体（比如一只猫）在不同光照条件下可能呈现数值差异。无论猫是在暗室还是阳光下，它始终是同一只猫，但这种变化却给机器感知带来了困难。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image11.png)
-
 除了我提到的光照和视角变化外，您能否识别出其他可能改变像素值并阻碍物体识别的挑战？**背景杂波**和**物体遮挡**确实是重要因素，我们将在下一张幻灯片中讨论这些内容。  
-
-（注：将"objects"译为"物体遮挡"以更准确传达技术语境中该术语指代物体相互遮挡的含义）
-
 
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image12.png)
@@ -95,14 +84,7 @@ description: ""
 背景杂波带来了另一项挑战。此外，图像中物体的**尺度**（受放大缩小操作影响）也是一个重要因素。
 
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image13.png)
-
 图像的分辨率构成了一个重大挑战。
-
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image14.png)
 
 然而，在**机器学习模型**或任何旨在识别图像中物体或动作的系统中，由于我们对图像尺寸进行了标准化处理，除非物体存在缩放效果，否则分辨率可能并非关键因素。**遮挡**仍然是主要挑战之一。
 
@@ -118,19 +100,11 @@ description: ""
 
 猫展现出显著的形变能力。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image17.png)
-
 这些变化给用于检测和识别物体的算法带来了**重大挑战**。具体而言，**形变**对逐步式物体检测系统构成了主要障碍。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image18.png)
 
 除此之外，**类内差异**也带来了另一项重大挑战。猫的体型、毛色、花纹和品种可能各不相同，但都被归类为猫。然而，机器却难以识别这些类内差异。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image19.png)
 
@@ -157,20 +131,16 @@ description: ""
 在继续之前，我们必须先审视图像分类的**基础构建模块**。
 
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image23.png)
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-33-06.png)
 
 实现此类功能带来了独特的挑战。在传统的计算机科学或工程课程中，诸如**排序**之类的算法是通过包含if-then-else规则和循环的清晰框架构建的，从而形成明确的步骤流程图。然而，这种方法无法有效迁移到图像理解和视觉世界解析领域。
-
 
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image24.png)
 
 目前尚无方法能够**硬编码**图像分类的步骤，尽管之前在这一领域已有一些尝试。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image25.png)
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-33-59.png)
 
 研究人员尝试通过系统化步骤开发物体识别算法。一种方法首先采用**边缘检测**技术来识别图像中的边缘轮廓。随后，算法会分析角点等重要特征模式，提取角点周边特征或统计特定类型角点数量，最终将这些特征映射到输出类别。
 
@@ -188,9 +158,8 @@ description: ""
 
 借助这一**全新范式**和数据驱动的方法，我们制定了一个三步流程。
 
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-34-46.png)
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image28.png)
 
 第一步是收集图像及其对应标签的数据集。为了识别特定类型的物体，我们可以从多种来源（如在线数据集或独立数据点）采集数据。过去，这需要借助**搜索引擎**和图片搜索工具来汇编此类数据集。如今，已有现成的数据集可供直接使用。
 
@@ -268,15 +237,7 @@ description: ""
 
 这里许多学生具备**工程学背景**，并接触过一些计算机科学知识。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image38.png)
-
 然而，我们的目标是评估在训练数据集中包含\\(n\\)个样本时，**训练速度**和预测速度。
-
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image39.png)
 
 我希望你对**大O符号**有所了解，这是我们通常用来表示计算复杂度，有时也包括空间复杂度的表示法。
 
@@ -301,24 +262,13 @@ description: ""
 然而，在测试和预测过程中，**大量时间**被花费在将每个数据点与训练样本进行比较上。
 
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image43.png)
-
 这类似于查询一个**GPT模型**的过程：每个问题都会促使系统评估并对比潜在答案与海量互联网数据——这一过程可能需要数年才能返回响应。即便对于简单问题，这种方法的扩展性也极不现实。我们过去曾采用过这些方法。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image44.png)
-
 因此，通常需要构建在预测阶段高效的**分类器**。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image45.png)
 
 他们执行任务的速度要快得多，但即便**训练过程**耗时较长也是可以接受的，因为这一过程可以离线进行。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image46.png)
 
@@ -332,33 +282,19 @@ description: ""
 
 但请注意此例中的问题：黄色点完全被绿色点包围，表明它可能是一个**异常值**或噪声。这种情况在我们处理的许多问题中都很常见。中心区域的大片黄色范围仅由这一个点形成，这正是仅依赖单一最近邻所导致的结果。
 
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image48.png)
 
 为了增强**鲁棒性**，我们可以增加考虑的最近邻数量，将最近邻算法转变为**k-最近邻**方法。通常我们会选择多个点或样本，通过多数表决机制来确定给定测试图像的标签。  
 
 但白色区域的出现带来了一个挑战。这些区域表示决策不确定性，因为在邻近样本中包含了来自三个不同类别的等量样本。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image49.png)
-
 无法确定白色区域内示例的标签。若您在自己的问题中创建了此类空白区域，这些区域代表着**需要补充数据收集**的部分，因为目前尚不明确。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image50.png)
-
 该方法能有效识别出**需要**额外数据采集的区域。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image51.png)
 
 **k** 的取值是 K 近邻算法中的关键参数，增大该值可能会影响模型的性能。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image52.png)
 
@@ -381,6 +317,8 @@ description: ""
 若使用**L1（曼哈顿）距离**，该形状上的点到原点的距离相同。而对于**L2（欧几里得）距离**，圆上的点到圆心距离相等。  
 
 关键区别在于它们在旋转下的表现：当特征轴旋转时，L1距离会完全改变，而L2距离保持不变。这是因为L1对特征值高度敏感，而L2则不然。  
+
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-50-21.png)
 
 在同一空间中选择不同特征时，距离函数的行为也会相应变化。例如，选择不同的特征方向会改变决策边界的朝向。  
 
@@ -406,26 +344,19 @@ description: ""
 
 在此框架下，**k值**（最近邻数量）作为核心超参数，其取值变化将直接影响结果输出。而距离函数的选择则是另一个关键超参数决策，这些选择通常需要结合具体数据集和待解决问题来综合判定。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image57.png)
-
 为了针对每个问题优化性能，我们需要一种方法来识别和调整超参数，这一过程在机器学习和深度学习算法中被称为**超参数调优**。
 
 设定超参数有几种常见方法。一种是根据训练数据选择表现最佳的超参数，例如最小化训练损失。但这种方法存在缺陷，尤其在**k近邻算法**中，当\\(k=1\\)时模型会通过死记硬背训练数据达到100%准确率，这显然不是理想方案。
 
 另一种方法是基于预留测试集来选择超参数。虽然比第一种方法有所改进，但会引发严重问题：这本质上属于作弊行为，因为超参数是针对测试数据优化的。这会导致模型在测试集之外未见数据上的泛化能力受到质疑。
 
-
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image58.png)
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-51-26.png)
 
 这种方法并不可取，因为我们无法预测模型将如何泛化。正如前文所述，这本质上是一种**作弊**行为。  
 
 更稳健的做法是将训练数据分区，创建独立的**验证集**。仅在训练集部分训练模型，然后利用验证集优化超参数。确定最优超参数后，再将其应用于测试集进行最终评估和预测。  
 
 虽然这种方法更为优越，但它也存在自身的问题——验证集通常规模较小，可能无法充分代表完整的数据分布。
-
 
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image59.png)
@@ -462,19 +393,13 @@ description: ""
 
 使用**K近邻算法**时，我们可以为每个测试图像可视化其前10个最近邻样本。需要解决的**关键问题**在于如何确定K的最佳值——究竟应该考虑多少个最近邻？
 
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image64.png)
 
 让我们来看一个使用**5折交叉验证**的快速实验。每个数据点代表不同K值下的一折结果。如图所示，**K=7**时获得了约28-29%的最佳准确率。虽然这一表现优于随机猜测（在这个10分类问题中随机猜测的准确率为10%），但仍有很大的提升空间。
 
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image65.png)
 
 重新审视这些示例时，许多错误变得显而易见，尤其是最接近的匹配项。例如在第四行中，图像显示的是一只青蛙，但首个示例却被误分类为狗。这种差异源于距离度量是在像素级别进行的。这些图像在大多数像素上具有相似的颜色分布，导致计算得出的距离值偏小。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image66.png)
 
@@ -484,19 +409,13 @@ description: ""
 
 现在暂停提问环节。总结来说，**核心问题**在于如何在此类情况下做出决策。通常的解决方法是随机选取排名靠前的候选方案之一。
 
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image67.png)
 
 如果你正在收集更多数据——例如，在解决**遗传学**或**医学影像**领域的问题时——
 
-
-
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image68.png)
 
 在最近邻空间中可视化样本或特征时，可能会遇到**样本不足**或存在模糊性的区域。这种情况下，建议寻找在该空间内占据同一区域的额外样本。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image69.png)
 
@@ -504,19 +423,18 @@ description: ""
 
 现在我们将转向下一个主题：**线性分类器**。本节课剩余25分钟，我将把剩余时间全部用于讲解这一重要内容。
 
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-54-24.png)
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image70.png)
 
 这是深度学习中最**基础的构建模块**。我们必须理解这种方法的不同之处。
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image71.png)
 
 首先，我们来看这与最近邻方法有何不同。**这是一种参数化方法**，我们需要学习一组参数（记作权重\\(w\\)），将输入图像映射为输出类别分数。函数\\(f\\)将输入转换为输出，通常表示为10个输出类别各自的隶属度分数。  
 
 在这个框架下，**线性分类器**利用参数\\(w\\)将输入\\(x\\)映射到输出\\(y\\)。过程非常直观：一张表示为\\(32 \times 32 \times 3\\)数组（共3,072个数字）的图像定义了我们的输入向量\\(x\\)，其维度为\\(3,072 \times 1\\)。由于有10个输出类别，我们需要10个独立的分数，因此输出向量为\\(10 \times 1\\)。  
+
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-55-23.png)
 
 为实现这一映射，我们定义一个维度为\\(10 \times 3,072\\)的**权重矩阵**\\(w\\)。此外，我们还引入一个**偏置项**——这是一个与输入无关的值，其作用包括对类别分数进行偏移以改善类别分离效果。这一特性将在后续几何可视化中进一步探讨。
 
@@ -571,8 +489,7 @@ description: ""
 **线性函数**（尤其是线性分类器）在众多应用场景中极具价值，它们不仅是基础工具，更是构成更复杂神经网络的核心组件。
 
 
-
-![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/img/cs231n/lec_2_image79.png)
+![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/2025-10-24-11-57-04.png)
 
 然而，这种方法本身也存在挑战，因为它无法对许多独立数据实例进行分类。例如，若**类别1**对应第一和第三象限，而**类别2**对应第二和第四象限，则线性分割将无法实现。
 
@@ -641,6 +558,3 @@ description: ""
 对于**softmax损失函数**在\\(C\\)个类别下的情况（尤其是当\\(C=10\\)时），由于概率均等，每个类别的概率约为\\(\\frac{1}{C}\\)，此时损失值为\\(\\log C\\)。
 
 当类别数为10时，\\(\\ln 10 \\approx 2.3\\)，这正是理论预期值。
-
-
-

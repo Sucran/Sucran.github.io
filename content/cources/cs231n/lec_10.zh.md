@@ -719,12 +719,6 @@ description: ""
 
 在本课程中，我们主要关注**片段级分类**——即如何对单个视频片段进行分类。在对多个片段进行分类后，我们会汇总这些信息以获得**视频级预测**，这对于长视频中的动作识别至关重要。  
 
-（说明：  
-1. 专业术语"clip-level classification"和"video-level predictions"保留英文术语并添加中文释义，符合技术文档翻译规范  
-2. "aggregate the information"译为"汇总信息"比直译"聚合"更符合中文技术语境  
-3. 长句拆分为两个短句，通过"即"字衔接，保持中文表达习惯  
-4. "essential"译为"至关重要"准确传达原文强度，优于简单译为"重要"）
-
 
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec10_image90.png)

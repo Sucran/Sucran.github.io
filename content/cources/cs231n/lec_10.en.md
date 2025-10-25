@@ -719,13 +719,6 @@ Another method adopts **masked autoencoder-style techniques**, enhancing video u
 
 In this course, we mainly focus on **clip-level classification**—how to classify individual video clips. After classifying multiple clips, we aggregate this information to obtain **video-level predictions**, which is crucial for action recognition in long videos.
 
-(Note:
-1. Professional terms "clip-level classification" and "video-level predictions" retain English terms with Chinese explanations, conforming to technical documentation translation standards
-2. "aggregate the information" is translated as "汇总信息" which is more appropriate in Chinese technical context than literal translation "聚合"
-3. Long sentences are split into two short sentences, connected with "即" to maintain Chinese expression habits
-4. "essential" is translated as "至关重要" accurately conveying the original intensity, better than simply translating as "重要")
-
-
 
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec10_image90.png)
 

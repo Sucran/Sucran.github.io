@@ -436,12 +436,6 @@ description: ""
 
 正如前几节课所讨论的，这就构成了**RNN语言模型**。**Transformer**同样具备这种能力。  
 
-（注：专业术语处理说明：
-1. 保留"RNN/Transformer"等专业缩写不翻译
-2. "autoregressive modeling"译为"自回归建模"符合机器学习领域规范
-3. "hidden states"译为"隐藏状态"保持与中文论文表述一致
-4. "probability distribution"译为"概率分布"采用统计学标准译法
-5. 技术短语"conditioned on"译为"以...为条件"准确传达条件概率含义）
 
 
 
