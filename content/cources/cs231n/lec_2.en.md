@@ -473,3 +473,5 @@ For the **softmax loss function** under \\(C\\) classes (especially when \\(C=10
 
 When the number of classes is 10, \\(\\ln 10 \\approx 2.3\\), which is exactly the theoretical expected value.
 
+
+

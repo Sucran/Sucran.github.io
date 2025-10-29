@@ -727,3 +727,5 @@ Today's key takeaways are: **Single GPUs** operate as general-purpose parallel c
 We explored multiple methods for parallelizing computation on large clusters, as well as memory-saving **activation checkpointing** techniques. When designing these pipelines, the primary optimization core metric is **Model FLOPs Utilization (MFU)**.
 
 When you next train models on tens of thousands of GPUs, remember these principles. Let me know—maybe I can borrow your GPU resources.
+
+

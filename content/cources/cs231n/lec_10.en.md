@@ -769,3 +769,5 @@ The core challenge lies in connecting video understanding with Large Language Mo
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec10_image96.png)
 
 The output content includes text descriptions of videos. Currently, many studies are exploring connections between **video understanding** and Large Language Models (LLMs), making this a prominent research topic.
+
+

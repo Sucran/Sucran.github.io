@@ -472,3 +472,5 @@ Second, we explored **Transformers**, a neural network architecture using self-a
 
 Today's lecture concludes here. Next time we'll discuss new tasks such as **detection**, **segmentation**, and **visualization**, and explore how to apply these architectures to achieve innovative results.
 
+
+

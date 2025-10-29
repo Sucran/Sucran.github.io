@@ -732,3 +732,5 @@ We explored three different approaches to generative modeling.
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec13_image75.png)
 
 Next, we will discuss another branch of **generative models**, focusing on **Generative Adversarial Networks (GANs)** and **Diffusion Models**.
+
+

@@ -621,3 +621,5 @@ This lecture concludes here. Next class we'll explain **attention mechanisms** a
 3. "attention" and "transformers" adopt Chinese community standard translations
 4. Passive voice converted to Chinese active sentence patterns, such as "are currently a hot research topic" handled as "是当前的研究热点领域")
 
+
+

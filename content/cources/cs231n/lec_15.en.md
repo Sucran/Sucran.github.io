@@ -732,3 +732,5 @@ Researchers are exploring whether **large language models** like GPT can generat
 This involves using **implicit functions** to capture specific geometric details of object parts. This represents an emerging research trend in the field.
 
 Thank you.
+
+

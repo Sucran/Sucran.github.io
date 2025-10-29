@@ -604,3 +604,5 @@ Our goal is to maximize **shared information** between \\(x\\) and \\(x^+\\), wh
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec12_image77.png)
 
 This paper points out that the negative value of **InfoNCE loss function** can serve as a lower bound for mutual information between \\(x\\) and \\(x^+\\). Therefore, minimizing InfoNCE loss actually maximizes mutual information between \\(x\\) and \\(x^+\\).
+
+

@@ -717,3 +717,5 @@ Due to time constraints, I'll conclude here. Our vision for the future is to dev
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec17_image77.png)
 
 The next lecture will focus on **human-centered artificial intelligence**. Today's class ends here, thank you all.
+
+

@@ -589,3 +589,5 @@ We discussed two new operators: **convolution** and **pooling**. In the next lec
 
 See you next time.
 
+
+

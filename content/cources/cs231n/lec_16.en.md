@@ -859,3 +859,5 @@ Through various projects, we continue to explore new possibilities. However, **h
 Many mainstream models and enterprises adopt **verification pipeline** mechanisms, where initial outputs must undergo additional verification procedures before being presented to users, effectively mitigating related problems. Reducing hallucinations while improving model accuracy remains an active research direction.
 
 Regarding whether models can develop new tools: preliminary experiments show that models can build specific functional systems through instructions. These systems can automatically collect training data and create tools for specific use cases. Although this research direction is still in early stages, it has attracted high attention in the field.
+
+

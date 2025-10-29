@@ -744,3 +744,5 @@ The **BEHAVIOR** project aims to enhance human capabilities. It serves as a larg
 ![](https://congo-blog.oss-cn-beijing.aliyuncs.com/blog-images/cs231n/lec18_image98.png)
 
 The **key point** is that our goal in building artificial intelligence is not merely to execute tasks or perceive the world, but to help humans. Crucially, AI should serve as an **augmentation tool** to enhance human capabilities rather than replace us.
+
+
