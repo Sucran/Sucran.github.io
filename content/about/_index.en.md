@@ -69,6 +69,12 @@ This GitHub account has been dormant since 2019 because my previous code is on a
 ![LangGraph](https://img.shields.io/badge/-LangGraph-05122A?style=flat&logo=langgraph&logoColor=white)&nbsp;
 ![OpenAI](https://img.shields.io/badge/-OpenAI-05122A?style=flat&logo=openai&logoColor=white)&nbsp;
 
+## Certificates 🏆
+
+![CKA](https://img.shields.io/badge/Certified%20Kubernetes%20Administrator-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+
+*(2022 / 2026 certified)*
+
 ## Beyond Tech
 
 When I'm not coding, I am:

@@ -48,6 +48,7 @@ download/*
 
 # Cursor documentation
 .cursor/docs/
+.cursor/*
 
 # OSS configuration (contains sensitive information)
 oss_config.sh

@@ -73,9 +73,7 @@ showTableOfContents: true
 
 ![CKA](https://img.shields.io/badge/Certified%20Kubernetes%20Administrator-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
 
-*(2025.02过期了, 2025.11我打算重新认证)*
-
-*2025.11 重新认证是因为这会有黑色星期五，CKA认证费用会有优惠*
+*(2022 / 2026 认证通过)*
 
 ## 科技之外 🌍
 
