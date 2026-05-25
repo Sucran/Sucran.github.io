@@ -1,7 +1,7 @@
 ---
-title: "Lance： A Modern Columnar Data Format"
+title: "Lance：A Modern Columnar Data Format"
 date: "2025-10-31T12:54:09+08:00"
-draft: "true"
+draft: "false"
 description: ""
 ---
 
@@ -575,7 +575,7 @@ This architecture supports not only vector search but also integrates **full-tex
 **HNSW implementation** proved challenging for disk-backed systems, though we've developed a disk-based graph index called disk NN as an alternative.  
 
 
-Building upon this foundation, we're developing what we term **"NCB"** for free AI retrieval, expanding beyond conventional vector database capabilities.
+Building upon this foundation, we're developing what we term <strong>"NCB"</strong> for free AI retrieval, expanding beyond conventional vector database capabilities.
 
 
 
