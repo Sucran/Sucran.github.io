@@ -10,9 +10,14 @@
   weight = 20
 
 [[main]]
+  name = "论文"
+  pageRef = "/papers"
+  weight = 30
+
+[[main]]
   name = "课程"
   pageRef = "/cources"
-  weight = 30
+  weight = 35
 
 [[main]]
   name = "成书"

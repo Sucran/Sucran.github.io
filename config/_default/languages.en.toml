@@ -1,7 +1,7 @@
 # English language configuration
-languageCode = "en"
-languageName = "English"
-languageDirection = "ltr"
+locale = "en"
+label = "English"
+direction = "ltr"
 weight = 2
 
 title = "Sucran's Blog"

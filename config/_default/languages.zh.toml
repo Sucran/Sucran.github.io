@@ -1,7 +1,7 @@
 # Chinese language configuration
-languageCode = "zh-Hans"
-languageName = "中文"
-languageDirection = "ltr"
+locale = "zh-Hans"
+label = "中文"
+direction = "ltr"
 weight = 1
 
 title = "Sucran's Blog"

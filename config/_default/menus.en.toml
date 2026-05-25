@@ -10,9 +10,14 @@
   weight = 20
 
 [[main]]
+  name = "Papers"
+  pageRef = "/papers"
+  weight = 30
+
+[[main]]
   name = "Notes"
   pageRef = "/cources"
-  weight = 30
+  weight = 35
 
 [[main]]
   name = "Series"
@@ -31,7 +36,7 @@
 
 [[main]]
   identifier = "Search"
-  weight = 70
+  weight = 99
   [main.params]
     action = "search"
 
